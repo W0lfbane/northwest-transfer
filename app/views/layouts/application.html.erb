@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      <%= if content_for?(:title) then yield(:title) + ' | ' end %>
+      NW Transfer
+    </title>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <%= render 'shared/header' %>
+
+    <% flash.each do |key, value| %>
+      <p class="<%= key %>"><%= value %></p>
+    <% end %>
+
+    <main class="container-fluid">
+      <%= yield %>
+    </main>
+
+    <%= render 'shared/footer' %>
+
+    <% if Rails.env.development? %>
+      <div class="container-fluid">
+        <%= debug(params) %>
+      </div>
+    <% end %>
+  </body>
+</html>
