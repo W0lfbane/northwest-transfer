@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20161208002112) do
   create_table "project_users", id: false, force: :cascade do |t|
     t.integer "project_id"
     t.integer "user_id"
-    t.boolean "customer"
+    t.string  "role"
     t.index ["project_id"], name: "index_project_users_on_project_id", using: :btree
     t.index ["user_id"], name: "index_project_users_on_user_id", using: :btree
   end
