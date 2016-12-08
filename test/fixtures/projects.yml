@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  customer_id: 1
+  location: MyString
+  start_date: 2016-12-07 22:08:12
+  completion_date: 2016-12-07 22:08:12
+  estimated_time: 2016-12-07 22:08:12
+  total_time: 2016-12-07 22:08:12
+  notes: MyText
+
+two:
+  title: MyString
+  description: MyText
+  customer_id: 1
+  location: MyString
+  start_date: 2016-12-07 22:08:12
+  completion_date: 2016-12-07 22:08:12
+  estimated_time: 2016-12-07 22:08:12
+  total_time: 2016-12-07 22:08:12
+  notes: MyText

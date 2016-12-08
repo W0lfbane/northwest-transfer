@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161207201012) do
+ActiveRecord::Schema.define(version: 20161208002112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "project_users", id: false, force: :cascade do |t|
+    t.integer "project_id"
+    t.integer "user_id"
+    t.boolean "customer"
+    t.index ["project_id"], name: "index_project_users_on_project_id", using: :btree
+    t.index ["user_id"], name: "index_project_users_on_user_id", using: :btree
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string   "title",           null: false
+    t.text     "description",     null: false
+    t.string   "location",        null: false
+    t.datetime "start_date",      null: false
+    t.datetime "completion_date"
+    t.time     "estimated_time",  null: false
+    t.time     "total_time"
+    t.text     "notes"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -48,4 +69,6 @@ ActiveRecord::Schema.define(version: 20161207201012) do
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
   end
 
+  add_foreign_key "project_users", "projects"
+  add_foreign_key "project_users", "users"
 end

@@ -21,6 +21,9 @@ gem 'rolify'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 
+# State Machine
+gem 'aasm'
+
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
