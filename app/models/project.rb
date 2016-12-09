@@ -4,16 +4,22 @@ class Project < ApplicationRecord
     
     validates :title, :description, :location, :start_date, :estimated_time, presence: true
     
+    def method_missing(method, *args)
+        
+        puts method
+        
+    end
+    
     def customers
        self.project_users.where(role: 'customer')
     end
     
     def customers=(user)
-       self.project_users << user
+       ProjectUser.create(user_id: user.id, project_id: self.id, role: 'customer')
     end
 
     def employees
-       self.project_users.where(role: 'customer')
+       self.project_users.where(role: 'employee')
     end
     
     def employees=(user)
