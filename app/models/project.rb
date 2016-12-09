@@ -1,6 +1,9 @@
 class Project < ApplicationRecord
     has_many :project_users
     has_many :users, through: :project_users
+    has_many :group_projects
+    has_many :groups, through: :group_projects
+    has_many :tasks, dependent: :destroy
     
     validates :title, :description, :location, :start_date, :estimated_time, presence: true
     

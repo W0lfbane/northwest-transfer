@@ -3,8 +3,7 @@ class CreateProjectUsers < ActiveRecord::Migration[5.0]
     create_table :project_users do |t|
       t.belongs_to :user, foreign_key: true, index: true
       t.belongs_to :project, foreign_key: true, index: true
-      t.string :role
-      
+
       t.timestamps
     end
   end

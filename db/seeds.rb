@@ -9,14 +9,31 @@
 User.delete_all
 Role.delete_all
 Project.delete_all
+Group.delete_all
 
 
 5.times do |i|
-  User.create!( email: "user-#{i}@paulsens.com", password: "password-#{i}", password_confirmation: "password-#{i}" )
-
-  Project.create!( title: "Project ##{i}", 
+    User.create!( email: "user-#{i}@paulsens.com", password: "password-#{i}", password_confirmation: "password-#{i}" )
+    
+    Project.create!( title: "Project ##{i}", 
                    description: "This is a project.", 
                    location: "Here!",
                    start_date: Time.now + i.weeks,
                    estimated_time: Time.new(0) + i.minutes + i.hours )
+                   
+    Group.create!( name: "group-#{i}",
+                    address: "#{i} Parkway Ln",
+                    phone: "#{i}-666-666-6666" )
+end
+
+Project.all.each do |project|
+    5.times do |i|
+        project.users << User.find(i + 1)
+        project.tasks.create!(name: "Task ##{i}", description: "This is task ##{i} on #{project.title}.")
+    end
+end
+
+Group.all.each_with_index do |group, index|
+   group.users  << User.find(index + 1)
+   group.projects << Project.find(index + 1)
 end
