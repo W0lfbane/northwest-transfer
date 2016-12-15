@@ -1,8 +1,4 @@
 class Project < ApplicationRecord
-  include AASM
-
-  aasm do
-  end
     has_many :project_users
     has_many :users, through: :project_users
     has_many :group_projects
@@ -12,6 +8,34 @@ class Project < ApplicationRecord
     resourcify
     
     validates :title, :description, :location, :start_date, :estimated_time, presence: true
+    
+    include AASM
+    aasm :column => 'resource_state' do
+        state :initial, initial: true
+        state :en_route
+        state :in_progress
+        state :completed
+        state :problem
+        
+        event :start_route do 
+            transitions from: :initial, to: :en_route
+            transitions from: :problem, to: :en_route
+        end
+        
+        event :start_working do
+            transitions from: :en_route, to: :in_progress
+            transitions from: :problem, to: :in_progress
+        end
+    
+        event :complete do
+            transitions from: :in_progress, to: :completed
+            transitions from: :problem, to: :completed
+        end
+    
+        event :report_problem do
+            transitions from: :initial, to: :problem
+        end
+    end
 
     # Ghost Method technique for dynamism in role entries
     def method_missing(method, *args)
