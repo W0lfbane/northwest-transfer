@@ -1,31 +1,33 @@
 class Project < ApplicationRecord
+  include AASM
+
+  aasm do
+  end
     has_many :project_users
     has_many :users, through: :project_users
     has_many :group_projects
     has_many :groups, through: :group_projects
     has_many :tasks, dependent: :destroy
     
+    resourcify
+    
     validates :title, :description, :location, :start_date, :estimated_time, presence: true
-    
+
+    # Ghost Method technique for dynamism in role entries
     def method_missing(method, *args)
-        
-        puts method
-        
-    end
-    
-    def customers
-       self.project_users.where(role: 'customer')
-    end
-    
-    def customers=(user)
-       ProjectUser.create(user_id: user.id, project_id: self.id, role: 'customer')
+        method_name = method.to_s
+        role_name = method_name.tr('>>=<< ', '').singularize
+
+        if(self.show_roles.include?(role_name) && method_name[/[a-zA-Z]+/] == method_name)
+            User.with_role(role_name, self)
+        else
+            super
+        end
     end
 
-    def employees
-       self.project_users.where(role: 'employee')
+    # Returns and array of existing roles on self
+    def show_roles()
+       self.roles.map { |role| role.name }
     end
-    
-    def employees=(user)
-       self.project_users << user
-    end
+
 end

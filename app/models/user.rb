@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   before_create :assign_default_role
 
-  rolify
+  rolify strict: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
