@@ -1,14 +1,14 @@
 class Project < ApplicationRecord
-    has_many :project_users
+    has_many :project_users, dependent: :destroy
     has_many :users, through: :project_users
-    has_many :group_projects
+    has_many :group_projects, dependent: :destroy
     has_many :groups, through: :group_projects
     has_many :tasks, dependent: :destroy
-    
+
     resourcify
-    
+
     validates :title, :description, :location, :start_date, :estimated_time, presence: true
-    
+
     include AASM
     aasm :column => 'resource_state' do
         state :initial, initial: true
@@ -17,7 +17,7 @@ class Project < ApplicationRecord
         state :completed
         state :problem
         
-        event :start_route do 
+        event :start_route do
             transitions from: :initial, to: :en_route
             transitions from: :problem, to: :en_route
         end
@@ -50,8 +50,7 @@ class Project < ApplicationRecord
     end
 
     # Returns and array of existing roles on self
-    def show_roles()
-       self.roles.map { |role| role.name }
+    def show_roles
+       self.roles.pluck(:name)
     end
-
 end

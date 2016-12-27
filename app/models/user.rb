@@ -1,7 +1,7 @@
 class User < ApplicationRecord
-  has_many :project_users
+  has_many :project_users, dependent: :destroy
   has_many :projects, through: :project_users
-  has_many :group_users
+  has_many :group_users, dependent: :destroy
   has_many :groups, through: :group_users
 
   before_create :assign_default_role

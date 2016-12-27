@@ -6,11 +6,15 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.delete_all
-Role.delete_all
-Project.delete_all
-Group.delete_all
+User.destroy_all
+Role.destroy_all
+Project.destroy_all
+Group.destroy_all
 
+
+["standard", "employee", "admin"].each do |role|
+   Role.create!(name: role)
+end
 
 5.times do |i|
     User.create!( email: "user-#{i}@paulsens.com", password: "password-#{i}", password_confirmation: "password-#{i}" )
@@ -27,13 +31,27 @@ Group.delete_all
 end
 
 Project.all.each do |project|
+    project.users << User.all.sample(5)
+
     5.times do |i|
-        project.users << User.find(i + 1)
         project.tasks.create!(name: "Task ##{i}", description: "This is task ##{i} on #{project.title}.")
     end
 end
 
-Group.all.each_with_index do |group, index|
-   group.users  << User.find(index + 1)
-   group.projects << Project.find(index + 1)
+Group.all.each do |group|
+   group.users  << User.all.sample(5)
+   group.projects << Project.all.sample(5)
+end
+
+User.all.each do |user|
+    user.add_role(Role.pluck(:name).sample)
+
+    resource_roles = { project: ["standard", "employee", "operator"], 
+                       group: ["standard", "employee", "moderator", "admin"] }
+
+    resource_roles.each do |resource, role|
+        applied_resource = resource.to_s.capitalize.constantize
+        
+        user.add_role(role, applied_resource.offset(rand(applied_resource.count)).first)
+    end
 end
