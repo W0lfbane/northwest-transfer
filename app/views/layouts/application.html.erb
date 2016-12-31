@@ -13,9 +13,7 @@
   <body>
     <%= render 'shared/header' %>
 
-    <% flash.each do |key, value| %>
-      <p class="<%= key %>"><%= value %></p>
-    <% end %>
+    <%= flash_messages %>
 
     <main class="container-fluid">
       <%= yield %>

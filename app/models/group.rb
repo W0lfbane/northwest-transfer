@@ -13,7 +13,7 @@ class Group < ApplicationRecord
         method_name = method.to_s
         role_name = method_name.tr('>>=<< ', '').singularize
 
-        if(self.show_roles.include?(role_name) && method_name[/[a-zA-Z]+/] == method_name)
+        if(self.class_roles.include?(role_name) && method_name[/[a-zA-Z]+/] == method_name)
             User.with_role(role_name, self)
         else
             super
@@ -21,7 +21,7 @@ class Group < ApplicationRecord
     end
 
     # Returns and array of existing roles on self
-    def show_roles
-       self.roles.pluck(:name)
+    def class_roles
+        Role.where(resource_type: self.class.to_s).pluck(:name).uniq
     end
 end

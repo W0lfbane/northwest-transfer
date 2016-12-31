@@ -11,29 +11,31 @@ class Project < ApplicationRecord
 
     include AASM
     aasm :column => 'resource_state' do
-        state :initial, initial: true
+        state :pending, initial: true
         state :en_route
         state :in_progress
         state :completed
         state :problem
-        
-        event :start_route do
-            transitions from: :initial, to: :en_route
-            transitions from: :problem, to: :en_route
+        state :deactivated
+
+        event :begin_route do
+            transitions from: [:initial, :problem], to: :en_route
         end
         
-        event :start_working do
-            transitions from: :en_route, to: :in_progress
-            transitions from: :problem, to: :in_progress
+        event :begin_working do
+            transitions from: [:en_route, :problem], to: :in_progress
         end
     
         event :complete do
-            transitions from: :in_progress, to: :completed
-            transitions from: :problem, to: :completed
+            transitions from: [:in_progress, :problem], to: :completed
         end
     
         event :report_problem do
-            transitions from: :initial, to: :problem
+            transitions to: :problem
+        end
+
+        event :deactivate do
+            transitions to: :deactivated
         end
     end
 

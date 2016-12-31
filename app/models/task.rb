@@ -3,17 +3,16 @@ class Task < ApplicationRecord
 
     include AASM
     aasm :column => 'resource_state' do
-        state :initial, initial: true
+        state :pending, initial: true
         state :completed
         state :problem
     
         event :complete do
-            transitions from: :initial, to: :completed
-            transitions from: :problem, to: :completed
+            transitions to: :completed
         end
     
         event :report_problem do
-            transitions from: :initial, to: :problem
+            transitions to: :problem
         end
     end
 end

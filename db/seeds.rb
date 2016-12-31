@@ -12,13 +12,15 @@ Project.destroy_all
 Group.destroy_all
 
 
-["standard", "employee", "admin"].each do |role|
-   Role.create!(name: role)
+["customer", "employee", "admin"].each do |role|
+    Role.create!(name: role)
+end
+
+20.times do |i|
+    User.create!( email: "user-#{i}@paulsens.com", password: "password-#{i}", password_confirmation: "password-#{i}" )
 end
 
 5.times do |i|
-    User.create!( email: "user-#{i}@paulsens.com", password: "password-#{i}", password_confirmation: "password-#{i}" )
-    
     Project.create!( title: "Project ##{i}", 
                    description: "This is a project.", 
                    location: "Here!",
@@ -46,12 +48,12 @@ end
 User.all.each do |user|
     user.add_role(Role.pluck(:name).sample)
 
-    resource_roles = { project: ["standard", "employee", "operator"], 
-                       group: ["standard", "employee", "moderator", "admin"] }
+    resource_roles = { project: ["customer", "employee", "operator"], 
+                       group: ["customer", "employee", "moderator", "admin"] }
 
-    resource_roles.each do |resource, role|
+    resource_roles.each do |resource, roles|
         applied_resource = resource.to_s.capitalize.constantize
-        
-        user.add_role(role, applied_resource.offset(rand(applied_resource.count)).first)
+
+        user.add_role(roles.sample, applied_resource.offset(rand(applied_resource.count)).first)
     end
 end
