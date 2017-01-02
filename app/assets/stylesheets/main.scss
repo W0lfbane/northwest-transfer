@@ -1,0 +1,39 @@
+/* ===================== Universal ===================== */
+
+/* Miscellaneous */
+
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+}
+
+
+/* Font CSS */
+
+
+
+/* Link CSS */
+
+a { 
+  @include transition(all 0.2s linear);
+  @extend .text-decoration-none;
+}
+
+
+/* Form CSS */
+
+textarea { resize: vertical; }
+
+
+/* Layout CSS */
+
+html, body{
+  height: 100%;
+}
+
+body {
+  font-size: 16px;
+  font-family: 'Tinos', serif;
+}

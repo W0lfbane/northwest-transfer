@@ -12,12 +12,15 @@ Project.destroy_all
 Group.destroy_all
 
 
+test_user = User.create!( email: "test@test.com", password: "password123" )
+
 ["customer", "employee", "admin"].each do |role|
     Role.create!(name: role)
+    test_user.add_role(role)
 end
 
 20.times do |i|
-    User.create!( email: "user-#{i}@paulsens.com", password: "password-#{i}", password_confirmation: "password-#{i}" )
+    User.create!( email: "user-#{i}@paulsens.com", password: "password-#{i}" )
 end
 
 5.times do |i|

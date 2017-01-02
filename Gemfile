@@ -8,6 +8,14 @@ gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'font-awesome-sass', '~> 4.6.2'
+
+gem 'compass-rails'
+# https://github.com/Compass/compass/pull/2088
+git 'https://github.com/ably-forks/compass', branch: 'sass-deprecation-warning-fix' do
+  gem 'compass-core'
+end
 
 # https://github.com/plataformatec/devise
 gem 'devise'
