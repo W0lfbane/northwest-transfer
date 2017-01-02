@@ -2,10 +2,11 @@ class Task < ApplicationRecord
     belongs_to :project
 
     include AASM
+    STATES = [:pending, :completed, :problem]
     aasm :column => 'resource_state' do
-        state :pending, initial: true
-        state :completed
-        state :problem
+        STATES.each do |status|
+            state(status, initial: STATES[0] == status)
+        end
     
         event :complete do
             transitions to: :completed

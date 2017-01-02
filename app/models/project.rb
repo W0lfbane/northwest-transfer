@@ -7,19 +7,17 @@ class Project < ApplicationRecord
 
     resourcify
 
-    validates :title, :description, :location, :start_date, :estimated_time, presence: true
+    validates :title, presence: true, if: :pending?
 
     include AASM
+    STATES = [:pending, :en_route, :in_progress, :completed, :problem, :deactivated]
     aasm :column => 'resource_state' do
-        state :pending, initial: true
-        state :en_route
-        state :in_progress
-        state :completed
-        state :problem
-        state :deactivated
+        STATES.each do |status|
+            state(status, initial: STATES[0] == status)
+        end
 
         event :begin_route do
-            transitions from: [:initial, :problem], to: :en_route
+            transitions from: [:pending, :problem], to: :en_route
         end
         
         event :begin_working do

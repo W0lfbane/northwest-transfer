@@ -16,4 +16,10 @@ Rails.application.routes.draw do
   end
 
   resources :projects, :groups
+
+  as :project do
+    get '/projects/:id/pending', to: 'projects#edit', step: :pending, as: :edit_pending_project
+    get '/projects/:id/en_route', to: 'projects#edit', step: :en_route, as: :edit_en_route_project
+    get '/projects/:id/in_progress', to: 'projects#edit', step: :in_progress, as: :edit_in_progress_project
+  end
 end
