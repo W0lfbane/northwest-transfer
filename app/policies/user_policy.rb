@@ -3,8 +3,6 @@ class UserPolicy < ApplicationPolicy
         def resolve
             if is_admin?
                 scope.all
-            else
-                user
             end
         end
     end
@@ -21,12 +19,8 @@ class UserPolicy < ApplicationPolicy
         is_admin?
     end
 
-    def update?
-        is_admin? or matching_user?
-    end
-
-    def destroy?
-        is_admin? or matching_user?
+    def account?
+        true
     end
 
     # Policy Helpers
