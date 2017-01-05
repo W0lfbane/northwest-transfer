@@ -2,13 +2,13 @@
 Rails.application.routes.draw do
   root to: "pages#show", page: "home"
 
-  devise_for :users, skip: [:sessions], path_names: { cancel: 'deactive' }, controllers: { registrations: "registrations" }
+  devise_for :users, skip: [:sessions], path_names: { cancel: 'deactive', sign_up: 'new' }, controllers: { registrations: "registrations" }
 
   resources :users, only: [:index, :show] do
     resources :user_roles, :path => "roles", except: [:edit, :update]
   end
 
-  as :user do
+  devise_scope :user do
     get 'account', to: 'users#show', as: :account
     get 'login', to: 'devise/sessions#new', as: :new_user_session
     post 'login', to: 'devise/sessions#create', as: :user_session

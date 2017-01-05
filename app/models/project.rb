@@ -4,10 +4,12 @@ class Project < ApplicationRecord
     has_many :group_projects, dependent: :destroy
     has_many :groups, through: :group_projects
     has_many :tasks, dependent: :destroy
+    has_one :document, dependent: :destroy
+    accepts_nested_attributes_for :document
 
     resourcify
 
-    validates :title, presence: true, if: :pending?
+    validates :title, :description, :location, :start_date, :estimated_time, presence: true
 
     include AASM
     STATES = [:pending, :en_route, :in_progress, :completed, :problem, :deactivated]

@@ -9,13 +9,15 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= csrf_meta_tags %>
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
   </head>
-  <body>
+  <body class="container-fluid">
     <%= render 'shared/header' %>
 
     <%= flash_messages %>
 
-    <main class="container-fluid">
+    <main class="row">
       <%= yield %>
     </main>
 

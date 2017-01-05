@@ -1,5 +1,5 @@
 <%= form_for @project do |f| %>
-    <%= render 'shared/error_messages', :object => f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
     <h1><%= @project.aasm.current_state %></h1>
 
     <% if @step == :pending || @step.nil? %>

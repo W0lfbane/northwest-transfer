@@ -1,0 +1,34 @@
+/* ================ SASS Variables ================ */
+
+$grey: grey;
+$light-grey: lighten($grey, 20%);
+$lighter-grey: lighten($grey, 40%);
+$dark-grey: darken($grey, 20%);
+$darker-grey: darken($grey, 40%);
+
+
+/* ================ Font Colors ================ */
+
+.link-light-grey, .link-light-grey * { @include link-colors($light-grey, $grey, $grey); }
+
+.text-light-grey, .text-light-grey * { color: $light-grey; }
+
+
+/* ================ Backgrounds ================ */
+
+.background-radial-grey-darkergrey { @include background-image(radial-gradient($grey, $darker-grey)); }
+.background-white { background-color: white; }
+.background-grey { background-color: $grey; }
+.background-lighter-grey { background-color: $lighter-grey; }
+
+
+/* ================ Shadows ================ */
+
+.box-shadow-radial {
+  @include box-shadow($dark-grey 0 0 25px);
+}
+
+
+/* ================ Buttons ================ */
+
+.btn-dark-grey { @include button-variant($lighter-grey, $grey, $light-grey); }

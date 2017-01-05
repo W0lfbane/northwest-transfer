@@ -26,7 +26,6 @@ class ProjectsController < ApplicationController
   def edit
     @step = params[:step] unless params[:step].nil?
     redirect_to 'root_path' unless @project.interacting_with_state?(@step)
-    
   end
 
   def update
@@ -54,7 +53,15 @@ class ProjectsController < ApplicationController
     end
   
     def project_params
-      params.require(:project).permit(:title, :description, :location, :start_date, :completion_date, :estimated_time, :total_time, :notes)
+      params.require(:project).permit(:title, 
+                                      :description, 
+                                      :location, 
+                                      :start_date, 
+                                      :completion_date, 
+                                      :estimated_time, 
+                                      :total_time, 
+                                      :notes,
+                                      document_attributes: [:id, :title])
     end
 
 end
