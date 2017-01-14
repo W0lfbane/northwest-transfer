@@ -1,11 +1,5 @@
 <% provide(:title, 'Projects') %>
 
-<div class="">
-    <ul class="list-unstyled">
-      <% @projects.each do |project| %>
-        <li>
-          <%= project.title %>
-        </li>
-      <% end %>
-    </ul>
+<div class="container-fluid background-lighter-grey">
+  <%= render @projects %>
 </div>

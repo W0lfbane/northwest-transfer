@@ -17,3 +17,4 @@
 //= require_tree .
 
 // Bower packages
+//= require moment/moment.js

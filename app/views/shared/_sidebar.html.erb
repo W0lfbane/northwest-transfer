@@ -1,0 +1,47 @@
+<% if user_signed_in? %>
+
+<div class="nav-side-menu width-100">
+    <h2 class="brand no-margin">Brand Logo</h2>
+    
+    <div class="menu-list container-fluid">
+        <ul id="menu-content" class="menu-content list-unstyled">
+            <li data-toggle="collapse" data-target="#account" class="collapsed row">
+                <%= link_to(fa_icon("dashboard", text: "Account", class: "fa-lg"), account_path, class: "col-md-10") %>
+                <%= fa_icon("angle-down", class: "fa-lg inline-block buffer-padding-15 col-md-2") %>
+            </li>
+            <ul class="sub-menu collapse list-unstyled row" id="account">
+                <%= content_tag(:li, link_to('My Account', account_path) ) %>
+                <%= content_tag(:li, link_to('Edit Account', edit_account_path) ) %>
+                <%= content_tag(:li, link_to('Logout', destroy_user_session_path, method: :delete) ) %>
+            </ul>
+
+            <li class="row">
+                <%= link_to(fa_icon("th-list", text: "Schedule", class: "fa-lg"), schedule_path, class: "col-md-12") %>
+            </li>
+
+            <li data-toggle="collapse" data-target="#groups" class="collapsed row">
+                <%= link_to(fa_icon("users", text: "Groups", class: "fa-lg"), user_groups_path, class: "col-md-10") %>
+                <%= fa_icon("angle-down", class: "fa-lg inline-block buffer-padding-15 col-md-2") %>
+            </li>
+            <ul class="sub-menu collapse list-unstyled row" id="groups">
+                <%= content_tag(:li, link_to('My Groups', user_groups_path) ) %>
+                <%= content_tag(:li, link_to('All Groups (Admin)', groups_path) ) unless !current_user.has_role?(:admin) %>
+            </ul>
+
+            <li data-toggle="collapse" data-target="#products" class="collapsed row">
+                <%= link_to(fa_icon("cubes", text: "Projects", class: "fa-lg"), user_projects_path, class: "col-md-10") %>
+                <%= fa_icon("angle-down", class: "fa-lg inline-block buffer-padding-15 col-md-2") %>
+            </li>
+            <ul class="sub-menu collapse list-unstyled row" id="products">
+                <%= content_tag(:li, link_to('My Projects', user_projects_path) ) %>
+                <%= content_tag(:li, link_to('View All (Admin)', projects_path) ) unless !current_user.has_role?(:admin) %>
+            </ul>
+            
+            <%= yield(:sidebar) %>
+
+            <%= content_tag(:li, link_to(fa_icon("tag", text: "Users (Admin)", class: "fa-lg"), users_path, class: "col-md-12" ), class: "row") unless !current_user.has_role?(:admin) %>
+        </ul>
+    </div>
+</div>
+
+<% end %>

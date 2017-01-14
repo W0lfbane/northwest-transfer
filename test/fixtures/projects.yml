@@ -7,7 +7,7 @@ one:
   location: MyString
   start_date: 2016-12-07 22:08:12
   completion_date: 2016-12-07 22:08:12
-  estimated_time: 2016-12-07 22:08:12
+  estimated_completion_date: 2016-12-07 22:08:12
   total_time: 2016-12-07 22:08:12
   notes: MyText
 
@@ -18,6 +18,6 @@ two:
   location: MyString
   start_date: 2016-12-07 22:08:12
   completion_date: 2016-12-07 22:08:12
-  estimated_time: 2016-12-07 22:08:12
+  estimated_completion_date: 2016-12-07 22:08:12
   total_time: 2016-12-07 22:08:12
   notes: MyText

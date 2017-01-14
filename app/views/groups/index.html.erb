@@ -1,2 +1,11 @@
-<h1>Groups#index</h1>
-<p>Find me in app/views/groups/index.html.erb</p>
+<% provide(:title, 'Groups') %>
+
+<div class="">
+    <ul class="list-unstyled">
+      <% @groups.each do |group| %>
+        <li>
+          <%= group.name %>
+        </li>
+      <% end %>
+    </ul>
+</div>

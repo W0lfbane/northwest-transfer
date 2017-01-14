@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     get 'account', to: 'users#show', as: :account
+    get 'account/edit', to: 'registrations#edit', as: :edit_account
     get 'login', to: 'devise/sessions#new', as: :new_user_session
     post 'login', to: 'devise/sessions#create', as: :user_session
     match 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session, via: Devise.mappings[:user].sign_out_via
@@ -18,8 +19,14 @@ Rails.application.routes.draw do
   resources :projects, :groups
 
   as :project do
+    get '/account/schedule', to: 'projects#index', as: :schedule
+    get '/account/projects', to: 'projects#index', as: :user_projects
     get '/projects/:id/pending', to: 'projects#edit', step: :pending, as: :edit_pending_project
     get '/projects/:id/en_route', to: 'projects#edit', step: :en_route, as: :edit_en_route_project
     get '/projects/:id/in_progress', to: 'projects#edit', step: :in_progress, as: :edit_in_progress_project
+  end
+
+  as :group do
+    get '/account/groups', to: 'groups#index', as: :user_groups
   end
 end

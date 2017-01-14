@@ -14,7 +14,7 @@ class ProjectPolicy < ApplicationPolicy
     end
 
     def create?
-        true
+        is_admin?
     end
 
     def update?

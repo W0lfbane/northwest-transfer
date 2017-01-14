@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   has_many :project_users, dependent: :destroy
-  has_many :projects, through: :project_users
+  has_many :projects, -> { distinct }, through: :project_users
   has_many :group_users, dependent: :destroy
-  has_many :groups, through: :group_users
+  has_many :groups, -> { distinct }, through: :group_users
 
   before_create :assign_default_role
 
@@ -12,6 +12,10 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+         
+  def name
+    self.first_name.to_s.capitalize + ' ' + self.last_name.to_s.capitalize
+  end
 
   protected
   

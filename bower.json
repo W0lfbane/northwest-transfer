@@ -1,0 +1,20 @@
+{
+  "name": "NW Transfer",
+  "homepage": "https://github.com/DrakkenSaer/nw-transfer",
+  "authors": [
+    "Drakken Saer <shadowdrakkeen@gmail.com>"
+  ],
+  "description": "NW Transfer Bower components",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "moment": "^2.17.1"
+  }
+}

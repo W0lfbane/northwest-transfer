@@ -12,7 +12,7 @@ Project.destroy_all
 Group.destroy_all
 
 
-test_user = User.create!( email: "test@test.com", password: "password123" )
+test_user = User.create!( email: "test@test.com", password: "password123", first_name: "Admin", last_name: "Admin" )
 
 ["customer", "employee", "admin"].each do |role|
     Role.create!(name: role)
@@ -20,19 +20,19 @@ test_user = User.create!( email: "test@test.com", password: "password123" )
 end
 
 20.times do |i|
-    User.create!( email: "user-#{i}@paulsens.com", password: "password-#{i}" )
+    User.create!( email: "user-#{i}@paulsens.com", password: "password-#{i}", first_name: "User#{i}", last_name: "User#{i}" )
 end
 
 5.times do |i|
+    @start_date = DateTime.now + i.days
     Project.create!( title: "Project ##{i}", 
                    description: "This is a project.", 
                    location: "Here!",
-                   start_date: Time.now + i.weeks,
-                   estimated_time: Time.new(0) + i.minutes + i.hours )
-                   
+                   start_date: @start_date,
+                   estimated_completion_date: @start_date + i.minutes + i.hours )
+
     Group.create!( name: "group-#{i}",
-                    address: "#{i} Parkway Ln",
-                    phone: "#{i}-666-666-6666" )
+                    description: "This is group number #{i}" )
 end
 
 Project.all.each do |project|
@@ -51,7 +51,7 @@ end
 User.all.each do |user|
     user.add_role(Role.pluck(:name).sample)
 
-    resource_roles = { project: ["customer", "employee", "operator"], 
+    resource_roles = { project: ["customer", "employee", "leader"], 
                        group: ["customer", "employee", "moderator", "admin"] }
 
     resource_roles.each do |resource, roles|

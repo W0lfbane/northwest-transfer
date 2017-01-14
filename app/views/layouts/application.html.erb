@@ -12,21 +12,29 @@
 
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
   </head>
-  <body class="container-fluid">
-    <%= render 'shared/header' %>
-
-    <%= flash_messages %>
-
-    <main class="row">
-      <%= yield %>
-    </main>
-
-    <%= render 'shared/footer' %>
-
-    <% if Rails.env.development? %>
-      <div class="container-fluid">
-        <%= debug(params) %>
+  <body>
+    <% if current_user %>
+    <div class="col-md-3">
+      <div class="row">      
+        <%= render 'shared/sidebar' %>
       </div>
+    </div>
     <% end %>
+    
+    <div class="<%= current_user ? 'col-md-9' : 'col-md-12' %>">
+      <div class="row">
+        <%= render 'shared/header' %>
+      </div>
+  
+      <main class="row">
+          <%= flash_messages %>
+      
+          <%= yield %>
+      </main>
+  
+      <div class="row">
+        <%= render 'shared/footer' %>
+      </div>
+    </div>
   </body>
 </html>

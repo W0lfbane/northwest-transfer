@@ -4,7 +4,13 @@ class ProjectsController < ApplicationController
   before_action :authorize_project, except: :index
 
   def index
-    @projects = policy_scope(Project)
+    if request.original_url.include?( schedule_path )
+      @projects = policy_scope( current_user.projects.where("DATE(start_date) = ?", Date.today) )
+    elsif request.original_url.include?( user_projects_path )
+      @projects = policy_scope( current_user.projects )
+    else
+      @projects = policy_scope(Project)
+    end
   end
 
   def show
@@ -13,7 +19,7 @@ class ProjectsController < ApplicationController
   def new
     @project = Project.new
   end
-  
+
   def create
     @project = Project.new(project_params)
     if @project.save
@@ -25,7 +31,7 @@ class ProjectsController < ApplicationController
 
   def edit
     @step = params[:step] unless params[:step].nil?
-    redirect_to 'root_path' unless @project.interacting_with_state?(@step)
+    redirect_to root_path unless @project.interacting_with_state?(@step)
   end
 
   def update
@@ -58,7 +64,7 @@ class ProjectsController < ApplicationController
                                       :location, 
                                       :start_date, 
                                       :completion_date, 
-                                      :estimated_time, 
+                                      :estimated_completion_date, 
                                       :total_time, 
                                       :notes,
                                       document_attributes: [:id, :title])

@@ -1,0 +1,64 @@
+.nav-side-menu {
+  background-color: #2e353d;
+  color: #e1ffff;
+
+  li {
+    border-left: 3px solid #2e353d;
+    border-bottom: 1px solid #23282e;
+
+    a {
+      color: #e1ffff;
+      @extend .buffer-padding-15;
+    }
+    
+    &.active {
+      border-left: 3px solid #d19b3d;
+      background-color: #4f5b69;
+    }
+    
+    &:hover {
+      border-left: 3px solid #d19b3d;
+      background-color: #4f5b69;
+      -webkit-transition: all 1s ease;
+      -moz-transition: all 1s ease;
+      -o-transition: all 1s ease;
+      -ms-transition: all 1s ease;
+      transition: all 1s ease;
+    }
+  }
+
+
+  .brand {
+    background-color: #23282e;
+    @extend .buffer-padding-25;
+    @extend .text-center;
+  }
+  
+  ul .sub-menu li.active,
+  li .sub-menu li.active {
+    color: #d19b3d;
+  }
+  ul .sub-menu li.active a,
+  li .sub-menu li.active a {
+    color: #d19b3d;
+  }
+  ul .sub-menu li,
+  li .sub-menu li {
+    background-color: #181c20;
+    border-bottom: 1px solid #23282e;
+    @extend .buffer-padding-10;
+    @extend .no-border-left;
+  }
+  ul .sub-menu li:hover,
+  li .sub-menu li:hover {
+    background-color: #020203;
+  }
+  ul .sub-menu li:before,
+  li .sub-menu li:before {
+    font-family: FontAwesome;
+    content: "\f105";
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+}

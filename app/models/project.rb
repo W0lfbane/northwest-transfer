@@ -1,15 +1,17 @@
 class Project < ApplicationRecord
+    include Helpers::ResourceRolesHelper
+    
     has_many :project_users, dependent: :destroy
-    has_many :users, through: :project_users
+    has_many :users, -> { distinct }, through: :project_users
     has_many :group_projects, dependent: :destroy
-    has_many :groups, through: :group_projects
+    has_many :groups, -> { distinct }, through: :group_projects
     has_many :tasks, dependent: :destroy
     has_one :document, dependent: :destroy
     accepts_nested_attributes_for :document
 
     resourcify
 
-    validates :title, :description, :location, :start_date, :estimated_time, presence: true
+    validates :title, :description, :location, :start_date, :estimated_completion_date, presence: true
 
     include AASM
     STATES = [:pending, :en_route, :in_progress, :completed, :problem, :deactivated]
@@ -26,7 +28,7 @@ class Project < ApplicationRecord
             transitions from: [:en_route, :problem], to: :in_progress
         end
     
-        event :complete do
+        event :complete, after: :set_completion_date do
             transitions from: [:in_progress, :problem], to: :completed
         end
     
@@ -38,21 +40,32 @@ class Project < ApplicationRecord
             transitions to: :deactivated
         end
     end
-
-    # Ghost Method technique for dynamism in role entries
-    def method_missing(method, *args)
-        method_name = method.to_s
-        role_name = method_name.tr('>>=<< ', '').singularize
-
-        if(self.show_roles.include?(role_name) && method_name[/[a-zA-Z]+/] == method_name)
-            User.with_role(role_name, self)
+    
+    def total_time
+       if self.completed? then self.completion_date.to_datetime - self.start_date.to_datetime end
+    end
+    
+    def set_completion_date
+       self.update!(completion_date: DateTime.now) 
+    end
+    
+    def flags
+       @flags ||= self.tasks.where(resource_state: 'problem')
+    end
+    
+    def alert_level
+        if self.pending?
+            'inactive'
         else
-            super
+            case self.flags.count
+            when 0
+              'normal'
+            when 1
+              'advisory'
+            when 2
+              'danger'
+            end
         end
     end
 
-    # Returns and array of existing roles on self
-    def show_roles
-       self.roles.pluck(:name)
-    end
 end

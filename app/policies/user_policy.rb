@@ -18,9 +18,9 @@ class UserPolicy < ApplicationPolicy
     def create?
         is_admin?
     end
-
-    def account?
-        true
+    
+    def update?
+        is_admin? or matching_user?
     end
 
     # Policy Helpers

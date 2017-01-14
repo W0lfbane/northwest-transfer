@@ -4,7 +4,11 @@ class GroupsController < ApplicationController
   before_action :authorize_group, except: :index
 
   def index
-    @groups = policy_scope(Group)
+    if request.original_url.include?( user_groups_path )
+      @groups = policy_scope( current_user.groups )
+    else
+      @groups = policy_scope(Group)
+    end
   end
 
   def show
@@ -51,7 +55,7 @@ class GroupsController < ApplicationController
     end
   
     def group_params
-      params.require(:group).permit(:name, :address, :phone)
+      params.require(:group).permit(:name, :description)
     end
 
 end
