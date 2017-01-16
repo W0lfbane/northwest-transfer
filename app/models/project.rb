@@ -59,7 +59,7 @@ class Project < ApplicationRecord
         else
             case self.flags.count
             when 0
-              'normal'
+              'operatonal'
             when 1
               'advisory'
             when 2

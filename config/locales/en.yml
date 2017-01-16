@@ -20,4 +20,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  pending: "pending"
+  problem: "problem"
+  completed: "completed"
+  deactivated: "deactivated"
+  en_route: "en route"
+  in_progress: "in progress"

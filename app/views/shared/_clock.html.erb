@@ -1,8 +1,18 @@
 <script type="text/javascript">
-    window.onload=function(){
-        document.getElementById('timebox').innerHTML = moment().format("h:mm A");
-        document.getElementById('datebox').innerHTML = moment().format("MMMM Do");
-    }
+    var timebox = null,
+        datebox = null;
+    
+    var update = function () {
+        timebox.html( moment().format("h:mm A") );
+        datebox.html( moment().format("MMMM Do") );
+    };
+    
+    $(document).on('turbolinks:load', function() {
+        timebox = $('#timebox')
+        datebox = $('#datebox')
+        update();
+        setInterval(update, 1000);
+    });
 </script>
 
 <div id="timebox" class="text-bold"></div>

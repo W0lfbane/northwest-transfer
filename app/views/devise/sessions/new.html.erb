@@ -1,14 +1,14 @@
 <div class="background-radial-grey-darkergrey height-100 col-md-12">
 
-  <div class="background-lighter-grey col-md-4 col-md-offset-4 buffer-padding-50 buffer-margin-150 text-center box-shadow-radial">
+  <div class="background-lighter-grey col-md-4 col-md-offset-4 col-xs-8 col-xs-offset-2 buffer-padding-50 buffer-margin-150 text-center box-shadow-radial">
     <h1 class="buffer-margin-40 no-margin-top font-size-400"><span class="text-bold text-uppercase">NW</span> Transfer</h1>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="form-group">
+      <div class="form-group col-xs-10 col-xs-offset-1">
         <%= f.email_field :email, autofocus: true, placeholder: :email, class: "form-control" %>
       </div>
     
-      <div class="form-group">
+      <div class="form-group col-xs-10 col-xs-offset-1">
         <%= f.password_field :password, placeholder: :password, class: "form-control" %>
       </div>
     
