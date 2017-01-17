@@ -1,0 +1,48 @@
+<script type="text/javascript">
+    $(document).on('turbolinks:load', function() {
+        $('#calendar').fullCalendar({
+            header: {
+                left:   '',
+                center: 'prev, title, next',
+                right:  'month, agendaWeek'
+            },
+			selectable: true,
+            handleWindowResize: true,
+            theme: true,
+            weekends: false,
+            displayEventTime: true,
+			events: [
+			    <% resources.each do |resource| %>
+			    {
+                    title: '<%= resource.title %>',
+                    start: new Date(<%= resource.start_date.to_f * 1000 %>),
+                    end: new Date(<%= (resource.completion_date ? resource.completion_date : resource.estimated_completion_date).to_f * 1000 %>),
+                    url: '<%= url_for resource  %>'
+			    },
+			    <% end %>
+		    ],
+    		eventRender: function(event, element, view) {					
+    			var ntoday = new Date().getTime();
+    			var eventEnd = moment( event.end ).valueOf();
+    			var eventStart = moment( event.start ).valueOf();
+    			if (!event.end){
+    				if (eventStart < ntoday){
+    					element.addClass("past-event");
+    					element.children().addClass("past-event");
+    				}
+    			} else {
+    				if (eventEnd < ntoday){
+    					element.addClass("past-event");
+    					element.children().addClass("past-event");
+    				}
+    			}
+    			if ( event.allDay === true ) {
+    				element.addClass("allday-event");
+    				element.children().addClass("allday-event");
+    			}
+    		}
+        });
+    });
+</script>
+
+<div id='calendar'></div>

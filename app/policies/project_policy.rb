@@ -8,6 +8,10 @@ class ProjectPolicy < ApplicationPolicy
             end
         end
     end
+    
+    def index?
+        true 
+    end
 
     def show?
         is_admin? or project_user?

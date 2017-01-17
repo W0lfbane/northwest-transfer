@@ -1,11 +1,11 @@
 <div class="col-md-6">
     <%= link_to project, class: "color-inherit" do %>
-        <div class="background-white border-dark-grey-1 buffer-margin-10" style="height: 225px;">
-            <div class="col-md-6">
+        <div class="background-white border-dark-grey-1 buffer-margin-10" style="min-height: 200px;">
+            <div class="col-sm-6">
                 <h4 class="text-bold">Location</h4>
                 <%= project.location %>
             </div>
-            <div class="col-md-6" id="project-<%= project.id %>-time">
+            <div class="col-sm-6" id="project-<%= project.id %>-time">
                 <h4 class="text-bold">Date & Time</h4>
                 <script>
                     var div = document.getElementById('project-<%= project.id %>-time');
@@ -17,16 +17,16 @@
                     div.appendChild(datetime);
                 </script>
             </div>
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <h4 class="text-bold">Crew Leader(s)</h4>
                 <ul class="list-unstyled">
                 <% project.leaders.each_with_index do |user, index| %>
-                    <% break unless index <= 3 %>
-                    <%= content_tag(:li, (index >= 3 ? 'View More...' : user.name) ) %>
+                    <% break unless index <= 2 %>
+                    <%= content_tag(:li, (index >= 2 ? 'View More...' : user.name) ) %>
                 <% end %>
                 </ul>
             </div>
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <h4 class="text-bold">Job Status</h4>
                 <ul>
                     <%= content_tag(:li, I18n.t(project.aasm.current_state).capitalize + ": #{project.flags.count} Flag(s)", class: "text-#{project.alert_level}") %>

@@ -11,6 +11,7 @@ Role.destroy_all
 Project.destroy_all
 Group.destroy_all
 
+resource_interval = 100
 
 test_user = User.create!( email: "test@test.com", password: "password123", first_name: "Admin", last_name: "Admin" )
 
@@ -19,17 +20,17 @@ test_user = User.create!( email: "test@test.com", password: "password123", first
     test_user.add_role(role)
 end
 
-20.times do |i|
+resource_interval.times do |i|
     User.create!( email: "user-#{i}@paulsens.com", password: "password-#{i}", first_name: "User#{i}", last_name: "User#{i}" )
 end
 
-5.times do |i|
-    @start_date = DateTime.now + i.days
+resource_interval.times do |i|
+    start_date = DateTime.now + (i + i).days
     Project.create!( title: "Project ##{i}", 
                    description: "This is a project.", 
                    location: "Here!",
-                   start_date: @start_date,
-                   estimated_completion_date: @start_date + i.minutes + i.hours )
+                   start_date: start_date,
+                   estimated_completion_date: start_date + i.minutes + i.hours )
 
     Group.create!( name: "group-#{i}",
                     description: "This is group number #{i}" )

@@ -1,4 +1,9 @@
 .nav-side-menu {
+  @media (min-width: $screen-md-min) {
+    position: fixed;
+    height: 100vh;
+  }
+  width: inherit;
   background-color: #2e353d;
   color: #e1ffff;
 

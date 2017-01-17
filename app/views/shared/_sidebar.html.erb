@@ -1,7 +1,9 @@
 <% if user_signed_in? %>
 
-<div class="nav-side-menu width-100">
-    <h2 class="brand no-margin">Brand Logo</h2>
+<div class="nav-side-menu">
+    <h2 class="brand no-margin">
+        <span class="text-bold text-uppercase">NW</span> Transfer
+    </h2>
     
     <div class="menu-list container-fluid">
         <ul id="menu-content" class="menu-content list-unstyled">
@@ -34,6 +36,7 @@
             </li>
             <ul class="sub-menu collapse list-unstyled row" id="products">
                 <%= content_tag(:li, link_to('My Projects', user_projects_path) ) %>
+                <%= content_tag(:li, link_to('Calendar', projects_calendar_path) ) %>
                 <%= content_tag(:li, link_to('View All (Admin)', projects_path) ) unless !current_user.has_role?(:admin) %>
             </ul>
             

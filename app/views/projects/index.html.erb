@@ -1,5 +1,13 @@
 <% provide(:title, 'Projects') %>
 
-<div class="container-fluid background-lighter-grey">
-  <%= render @projects %>
+<div class="container-fluid background-lighter-grey buffer-padding-10">
+    <div class="row">
+        <%= render @projects %>
+    </div>
+  
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <%= paginate @projects %>
+        </div>
+    </div>
 </div>
