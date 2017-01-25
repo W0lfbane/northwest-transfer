@@ -11,7 +11,8 @@ class Project < ApplicationRecord
 
     resourcify
 
-    validates :title, :description, :location, :start_date, :estimated_completion_date, presence: true
+    validates   :title, :description, :address, :city, :state, 
+                :postal, :country, :start_date, :estimated_completion_date, presence: true
 
     include AASM
     STATES = [:pending, :en_route, :in_progress, :completed, :problem, :deactivated]

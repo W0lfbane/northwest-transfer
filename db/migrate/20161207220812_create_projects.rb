@@ -8,6 +8,7 @@ class CreateProjects < ActiveRecord::Migration[5.0]
       t.datetime :completion_date
       t.datetime :estimated_completion_date,  null: false
       t.text :notes
+      
 
       t.timestamps
     end
