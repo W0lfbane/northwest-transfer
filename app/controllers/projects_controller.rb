@@ -61,7 +61,11 @@ class ProjectsController < ApplicationController
     def project_params
       params.require(:project).permit(:title, 
                                       :description, 
-                                      :location, 
+                                      :address,
+                                      :city,
+                                      :state,
+                                      :postal,
+                                      :country,
                                       :start_date, 
                                       :completion_date, 
                                       :estimated_completion_date, 

@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170112235837) do
+ActiveRecord::Schema.define(version: 20170125210440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "document_types", force: :cascade do |t|
+    t.string   "type"
+    t.integer  "document_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["document_id"], name: "index_document_types_on_document_id", using: :btree
+  end
 
   create_table "documents", force: :cascade do |t|
     t.string   "title"
@@ -58,16 +66,30 @@ ActiveRecord::Schema.define(version: 20170112235837) do
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string   "title",                     null: false
-    t.text     "description",               null: false
-    t.text     "location",                  null: false
-    t.datetime "start_date",                null: false
+    t.string   "title",                                    null: false
+    t.text     "description",                              null: false
+    t.text     "address",                                  null: false
+    t.text     "city",                                     null: false
+    t.text     "state",                                    null: false
+    t.text     "postal",                                   null: false
+    t.text     "country",                   default: "US", null: false
+    t.datetime "start_date",                               null: false
     t.datetime "completion_date"
-    t.datetime "estimated_completion_date", null: false
+    t.datetime "estimated_completion_date",                null: false
     t.text     "notes"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.string   "resource_state"
+  end
+
+  create_table "resource_fields", force: :cascade do |t|
+    t.string   "data_key"
+    t.string   "data_value"
+    t.string   "fieldable_type"
+    t.integer  "fieldable_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["fieldable_type", "fieldable_id"], name: "index_resource_fields_on_fieldable_type_and_fieldable_id", using: :btree
   end
 
   create_table "roles", force: :cascade do |t|
@@ -116,6 +138,7 @@ ActiveRecord::Schema.define(version: 20170112235837) do
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
   end
 
+  add_foreign_key "document_types", "documents"
   add_foreign_key "documents", "projects"
   add_foreign_key "group_projects", "groups"
   add_foreign_key "group_projects", "projects"

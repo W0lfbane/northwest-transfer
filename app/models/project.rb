@@ -68,5 +68,13 @@ class Project < ApplicationRecord
             end
         end
     end
+    
+    def location
+        self.address + ' ' +
+        self.city + ' ' +
+        self.state + ' ' +
+        self.postal + ' ' +
+        self.country
+    end
 
 end
