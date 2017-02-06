@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group, only: [:show, :edit, :update]
-  before_action :authorize_group, except: :index
+  before_action :authorize_group, except: [:index, :create]
 
   def index
     if request.original_url.include?( user_groups_path )
@@ -20,6 +20,7 @@ class GroupsController < ApplicationController
   
   def create
     @group = Group.new(group_params)
+    authorize_group
     if @group.save
       redirect_to @group, success: "Group successfully updated!"
     else
