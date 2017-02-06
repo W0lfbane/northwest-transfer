@@ -109,4 +109,56 @@ RSpec.describe GroupsController, type: :controller do
     end
   end
   
+  describe "DELETE #destroy" do
+    context "as user" do
+      login_user
+      
+      it "should raise an exception if not an admin" do
+        test_group = FactoryGirl.create(:group)
+        p test_group
+        expect do
+          delete :destroy, params: { id: test_group }
+        end.to raise_error(Pundit::NotAuthorizedError)
+      end
+    end
+    
+    # shared_examples_for "has appropriate permissions" do
+    #   it "should return an ActiveRecord error if the group id does not exist" do
+    #     expect do
+    #       delete :destroy, params: {id: -1}
+    #     end.to raise_error(ActiveRecord::RecordNotFound)
+    #   end
+      
+    #   it "should find the correct group" do
+    #     delete :destroy, params: { id: test_group }
+    #     expect(assigns(:group)).to eql test_group
+    #   end
+      
+    #   it "deletes the group from the database" do
+    #     expect do
+    #       delete :destroy, params: { id: test_group }
+    #     end.to change(Group, :count).by(-1)
+    #   end
+      
+    #   it "redirects to the groups index" do
+    #     delete :destroy, params: {id: test_group}
+    #     expect(response).to redirect_to groups_url
+    #   end
+    # end
+    
+    # context "logged in as group user" do
+    #   login_group_user
+    #   it_should_behave_like "has appropriate permissions" do
+    #     let(:test_group) {subject.current_user.groups.last}
+    #   end
+    # end
+    
+    # context "logged in as admin" do
+    #   login_admin
+    #   it_should_behave_like "has appropriate permissions" do
+    #     let(:test_group) {FactoryGirl.create(:group)}
+    #   end
+    # end
+  end
+  
 end

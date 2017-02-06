@@ -9,4 +9,16 @@ class Group < ApplicationRecord
     resourcify
     
     validates :name, presence: true
+    
+    include AASM
+    STATES = [:activated, :deactivated]
+    aasm :column => 'resource_state' do
+      STATES.each do |status|
+          state(status, initial: STATES[0] == status)
+      end
+      
+      event :deactivate do
+        transitions to: :deactivated
+      end
+    end
 end
