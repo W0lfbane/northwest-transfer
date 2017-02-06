@@ -38,6 +38,18 @@ describe Task do
     expect{ FactoryGirl.create( :task, resource_state: "Bob" ) }.to raise_error(ActiveRecord::RecordInvalid)
   end
   
+  it "change the pending to completed for task resource_state" do
+    expect( FactoryGirl.create(:task, resource_state: "completed").resource_state ).to eq( "completed" )
+  end
+  
+  it "change the pending to problem for task resource_state" do
+    expect( FactoryGirl.create(:task, resource_state: "problem").resource_state ).to eq( "problem" )
+  end
+  
+  it "check pending for task resource_state" do
+    expect( FactoryGirl.create(:task).resource_state ).to eq( "pending" )
+  end
+  
   it "is invalid without a project id" do
     expect{ FactoryGirl.create( :task, project: nil ) }.to raise_error(ActiveRecord::RecordInvalid)
   end
