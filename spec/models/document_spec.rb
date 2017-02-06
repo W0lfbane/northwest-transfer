@@ -15,7 +15,7 @@ describe Document do
   
   it "belongs to project" do
     assc = described_class.reflect_on_association(:project)
-    expect(assc.macro).to eq :belongs_to
+    expect( assc.macro ).to eq :belongs_to
   end
   
 end
