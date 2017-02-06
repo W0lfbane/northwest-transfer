@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 describe Task do
-    
-  subject { FactoryGirl.build(:beacon) }
-    
+
   it "has a valid factory" do
     expect( FactoryGirl.create(:task) ).to be_valid
   end
