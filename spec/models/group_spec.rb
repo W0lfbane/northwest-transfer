@@ -18,4 +18,13 @@ describe Group do
     expect( FactoryGirl.create(:group, description: nil) ).to be_valid
   end
   
+   it "returns a group name as a string" do
+    expect( FactoryGirl.create(:group, name: "Bob").name ).to eq( "Bob" )
+  end
+  
+   it "returns a group name as a string" do
+    expect( FactoryGirl.create(:group, name: "Bob").name ).to eq( "Bob" )
+  end
+  
+  
 end
