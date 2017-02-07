@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [:show, :edit, :update]
-  before_action :authorize_project, except: :index
+  before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_project, except: [:index, :create]
 
   def index
     if request.original_url.include?( schedule_path )
@@ -22,6 +22,7 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new(project_params)
+    authorize_project
     if @project.save
       redirect_to @project, success: "Project successfully updated!"
     else
@@ -43,8 +44,7 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    project = Project.find(params[:id])
-    project.deactivate!
+    @project.deactivate!
     redirect_to projects_path, success: "Project successfully deactivated!"
   end
   

@@ -133,7 +133,7 @@ RSpec.describe GroupsController, type: :controller do
         expect(assigns(:group)).to eql test_group
       end
       
-      it "deletes the group from the database" do
+      it "deactivates the group in the database" do
         expect do
           delete :destroy, params: { id: test_group }
         end.to change(Group.deactivated, :count).by(1)
