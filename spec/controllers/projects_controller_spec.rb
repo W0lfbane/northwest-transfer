@@ -2,26 +2,34 @@ require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
   
+  shared_examples_for "does not have permission" do | http_verb, controller_method, sent_params | 
+    it "should raise a Pundit exception" do
+      expect do
+        send(http_verb, controller_method, params: sent_params)
+      end.to raise_error(Pundit::NotAuthorizedError)
+    end
+  end
+  
+  shared_examples_for "invalid id" do | http_verb, controller_method | 
+    it "should raise an ActiveRecord exception" do
+      expect do
+        send(http_verb, controller_method, params: {id: -1})
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+  
   describe "POST #create" do
     let (:valid_params) { { project: FactoryGirl.attributes_for(:project) } }
     let (:invalid_params) { { project: FactoryGirl.attributes_for(:project, title: nil) } }
     
-    shared_examples_for "does not have permission" do
-      it "should raise an exception if not an admin" do
-        expect do
-          post :create, params: valid_params
-        end.to raise_error(Pundit::NotAuthorizedError)
-      end
-    end
-    
     context "logged in as user" do
       login_user
-      it_should_behave_like "does not have permission"
+      it_should_behave_like "does not have permission", :post, :create, { project: FactoryGirl.attributes_for(:project) }
     end
     
     context "logged in as project user" do
       login_project_user
-      it_should_behave_like "does not have permission"
+      it_should_behave_like "does not have permission", :post, :create, { project: FactoryGirl.attributes_for(:project) }
     end
     
     context "logged in as admin" do
@@ -61,22 +69,11 @@ RSpec.describe ProjectsController, type: :controller do
     
     context "logged in as non-project user" do
       login_user
-      it "should raise an exception if not an admin or project user" do
-        test_project = FactoryGirl.create(:project)
-        expect do
-          put :update, params: { id: test_project }
-        end.to raise_error(Pundit::NotAuthorizedError)
-      end
+      test_project = FactoryGirl.create(:project)
+      it_should_behave_like "does not have permission", :put, :update, {id: test_project}
     end
     
     shared_examples_for "has appropriate permissions" do
-      context "invalid id" do 
-        it "should return an ActiveRecord error if the project id does not exist" do
-          expect do
-             put :update, params: {id: -1, project: valid_params}
-          end.to raise_error(ActiveRecord::RecordNotFound)
-        end
-      end
       
       context "with valid_params" do
         before(:each) do
@@ -103,6 +100,8 @@ RSpec.describe ProjectsController, type: :controller do
           put :update, params: { id: test_project.id, project: invalid_params }
           test_project.reload
         end
+        
+        it_should_behave_like "invalid id", :put, :update
       
         it "should not update object paramaters" do
           expect(test_project.title).to eql "test title"
@@ -121,26 +120,25 @@ RSpec.describe ProjectsController, type: :controller do
         let(:test_project) {subject.current_user.projects.last}
       end
     end
+    
+    context "logged in as admin" do
+      login_admin
+      it_should_behave_like "has appropriate permissions" do
+        let(:test_project) {FactoryGirl.create(:project)}
+      end
+    end
   end
   
   describe "DELETE #destroy" do
     context "as user" do
       login_user
-      
-      it "should raise an exception if not an admin" do
-        test_project = FactoryGirl.create(:project)
-        expect do
-          delete :destroy, params: { id: test_project }
-        end.to raise_error(Pundit::NotAuthorizedError)
-      end
+      test_project = FactoryGirl.create(:project)
+      it_should_behave_like "does not have permission", :delete, :destroy, {id: test_project}
     end
     
     shared_examples_for "has appropriate permissions" do
-      it "should return an ActiveRecord error if the project id does not exist" do
-        expect do
-          delete :destroy, params: {id: -1}
-        end.to raise_error(ActiveRecord::RecordNotFound)
-      end
+      
+      it_should_behave_like "invalid id", :delete, :destroy
       
       it "should find the correct project" do
         delete :destroy, params: { id: test_project }
