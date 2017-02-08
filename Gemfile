@@ -65,8 +65,6 @@ group :development, :test do
   
   # Added for assert_template helper
   gem 'rails-controller-testing'
-  
-  gem 'aasm'
 end
 
 group :development do
