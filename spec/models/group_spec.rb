@@ -17,5 +17,4 @@ describe Group do
   it "is valid without a description" do
     expect( FactoryGirl.create(:group, description: nil) ).to be_valid
   end
-  
 end
