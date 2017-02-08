@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
   
-  shared_examples_for "does not have permission" do | http_verb, controller_method, sent_params | 
+  shared_examples_for "does not have permission" do | http_verb, controller_method | 
     it "should raise a Pundit exception" do
       expect do
         send(http_verb, controller_method, params: sent_params)
@@ -24,12 +24,16 @@ RSpec.describe ProjectsController, type: :controller do
     
     context "logged in as user" do
       login_user
-      it_should_behave_like "does not have permission", :post, :create, { project: FactoryGirl.attributes_for(:project) }
+      it_should_behave_like "does not have permission", :post, :create do
+        let(:sent_params) { { project: FactoryGirl.attributes_for(:project) } }
+      end
     end
     
     context "logged in as project user" do
       login_project_user
-      it_should_behave_like "does not have permission", :post, :create, { project: FactoryGirl.attributes_for(:project) }
+      it_should_behave_like "does not have permission", :post, :create do 
+        let(:sent_params) { { project: FactoryGirl.attributes_for(:project) } }
+      end
     end
     
     context "logged in as admin" do
@@ -69,8 +73,13 @@ RSpec.describe ProjectsController, type: :controller do
     
     context "logged in as non-project user" do
       login_user
-      test_project = FactoryGirl.create(:project)
-      it_should_behave_like "does not have permission", :put, :update, {id: test_project}
+      before :each do
+        @test_project = FactoryGirl.create(:project)
+      end
+      
+      it_should_behave_like "does not have permission", :put, :update do
+        let(:sent_params) { {id: @test_project} }
+      end
     end
     
     shared_examples_for "has appropriate permissions" do
@@ -132,8 +141,13 @@ RSpec.describe ProjectsController, type: :controller do
   describe "DELETE #destroy" do
     context "as user" do
       login_user
-      test_project = FactoryGirl.create(:project)
-      it_should_behave_like "does not have permission", :delete, :destroy, {id: test_project}
+      before :each do
+        @test_project = FactoryGirl.create(:project)
+      end
+      
+      it_should_behave_like "does not have permission", :delete, :destroy do
+        let(:sent_params) { {id: @test_project} }
+      end
     end
     
     shared_examples_for "has appropriate permissions" do

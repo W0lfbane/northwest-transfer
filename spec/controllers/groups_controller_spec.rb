@@ -2,6 +2,47 @@ require 'rails_helper'
 
 RSpec.describe GroupsController, type: :controller do
   
+  shared_examples_for "does not have permission" do | http_verb, controller_method | 
+    it "should raise a Pundit exception" do
+      expect do
+        send(http_verb, controller_method, params: sent_params)
+      end.to raise_error(Pundit::NotAuthorizedError)
+    end
+  end
+  
+  shared_examples_for "invalid id" do | http_verb, controller_method | 
+    it "should raise an ActiveRecord exception" do
+      expect do
+        send(http_verb, controller_method, params: {id: -1})
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+  
+  shared_examples_for "valid id" do
+    it "should find the correct project" do
+      expect(assigns(:group)).to eql test_group
+    end
+  end
+  
+  describe "GET #index" do
+    
+    login_user
+    it "returns http success" do
+      get :index
+      expect(response).to have_http_status(:success)
+    end
+    
+    it "renders index template" do
+      get :index
+      expect(response).to render_template :index
+    end
+    
+    it "returns all groups if not reached through user account" do
+      get :index
+      expect(assigns(:groups).size).to eql 0
+    end
+  end
+  
   describe "POST #create" do
     let (:valid_params) { { group: FactoryGirl.attributes_for(:group) } }
     let (:invalid_params) { { group: FactoryGirl.attributes_for(:group, name: nil) } }
@@ -40,22 +81,16 @@ RSpec.describe GroupsController, type: :controller do
     
     context "logged in as non-group user" do
       login_user
-      it "should raise an exception if not an admin or group user" do
-        test_group = FactoryGirl.create(:group)
-        expect do
-          put :update, params: { id: test_group }
-        end.to raise_error(Pundit::NotAuthorizedError)
+      before :each do
+        @test_group = FactoryGirl.create(:group)
+      end
+
+      it_should_behave_like "does not have permission", :put, :update do 
+        let (:sent_params) {{id: @test_group}}
       end
     end
     
     shared_examples_for "has appropriate permissions" do
-      context "invalid id" do 
-        it "should return an ActiveRecord error if the group id does not exist" do
-          expect do
-             put :update, params: {id: -1, group: valid_params}
-          end.to raise_error(ActiveRecord::RecordNotFound)
-        end
-      end
       
       context "valid_params" do
         before(:each) do
@@ -63,9 +98,7 @@ RSpec.describe GroupsController, type: :controller do
           test_group.reload
         end
         
-        it "should find the correct group" do
-          expect(assigns(:group)).to eql test_group
-        end
+        it_should_behave_like "valid id"
 
         it "should update object paramaters" do
           expect(test_group.name).to eql valid_params[:name]
@@ -79,12 +112,15 @@ RSpec.describe GroupsController, type: :controller do
       
       context "with invalid parameters" do
         before(:each) do
+          @original_name = test_group.name
           put :update, params: { id: test_group.id, group: invalid_params }
           test_group.reload
         end
+        
+        it_should_behave_like "invalid id", :put, :update
       
         it "should not update object paramaters" do
-          expect(test_group.name).to eql "test name"
+          expect(test_group.name).to eql @original_name
           expect(test_group.created_at).to eql test_group.updated_at
         end
         
@@ -110,23 +146,21 @@ RSpec.describe GroupsController, type: :controller do
   end
   
   describe "DELETE #destroy" do
+
+    
     context "as user" do
       login_user
+      before :each do
+        @test_group = FactoryGirl.create(:group)
+      end
       
-      it "should raise an exception if not an admin" do
-        test_group = FactoryGirl.create(:group)
-        expect do
-          delete :destroy, params: { id: test_group }
-        end.to raise_error(Pundit::NotAuthorizedError)
+      it_should_behave_like "does not have permission", :delete, :destroy do 
+        let (:sent_params) {{id: @test_group}}
       end
     end
     
     shared_examples_for "has appropriate permissions" do
-      it "should return an ActiveRecord error if the group id does not exist" do
-        expect do
-          delete :destroy, params: {id: -1}
-        end.to raise_error(ActiveRecord::RecordNotFound)
-      end
+      it_should_behave_like "invalid id", :delete, :destroy
       
       it "should find the correct group" do
         delete :destroy, params: { id: test_group }
