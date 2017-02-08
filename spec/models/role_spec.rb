@@ -9,7 +9,7 @@ describe Role do
     expect( FactoryGirl.create(:role, name: nil) ).to be_valid
   end
 
-  it "returns a historical event name as a string" do
+  it "returns a role name as a string" do
     expect( FactoryGirl.create(:role, name: "Bob").name ).to eq( "Bob" )
   end
   
