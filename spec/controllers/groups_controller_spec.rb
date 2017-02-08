@@ -26,20 +26,96 @@ RSpec.describe GroupsController, type: :controller do
   
   describe "GET #index" do
     
-    login_user
-    it "returns http success" do
-      get :index
-      expect(response).to have_http_status(:success)
+    context "as user" do
+      login_user
+      it "returns http success" do
+        get :index
+        expect(response).to have_http_status(:success)
+      end
+      
+      it "renders index template" do
+        get :index
+        expect(response).to render_template :index
+      end
+      
+      it "returns 0 groups if user does not belong to any" do
+        get :index
+        expect(assigns(:groups).count).to eql 0
+      end
     end
     
-    it "renders index template" do
-      get :index
-      expect(response).to render_template :index
+    context "as user with groups" do
+      login_group_user
+      
+      it "returns groups to which user belongs" do
+        get :index
+        expect(assigns(:groups).count).to eql subject.current_user.groups.count
+        expect(assigns(:groups)).to include subject.current_user.groups.last
+      end
     end
     
-    it "returns all groups if not reached through user account" do
-      get :index
-      expect(assigns(:groups).size).to eql 0
+    context "as user with groups" do
+      login_admin
+      
+      it "returns all groups" do
+        get :index
+        expect(assigns(:groups).count).to eql Group.count
+      end
+    end
+  end
+  
+  describe "GET #show" do
+    context "logged in as non-group user" do
+      login_user
+      before :each do
+        @test_group = FactoryGirl.create(:group)
+      end
+
+      it_should_behave_like "does not have permission", :get, :show do 
+        let (:sent_params) {{id: @test_group}}
+      end
+      
+      it_should_behave_like "invalid id", :get, :show
+      
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+    end
+    
+    shared_examples_for "has appropriate permissions" do
+      it_should_behave_like "valid id"
+      
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+      
+      it "renders show template" do
+        expect(response).to render_template :show
+      end
+    end
+    
+    context "logged in as group user" do
+      login_group_user
+      before :each do
+        @test_group = subject.current_user.groups.last
+        get :show, params: {id: @test_group}
+      end
+      
+      it_should_behave_like "has appropriate permissions" do 
+        let(:test_group) {@test_group}
+      end
+    end
+    
+    context "logged in as admin" do
+      login_admin
+      before :each do
+        @test_group = FactoryGirl.create(:group)
+        get :show, params: {id: @test_group}
+      end
+      
+      it_should_behave_like "has appropriate permissions" do 
+        let(:test_group) {@test_group}
+      end
     end
   end
   
