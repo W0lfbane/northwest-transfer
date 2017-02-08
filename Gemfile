@@ -33,6 +33,9 @@ gem 'pg', '~> 0.18'
 # State Machine
 gem 'aasm'
 
+# time difference
+gem 'time_difference'
+
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 

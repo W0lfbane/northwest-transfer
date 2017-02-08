@@ -42,7 +42,7 @@ class Project < ApplicationRecord
     end
     
     def total_time
-       if self.completed? then self.completion_date.to_datetime - self.start_date.to_datetime end
+       if self.completed? then TimeDifference.between(self.start_date.to_datetime, self.completion_date.to_datetime).in_hours end
     end
     
     def set_completion_date
@@ -62,7 +62,7 @@ class Project < ApplicationRecord
               'operatonal'
             when 1
               'advisory'
-            when 2
+            else
               'danger'
             end
         end
