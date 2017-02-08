@@ -13,10 +13,6 @@ describe Document do
     expect( FactoryGirl.create(:document, title: "Bob").title ).to eq( "Bob" )
   end
   
-  it "returns a historical event title as a string" do
-    expect( FactoryGirl.create(:document, title: "Bob").title ).to eq( "Bob" )
-  end
-  
   it "belongs to project" do
     assc = described_class.reflect_on_association(:project)
     expect( assc.macro ).to eq :belongs_to
