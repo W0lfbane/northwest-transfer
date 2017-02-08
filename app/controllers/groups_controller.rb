@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_group, except: [:index, :create]
+  before_action :authorize_group, except: [:index, :new, :create]
 
   def index
     if request.original_url.include?( user_groups_path )
@@ -16,6 +16,7 @@ class GroupsController < ApplicationController
 
   def new
     @group = Group.new
+    authorize_group
   end
   
   def create

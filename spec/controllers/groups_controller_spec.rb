@@ -76,10 +76,6 @@ RSpec.describe GroupsController, type: :controller do
       end
       
       it_should_behave_like "invalid id", :get, :show
-      
-      it "returns http success" do
-        expect(response).to have_http_status(:success)
-      end
     end
     
     shared_examples_for "has appropriate permissions" do
@@ -111,6 +107,92 @@ RSpec.describe GroupsController, type: :controller do
       before :each do
         @test_group = FactoryGirl.create(:group)
         get :show, params: {id: @test_group}
+      end
+      
+      it_should_behave_like "has appropriate permissions" do 
+        let(:test_group) {@test_group}
+      end
+    end
+  end
+  
+  describe "GET #new" do
+    shared_examples_for "has appropriate permissions" do
+     
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+      
+      it "renders show template" do
+        expect(response).to render_template :new
+      end
+    end
+    
+    context "logged in as non-group user" do
+      login_user
+      before :each do
+        get :new
+      end
+      it_should_behave_like "has appropriate permissions"
+    end
+    
+    context "logged in as group user" do
+      login_group_user
+      before :each do
+        get :new
+      end
+      it_should_behave_like "has appropriate permissions"
+    end
+    
+    context "logged in as admin" do
+      login_admin
+      before :each do
+        get :new
+      end
+      it_should_behave_like "has appropriate permissions"
+    end
+  end
+  
+  describe "GET #edit" do
+    
+    shared_examples_for "has appropriate permissions" do
+      it_should_behave_like "valid id"
+      
+      it_should_behave_like "invalid id", :get, :edit
+      
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+      
+      it "renders show template" do
+        expect(response).to render_template :edit
+      end
+    end
+    
+    context "logged in as non-group user" do
+      login_user
+      before :each do
+        @test_group = FactoryGirl.create(:group)
+        get :edit, params: {id: @test_group}
+      end
+    end
+    
+    context "logged in as group user" do
+      login_group_user
+      before :each do
+        @test_group = subject.current_user.groups.last
+        get :edit, params: {id: @test_group}
+      end
+      
+      it_should_behave_like "has appropriate permissions" do 
+        let(:test_group) {@test_group}
+      end
+    end
+    
+    context "logged in as admin" do
+      login_admin
+      before :each do
+        @test_group = FactoryGirl.create(:group)
+        get :edit, params: {id: @test_group}
       end
       
       it_should_behave_like "has appropriate permissions" do 
