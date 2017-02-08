@@ -59,4 +59,14 @@ describe Task do
     expect( assc.macro ).to eq :belongs_to
   end
   
+  it "transition from pending to completed" do
+    task = FactoryGirl.create(:task)
+    expect(task).to transition_from(:pending).to(:completed).on_event(:complete)
+  end 
+  
+  it "transition from pending to report problem" do
+    task = FactoryGirl.create(:task)
+    expect(task).to transition_from(:pending).to(:problem).on_event(:report_problem)
+  end 
+  
 end
