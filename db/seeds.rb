@@ -40,7 +40,7 @@ Project.all.each do |project|
     project.users << User.all.sample(5)
 
     5.times do |i|
-        project.tasks.create!(name: "Task ##{i}", description: "This is task ##{i} on #{project.title}.")
+        project.tasks.create!(name: "Task ##{i}", description: "This is task ##{i} on #{project.title}.", start_date: Time.now)
     end
 end
 

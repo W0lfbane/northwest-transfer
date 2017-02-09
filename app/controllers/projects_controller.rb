@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_project, except: [:index, :create]
+  before_action :authorize_project, except: [:index, :new, :create]
 
   def index
     if request.original_url.include?( schedule_path )
@@ -18,6 +18,7 @@ class ProjectsController < ApplicationController
 
   def new
     @project = Project.new
+    authorize_project
   end
 
   def create

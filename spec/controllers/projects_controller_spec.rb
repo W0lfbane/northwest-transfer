@@ -18,6 +18,142 @@ RSpec.describe ProjectsController, type: :controller do
     end
   end
   
+  shared_examples_for "valid id" do
+    it "should find the correct project" do
+      expect(assigns(:project)).to eql test_project
+    end
+  end
+  
+   describe "GET #index" do
+    
+    context "as user" do
+      login_user
+      it "returns http success" do
+        get :index
+        expect(response).to have_http_status(:success)
+      end
+      
+      it "renders index template" do
+        get :index
+        expect(response).to render_template :index
+      end
+      
+      it "returns 0 projects if user does not belong to any" do
+        get :index
+        expect(assigns(:projects).count).to eql 0
+      end
+    end
+    
+    context "as user with projects" do
+      login_project_user
+      
+      it "returns projects to which user belongs" do
+        FactoryGirl.create(:project)
+        get :index
+        expect(assigns(:projects).count).to eql subject.current_user.projects.count
+        expect(assigns(:projects).count).to_not eql Project.count
+        expect(assigns(:projects)).to include subject.current_user.projects.last
+      end
+    end
+    
+    context "as admin" do
+      login_admin
+      
+      it "returns all projects" do
+        FactoryGirl.create(:project)
+        get :index
+        expect(assigns(:projects).count).to eql Project.count
+      end
+    end
+  end
+  
+  describe "GET #show" do
+    context "logged in as non-project user" do
+      login_user
+      before :each do
+        @test_project = FactoryGirl.create(:project)
+      end
+
+      it_should_behave_like "does not have permission", :get, :show do 
+        let (:sent_params) {{id: @test_project}}
+      end
+      
+      it_should_behave_like "invalid id", :get, :show
+    end
+    
+    shared_examples_for "has appropriate permissions" do
+      it_should_behave_like "valid id"
+      
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+      
+      it "renders show template" do
+        expect(response).to render_template :show
+      end
+    end
+    
+    context "logged in as project user" do
+      login_project_user
+      before :each do
+        @test_project = subject.current_user.projects.last
+        get :show, params: {id: @test_project}
+      end
+      
+      it_should_behave_like "has appropriate permissions" do 
+        let(:test_project) {@test_project}
+      end
+    end
+    
+    context "logged in as admin" do
+      login_admin
+      before :each do
+        @test_project = FactoryGirl.create(:project)
+        get :show, params: {id: @test_project}
+      end
+      
+      it_should_behave_like "has appropriate permissions" do 
+        let(:test_project) {@test_project}
+      end
+    end
+  end
+  
+  describe "GET #new" do
+    shared_examples_for "has appropriate permissions" do
+     
+
+    end
+    
+    context "logged in as non-group user" do
+      login_user
+      it_should_behave_like "does not have permission", :get, :new do 
+        let(:sent_params){ nil }
+      end
+    end
+    
+    context "logged in as group user" do
+      login_group_user
+      it_should_behave_like "does not have permission", :get, :new do 
+        let(:sent_params){ nil }
+      end
+    end
+    
+    context "logged in as admin" do
+      login_admin
+      before :each do
+        get :new
+      end
+      
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+      
+      it "renders show template" do
+        expect(response).to render_template :new
+      end
+    end
+  end
+  
   describe "POST #create" do
     let (:valid_params) { { project: FactoryGirl.attributes_for(:project) } }
     let (:invalid_params) { { project: FactoryGirl.attributes_for(:project, title: nil) } }
@@ -106,6 +242,7 @@ RSpec.describe ProjectsController, type: :controller do
       
       context "with invalid parameters" do
         before(:each) do
+          @original_title = test_project.title
           put :update, params: { id: test_project.id, project: invalid_params }
           test_project.reload
         end
@@ -113,7 +250,7 @@ RSpec.describe ProjectsController, type: :controller do
         it_should_behave_like "invalid id", :put, :update
       
         it "should not update object paramaters" do
-          expect(test_project.title).to eql "test"
+          expect(test_project.title).to eql @original_title
           expect(test_project.created_at).to eql test_project.updated_at
         end
         

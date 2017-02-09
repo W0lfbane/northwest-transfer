@@ -54,10 +54,11 @@ RSpec.describe GroupsController, type: :controller do
       end
     end
     
-    context "as user with groups" do
+    context "as admin" do
       login_admin
       
       it "returns all groups" do
+        FactoryGirl.create(:group)
         get :index
         expect(assigns(:groups).count).to eql Group.count
       end
@@ -172,7 +173,10 @@ RSpec.describe GroupsController, type: :controller do
       login_user
       before :each do
         @test_group = FactoryGirl.create(:group)
-        get :edit, params: {id: @test_group}
+      end
+      
+      it_should_behave_like "does not have permission", :get, :edit do
+        let(:sent_params) { {id: @test_group} }
       end
     end
     
