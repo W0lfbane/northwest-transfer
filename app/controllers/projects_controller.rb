@@ -32,7 +32,7 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    @step = params[:step] unless params[:step].nil?
+    @step = params[:step].to_sym unless params[:step].nil?
     redirect_to root_path unless @project.interacting_with_state?(@step)
   end
 

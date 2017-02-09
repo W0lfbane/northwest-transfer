@@ -119,20 +119,15 @@ RSpec.describe ProjectsController, type: :controller do
   end
   
   describe "GET #new" do
-    shared_examples_for "has appropriate permissions" do
-     
-
-    end
-    
-    context "logged in as non-group user" do
+    context "logged in as non-project user" do
       login_user
       it_should_behave_like "does not have permission", :get, :new do 
         let(:sent_params){ nil }
       end
     end
     
-    context "logged in as group user" do
-      login_group_user
+    context "logged in as project user" do
+      login_project_user
       it_should_behave_like "does not have permission", :get, :new do 
         let(:sent_params){ nil }
       end
@@ -150,6 +145,57 @@ RSpec.describe ProjectsController, type: :controller do
       
       it "renders show template" do
         expect(response).to render_template :new
+      end
+    end
+  end
+  
+  describe "GET #edit" do
+    shared_examples_for "has appropriate permissions" do
+      it_should_behave_like "valid id"
+      
+      it_should_behave_like "invalid id", :get, :edit
+      
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+      
+      it "renders show template" do
+        expect(response).to render_template :edit
+      end
+    end
+    
+    context "logged in as non-project user" do
+      login_user
+      before :each do
+        @test_project = FactoryGirl.create(:project)
+      end
+      
+      it_should_behave_like "does not have permission", :get, :edit do
+        let(:sent_params) { {id: @test_project} }
+      end
+    end
+    
+    context "logged in as project user" do
+      login_project_user
+      before :each do
+        @test_project = subject.current_user.projects.last
+        get :edit, params: {id: @test_project, step: @test_project.aasm.current_state}
+      end
+      
+      it_should_behave_like "has appropriate permissions" do 
+        let(:test_project) {@test_project}
+      end
+    end
+    
+    context "logged in as admin" do
+      login_admin
+      before :each do
+        @test_project = FactoryGirl.create(:project)
+        get :edit, params: {id: @test_project, step: @test_project.resource_state}
+      end
+      
+      it_should_behave_like "has appropriate permissions" do 
+        let(:test_project) {@test_project}
       end
     end
   end
