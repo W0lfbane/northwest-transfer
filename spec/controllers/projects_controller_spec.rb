@@ -155,6 +155,11 @@ RSpec.describe ProjectsController, type: :controller do
       
       it_should_behave_like "invalid id", :get, :edit
       
+      it "redirects if wrong step is passed in" do
+        get :edit, params: {id: test_project, step: :completed}
+        expect(response).to have_http_status(:redirect)
+      end
+      
       it "returns http success" do
         expect(response).to have_http_status(:success)
       end
