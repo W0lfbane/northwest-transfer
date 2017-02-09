@@ -48,8 +48,11 @@ gem 'time_difference'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
-  # User RSpec for testing
-  gem 'rspec'
+  # Use RSpec for testing
+  gem 'rspec-rails', '~> 3.5'
+  
+  # Added for assert_template helper
+  gem 'rails-controller-testing'
   
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
@@ -57,17 +60,11 @@ group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
   
-  # Use factory girl to generate test resources
+    # Use factory girl to generate test resources
   gem 'factory_girl_rails'
 
   # Use Faker to generate test resources
   gem 'faker'
-  
-  # Use RSpec for testing
-  gem 'rspec-rails', '~> 3.5'
-  
-  # Added for assert_template helper
-  gem 'rails-controller-testing'
 end
 
 group :development do

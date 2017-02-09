@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :group do
-    name "test"
-    description "test"
+    name "test name"
+    description "test description"
   end
 end
