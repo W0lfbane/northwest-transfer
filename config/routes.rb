@@ -21,10 +21,8 @@ Rails.application.routes.draw do
   as :project do
     get '/account/schedule', to: 'projects#index', as: :schedule
     get '/account/projects', to: 'projects#index', as: :user_projects
-    get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, page: 'index', resources: {projects: Project}
-    get '/projects/:id/pending', to: 'projects#edit', step: :pending, as: :edit_pending_project
-    get '/projects/:id/en_route', to: 'projects#edit', step: :en_route, as: :edit_en_route_project
-    get '/projects/:id/in_progress', to: 'projects#edit', step: :in_progress, as: :edit_in_progress_project
+    get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, page: 'index', resources: { projects: Project }
+    get '/projects/:id/:step', to: 'projects#edit', step: :pending, as: :edit_project_step
   end
 
   as :group do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Task do
+describe Task, type: :model do
 
   it "has a valid factory" do
     expect( FactoryGirl.create(:task) ).to be_valid
