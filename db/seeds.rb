@@ -35,7 +35,7 @@ resource_interval.times do |i|
                    start_date: start_date,
                    estimated_completion_date: start_date + i.minutes + i.hours )
 
-    Group.create!( name: "group-#{i}",
+    Group.create!( title: "group-#{i}",
                     description: "This is group number #{i}" )
 end
 

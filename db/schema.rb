@@ -10,18 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170125210440) do
+ActiveRecord::Schema.define(version: 20170125205538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "document_types", force: :cascade do |t|
-    t.string   "type"
-    t.integer  "document_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["document_id"], name: "index_document_types_on_document_id", using: :btree
-  end
 
   create_table "documents", force: :cascade do |t|
     t.string   "title"
@@ -50,7 +42,7 @@ ActiveRecord::Schema.define(version: 20170125210440) do
   end
 
   create_table "groups", force: :cascade do |t|
-    t.string   "name"
+    t.string   "title"
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -138,7 +130,6 @@ ActiveRecord::Schema.define(version: 20170125210440) do
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
   end
 
-  add_foreign_key "document_types", "documents"
   add_foreign_key "documents", "projects"
   add_foreign_key "group_projects", "groups"
   add_foreign_key "group_projects", "projects"

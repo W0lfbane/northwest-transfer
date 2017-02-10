@@ -10,7 +10,7 @@ class GroupPolicy < ApplicationPolicy
     end
 
     def show?
-        is_admin? or group_user?
+        false
     end
 
     def create?

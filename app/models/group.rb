@@ -8,5 +8,5 @@ class Group < ApplicationRecord
 
     resourcify
     
-    validates :name, presence: true
+    validates :title, :description, presence: true
 end
