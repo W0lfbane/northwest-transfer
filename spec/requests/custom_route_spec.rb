@@ -51,28 +51,28 @@ RSpec.describe "Custom Routes", :type => :request do
         @user = FactoryGirl.create(:user)
         @project = FactoryGirl.create(:project, start_date: Date.today)
         sign_in(@user)
-      end
-      
-      # it "has success http status" do
-      #   get schedule_path
-      #   expect(response).to have_http_status(:success)
-      # end 
-      
-      it "assigns user owned groups to instance variable" do
         @user.add_role :leader, @project
         @user.projects << @project
+      end
+      
+      it "has success http status" do
+        get schedule_path
+        expect(response).to have_http_status(:success)
+      end 
+      
+      it "assigns user owned groups to instance variable" do
         get schedule_path
         expect(assigns(:projects).count).to eql @user.projects.count
         expect(assigns(:projects)).to include @project
       end
       
-      # it "assigns user owned projects to instance variable" do
-      #   @project.start_date = DateTime.new(2011, 1, 1)
-      #   @user.project << @project
-      #   get schedule_path
-      #   expect(assigns(:projects).count).to_not eql @user.projects.count
-      #   expect(assigns(:projects)).to_not include @project
-      # end
+      it "assigns only user owned projects with start date after today's date to instance variable" do
+        new_project = FactoryGirl.create(:project, start_date: Date.today - 10.years)
+        @user.projects << new_project
+        get schedule_path
+        expect(assigns(:projects).count).to_not eql @user.projects.count
+        expect(assigns(:projects)).to_not include new_project
+      end
     end
   end
   
