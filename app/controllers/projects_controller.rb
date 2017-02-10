@@ -8,7 +8,8 @@ class ProjectsController < ApplicationController
       @projects = policy_scope( current_user.projects )
       @projects = @projects.where("DATE(start_date) = ?", Date.today).order(:start_date).page(params[:page])
     elsif request.original_url.include?( user_projects_path )
-      @projects = policy_scope( current_user.projects.order(:start_date).page(params[:page]) )
+      @projects = policy_scope( current_user.projects )
+      @projects = @projects.order(:start_date).page(params[:page])
     else
       @projects = policy_scope( Project.order(:start_date).page(params[:page]) )
     end
