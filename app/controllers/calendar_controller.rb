@@ -1,5 +1,6 @@
 class CalendarController < ApplicationController
   before_action :authenticate_user!
+  
 
   def index
     params[:resources].each { |name, resource|
@@ -9,4 +10,5 @@ class CalendarController < ApplicationController
 
     render template: "calendar/#{params[:page]}"
   end
+  
 end
