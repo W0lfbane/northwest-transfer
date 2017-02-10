@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :group do
-    title { Faker::University.name }
+    name { Faker::University.name }
     description { Faker::Lorem.sentence }
   end
 end

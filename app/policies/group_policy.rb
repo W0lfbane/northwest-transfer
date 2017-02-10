@@ -10,7 +10,7 @@ class GroupPolicy < ApplicationPolicy
     end
 
     def show?
-        false
+        is_admin? or resource_user?
     end
 
     def create?
@@ -18,16 +18,10 @@ class GroupPolicy < ApplicationPolicy
     end
 
     def update?
-        is_admin? or group_user?
+        is_admin? or resource_user?
     end
     
     def destroy?
-        is_admin? or group_user?
-    end
-    
-    # Policy Helpers
-
-    def group_user?
-      record.users.include?(user)
+        is_admin? or resource_user?
     end
 end

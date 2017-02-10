@@ -13,9 +13,9 @@ RSpec.describe Group, type: :model do
         expect( subject ).to_not be_valid    
       end
   
-      it "is not valid without a description" do
+      it "is valid without a description" do
         subject.description = nil
-        expect( subject ).to_not be_valid    
+        expect( subject ).to be_valid    
       end
     end
 
