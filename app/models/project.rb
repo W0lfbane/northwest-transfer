@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
     include Helpers::ResourceRolesHelper
+    include Helpers::ResourceStateHelper
     
     has_many :project_users, dependent: :destroy
     has_many :users, -> { distinct }, through: :project_users
@@ -29,7 +30,7 @@ class Project < ApplicationRecord
             transitions from: [:en_route, :problem], to: :in_progress
         end
     
-        event :complete, after: :set_completion_date do
+        event :complete, success: :set_completion_date! do
             transitions from: [:in_progress, :problem], to: :completed
         end
     
@@ -43,11 +44,11 @@ class Project < ApplicationRecord
     end
     
     def total_time
-       if self.completed? then self.completion_date.to_datetime - self.start_date.to_datetime end
+       if self.completed? then TimeDifference.between(self.start_date.to_datetime, self.completion_date.to_datetime).in_hours end
     end
     
-    def set_completion_date
-       self.update!(completion_date: DateTime.now) 
+    def set_completion_date!(date = DateTime.now)
+       self.update!(completion_date: date) 
     end
     
     def flags
@@ -63,7 +64,7 @@ class Project < ApplicationRecord
               'operatonal'
             when 1
               'advisory'
-            when 2
+            else
               'danger'
             end
         end

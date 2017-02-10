@@ -1,4 +1,6 @@
 class Task < ApplicationRecord
+    include Helpers::ResourceStateHelper
+
     belongs_to :project
 
     include AASM

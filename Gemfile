@@ -33,6 +33,9 @@ gem 'pg', '~> 0.18'
 # State Machine
 gem 'aasm'
 
+# time difference
+gem 'time_difference'
+
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -45,17 +48,23 @@ gem 'aasm'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
-  # User RSpec for testing
+  # Use RSpec for testing
   gem 'rspec-rails', '~> 3.5'
   
-  # Use Factory Girl for Resource Generation
-  gem 'factory_girl_rails'
+  # Added for assert_template helper
+  gem 'rails-controller-testing'
   
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
 
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
+  
+  # Use factory girl to generate test resources
+  gem 'factory_girl_rails'
+
+  # Use Faker to generate test resources
+  gem 'faker'
 end
 
 group :development do
