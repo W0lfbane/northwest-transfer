@@ -5,8 +5,18 @@
         <img id="user-image" src="images/User_Silhouette_Placeholder.png" alt="User Silhouette Placeholder">
       </div>
       <div class="col-md-7">
-        <h1 id="user-name"><%= @current_user.first_name + " " + @current_user.last_name %></h1>
-        <h6 id="hours">from 8am-6pm</h6>
+        <h1 id="user-name"><%= @project.customer.first_name + " " + @project.customer.last_name %></h1>
+        <h6 id="hours">
+          <script>
+            var div = document.getElementById('hours');
+            var datetime = document.createTextNode( 
+                moment( new Date(<%= project.start_date.to_f * 1000 %>) ).format("MMM D, h:mm A") +
+                " - " +
+                moment( new Date(<%= project.estimated_completion_date.to_f * 1000 %>) ).format("MMM D, h:mm A")
+            );
+            div.appendChild(datetime);
+          </script>
+        </h6>
       </div>
       <div class="col-md-4s" id="header-right">
         <h1 id="local-time"><%= DateTime.now.strftime("%H:%M") %></h1>
@@ -29,57 +39,26 @@
         </div>
         <div id="job-description">
           <h4 class="subheader">Job Description:</h4>
-          <p>Fusce a metus eu diam varius congue nec nec sapien. Vestibulum orci tortor, sollicitudin ac euismod non, placerat ac augue.</p>
+          <p><%= @project.description %></p>
         </div>
 
         <!-- /////////////////////TIMELINE/////////////////////////// -->
         <div class="row">
           <div class="col-md-4 timeline">
-            <p><span class="subsection-title">Address: </span> 13326 Mestfield Ln</p>
-            <p>Portland, OR 97226</p>
+            <p><span class="subsection-title">Address: </span> <%= @project.address %> </p>
+            <p> <%= @project.city %>,  <%= @project.state %>  <%= @project.postal %></p>
           </div>
           <div class="col-md-4 timeline" id="start-end-date">
-            <p><span class="subsection-title">Start: </span>March 8, 2017</p>
-            <p><span class="subsection-title">Due: </span>March 9, 2017</p>
+            <p><span class="subsection-title">Start: </span> <%= @project.start_date %></p>
+            <p><span class="subsection-title">Due: </span> <%= @project.completion_date %></p>
           </div>
           <div class="col-md-4 timeline">
-            <p><span class="subsection-title">Admin: </span>Michael Scott</p>
-            <p><span class="subsection-title">Due: </span>Darryl Philbin</p>
+            <%= render partial: "leader", collection: @project.leaders %>
           </div>
         </div>
         <!-- ///////////////////////TASK LIST/////////////////////// -->
             <!-- ///////TASK ONE PLACEHOLDER//////// -->
-        <div class="row task-list">
-          <h3 class="col-md-2 task-number">Task 1</h3>
-          <h3 class="col-md-1 bar">|</h3>
-          <div class="col-md-6">
-            <h3>Mount & Setup Television</h3>
-            <p class="subtext">assigned to Darryl Philbin</p>
-          </div>
-          <img class="icons" src="images/button-placeholder.png" alt="done">
-          <img class="icons" src="images/button-placeholder.png" alt="edit">
-          <img class="icons" src="images/button-placeholder.png" alt="right arrow">
-        </div>
-        <div class="task-description">
-          <h3 class="subheader">Description</h3>
-          <h4>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</h4>
-        </div>
-            <!-- ///////TASK TWO PLACEHOLDER//////// -->
-        <div class="row task-list">
-          <h3 class="col-md-2 task-number">Task 2</h3>
-          <h3 class="col-md-1 bar">|</h3>
-          <div class="col-md-6">
-            <h3>Refriderator Installation</h3>
-            <p class="subtext">assigned to Nate Nickerson</p>
-          </div>
-          <img class="icons" src="images/button-placeholder.png" alt="done">
-          <img class="icons" src="images/button-placeholder.png" alt="edit">
-          <img class="icons" src="images/button-placeholder.png" alt="right arrow">
-        </div>
-        <div class="task-description-two">
-          <h3 class="subheader">Description</h3>
-          <h4>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</h4>
-        </div>
+        <%= render partial: "tasks", collection: @project.tasks %>
       </div>
       <!-- //////////////////NOTIFICATIONS/////////////////////// -->
       <div class="col-md-pull-0 col-md-4 right-sidebar-section">
@@ -148,18 +127,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><h4>Document Name</h4></td>
-              <td>last updated by</td>
-              <td>03/8/2017</td>
-              <td>10:17am</td>
-            </tr>
-            <tr>
-              <td><h4>Document Name</h4></td>
-              <td>last updated by</td>
-              <td>03/8/2017</td>
-              <td>10:17am</td>
-            </tr>
+            <%= render partial: "document", collection: @project.documents %>
           </tbody>
         </table>
       </div>
