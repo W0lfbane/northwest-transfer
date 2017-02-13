@@ -28,7 +28,10 @@ resource_interval.times do |i|
     start_date = DateTime.now + (i + i).days
     Project.create!( title: "Project ##{i}", 
                    description: "This is a project.", 
-                   location: "Here!",
+                   address: "Here!",
+                   city: "Dank",
+                   state: "Funland",
+                   postal: "606066",
                    start_date: start_date,
                    estimated_completion_date: start_date + i.minutes + i.hours )
 

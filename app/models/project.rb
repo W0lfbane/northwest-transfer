@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
     include Helpers::ResourceRolesHelper
+    include Helpers::ResourceStateHelper
     
     has_many :project_users, dependent: :destroy
     has_many :users, -> { distinct }, through: :project_users
@@ -11,7 +12,8 @@ class Project < ApplicationRecord
 
     resourcify
 
-    validates :title, :description, :location, :start_date, :estimated_completion_date, presence: true
+    validates   :title, :description, :address, :city, :state, 
+                :postal, :country, :start_date, :estimated_completion_date, presence: true
 
     include AASM
     STATES = [:pending, :en_route, :in_progress, :completed, :problem, :deactivated]
@@ -28,7 +30,7 @@ class Project < ApplicationRecord
             transitions from: [:en_route, :problem], to: :in_progress
         end
     
-        event :complete, after: :set_completion_date do
+        event :complete, success: :set_completion_date! do
             transitions from: [:in_progress, :problem], to: :completed
         end
     
@@ -45,8 +47,8 @@ class Project < ApplicationRecord
        if self.completed? then TimeDifference.between(self.start_date.to_datetime, self.completion_date.to_datetime).in_hours end
     end
     
-    def set_completion_date
-       self.update!(completion_date: DateTime.now) 
+    def set_completion_date!(date = DateTime.now)
+       self.update!(completion_date: date) 
     end
     
     def flags
@@ -66,6 +68,14 @@ class Project < ApplicationRecord
               'danger'
             end
         end
+    end
+    
+    def location
+        self.address + ' ' +
+        self.city + ' ' +
+        self.state + ' ' +
+        self.postal + ' ' +
+        self.country
     end
 
 end

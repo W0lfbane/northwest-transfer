@@ -18,8 +18,28 @@ describe Project, type: :model do
     expect( subject ).not_to be_valid
   end
   
-  it "is invalid without a location" do
-    subject.location = nil
+  it "is invalid without a address" do
+    subject.address = nil
+    expect( subject ).not_to be_valid
+  end
+  
+  it "is invalid without a city" do
+    subject.city = nil
+    expect( subject ).not_to be_valid
+  end
+  
+  it "is invalid without a state" do
+    subject.state = nil
+    expect( subject ).not_to be_valid
+  end
+  
+  it "is invalid without a postal code" do
+    subject.postal = nil
+    expect( subject ).not_to be_valid
+  end
+
+  it "is invalid without a country" do
+    subject.country = nil
     expect( subject ).not_to be_valid
   end
   
@@ -44,8 +64,7 @@ describe Project, type: :model do
   end
   
   it "returns a project location as a string" do
-    subject.location = "bob"
-    expect( subject.location ).to eq( "bob" )
+    expect( subject.location ).to be_a(String)
   end
   
   it "returns a project start_date as a date" do
@@ -151,7 +170,7 @@ describe Project, type: :model do
   end
   
   it "Test set_completion_date method works" do
-    subject.set_completion_date
+    subject.set_completion_date!
     expect( subject.completion_date.strftime("%m/%d/%Y at %I:%M%p") ).to eq( DateTime.now.strftime("%m/%d/%Y at %I:%M%p") )
   end
   

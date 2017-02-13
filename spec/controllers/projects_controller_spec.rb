@@ -212,14 +212,14 @@ RSpec.describe ProjectsController, type: :controller do
     context "logged in as user" do
       login_user
       it_should_behave_like "does not have permission", :post, :create do
-        let(:sent_params) { { project: FactoryGirl.attributes_for(:project) } }
+        let(:sent_params) { valid_params }
       end
     end
     
     context "logged in as project user" do
       login_project_user
       it_should_behave_like "does not have permission", :post, :create do 
-        let(:sent_params) { { project: FactoryGirl.attributes_for(:project) } }
+        let(:sent_params) { valid_params }
       end
     end
     

@@ -14,7 +14,7 @@ class ProjectPolicy < ApplicationPolicy
     end
 
     def show?
-        is_admin? or project_user?
+        is_admin? or resource_user?
     end
 
     def create?
@@ -22,16 +22,10 @@ class ProjectPolicy < ApplicationPolicy
     end
 
     def update?
-        is_admin? or project_user?
+        is_admin? or resource_user?
     end
     
     def destroy?
-        is_admin? or project_user?
-    end
-    
-    # Policy Helpers
-
-    def project_user?
-      record.users.include?(user)
+        is_admin? or resource_user?
     end
 end
