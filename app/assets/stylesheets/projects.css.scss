@@ -1,3 +1,205 @@
 // Place all the styles related to the projects controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#header-right {
+  text-align: right;
+  font-weight: bold;
+  margin-right: 5em;
+}
+
+#user-image {
+  width: 4em;
+  height: auto;
+  margin-left: 4em;
+  margin-top: 1.5em;
+}
+
+#hours {
+  margin-left: 3.2em;
+}
+
+#local-time {
+  font-weight: bold;
+}
+
+#user-name {
+  font-weight: bold;
+  margin-left: 1em;
+}
+
+header {
+  color: #010202;
+  font-family: 'Lato', sans-serif;
+}
+
+body {
+  background: #E5ECEB;
+  color: #010202;
+  font-family: 'Lato', sans-serif;
+}
+
+#job-details {
+  background: #E5ECEB;
+  color: #010202;
+  font-family: 'Lato', sans-serif;
+  border-style: solid;
+  border-color: #6C6D6D;
+  margin-left: 2em !important;
+}
+
+.arrow {
+  height: 3em;
+  width: 3em !important;
+}
+
+#last-job-text {
+  margin-top: .8em;
+
+}
+
+#next-job-text {
+  text-align: right;
+  margin-top: .8em;
+  margin-left: 5.5em;
+}
+
+#toggle-screen-bar {
+  background: #FFFFFF !important;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+#left-arrow {
+  margin-left: 1.5em;
+}
+
+a {
+  color: black;
+  font-weight: bold;
+}
+
+a:visited {
+  color: black;
+  font-weight: bold;
+}
+
+.section-title {
+  font-weight: bold;
+  background: #262626;
+  color: #E5E5E5;
+  /*margin-left: -1.1em;
+  margin-right: -1.1em;*/
+}
+
+.subheader {
+  font-weight: bold;
+}
+
+#job-description {
+  /*margin-left: -1.1em;
+  margin-right: -1.1em;*/
+  text-align: center;
+  padding-left: 25%;
+  padding-right: 25%;
+  border-bottom: solid;
+  border-color: #6C6D6D;
+}
+
+.subsection-title {
+  color: #858585;
+  font-style: italic;
+}
+
+.timeline {
+  /*margin-left: -1.1em;
+  margin-right: -1.1em;*/
+  font-weight: bold;
+  text-align: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+#start-end-date {
+  border-left: solid;
+  border-right: solid;
+  border-color: #6C6D6D;
+}
+
+.task-list {
+  background: #F2F2F2;
+  border-top: solid;
+  border-bottom: solid;
+  border-color: #6C6D6D;
+  color: #010202;
+  margin-bottom: 1em;
+}
+
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.table-striped {
+  margin-bottom: 0 !important;
+}
+
+p {
+  margin-bottom: 0 !important;
+}
+
+.icons {
+  width: 6%;
+  height: auto;
+  padding-top: 2%;
+}
+
+.bar {
+  font-size: 3.5em;
+  color: #858585;
+}
+
+.subtext {
+  font-style: italic;
+}
+
+.task-number {
+  padding-top: 1.5%;
+  text-align: right;
+  }
+
+/*@media only screen and  (min-width: 992px) {
+  .col-md-12 {
+    width: 104.5% !important;
+  }
+}*/
+
+.task-description {
+  display: none;
+}
+
+.right-sidebar-section {
+  margin-left: 3em;
+  border-style: solid;
+  border-color: #6C6D6D;
+  margin-bottom: 2em;
+}
+
+#notification-description-1 {
+  display: none;
+}
+
+.notification-icon {
+  width: 2em;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #F2F2F2 !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(even) {
+  background-color: #E5ECEB;
+}
+
+#contact-image {
+  width: 2em;
+}
