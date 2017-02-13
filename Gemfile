@@ -60,7 +60,7 @@ group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
   
-    # Use factory girl to generate test resources
+  # Use factory girl to generate test resources
   gem 'factory_girl_rails'
 
   # Use Faker to generate test resources

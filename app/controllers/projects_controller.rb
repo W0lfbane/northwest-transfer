@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_project, except: [:index, :new, :create]
+  before_action :set_project, except: [:index, :create]
+  before_action :authorize_project, except: [:index, :create]
 
   def index
     if request.original_url.include?( schedule_path )
@@ -18,8 +18,6 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @project = Project.new
-    authorize_project
   end
 
   def create
@@ -53,7 +51,7 @@ class ProjectsController < ApplicationController
   private
     
     def set_project
-      @project = Project.find(params[:id])
+      @project = params[:id] ? Project.find(params[:id]) : Project.new
     end
     
     def authorize_project
@@ -63,7 +61,11 @@ class ProjectsController < ApplicationController
     def project_params
       params.require(:project).permit(:title, 
                                       :description, 
-                                      :location, 
+                                      :address,
+                                      :city,
+                                      :state,
+                                      :postal,
+                                      :country,
                                       :start_date, 
                                       :completion_date, 
                                       :estimated_completion_date, 

@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_group, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_group, except: [:index, :new, :create]
+  before_action :set_group, except: [:index, :create]
+  before_action :authorize_group, except: [:index, :create]
 
   def index
     if request.original_url.include?( user_groups_path )
@@ -15,8 +15,6 @@ class GroupsController < ApplicationController
   end
 
   def new
-    @group = Group.new
-    authorize_group
   end
   
   def create
@@ -41,15 +39,14 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    group = Group.find(params[:id])
-    group.deactivate!
+    @group.deactivate!
     redirect_to groups_path, success: "Group successfully deactivated!"
   end
   
   private
     
     def set_group
-      @group = Group.find(params[:id])
+      @group = params[:id] ? Group.find(params[:id]) : Group.new
     end
     
     def authorize_group

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe GroupProject do
+describe GroupProject, type: :model do
 
   it "has a valid factory" do
     expect( FactoryGirl.create(:group_project) ).to be_valid

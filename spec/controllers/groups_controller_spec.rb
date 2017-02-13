@@ -19,8 +19,14 @@ RSpec.describe GroupsController, type: :controller do
   end
   
   shared_examples_for "valid id" do
-    it "should find the correct project" do
+    it "should find the correct group" do
       expect(assigns(:group)).to eql test_group
+    end
+  end
+  
+  shared_examples_for "user not signed in" do | http_verb, controller_method | 
+    it "redirects to the login page" do
+      expect( send(http_verb, controller_method, params: sent_params) ).to redirect_to(new_user_session_url)
     end
   end
   
@@ -28,18 +34,19 @@ RSpec.describe GroupsController, type: :controller do
     
     context "as user" do
       login_user
-      it "returns http success" do
+      before :each do
         get :index
+      end
+
+      it "returns http success" do
         expect(response).to have_http_status(:success)
       end
       
       it "renders index template" do
-        get :index
         expect(response).to render_template :index
       end
       
       it "returns 0 groups if user does not belong to any" do
-        get :index
         expect(assigns(:groups).count).to eql 0
       end
     end
@@ -118,6 +125,9 @@ RSpec.describe GroupsController, type: :controller do
   
   describe "GET #new" do
     shared_examples_for "has appropriate permissions" do
+      before :each do
+        get :new
+      end
      
       it "returns http success" do
         expect(response).to have_http_status(:success)
@@ -130,26 +140,23 @@ RSpec.describe GroupsController, type: :controller do
     
     context "logged in as non-group user" do
       login_user
-      before :each do
-        get :new
-      end
       it_should_behave_like "has appropriate permissions"
     end
     
     context "logged in as group user" do
       login_group_user
-      before :each do
-        get :new
-      end
       it_should_behave_like "has appropriate permissions"
     end
     
     context "logged in as admin" do
       login_admin
-      before :each do
-        get :new
-      end
       it_should_behave_like "has appropriate permissions"
+    end
+    
+    context "non-logged in user" do
+      it_should_behave_like "user not signed in", :get, :new do
+        let (:sent_params) {}
+      end
     end
   end
   
@@ -201,6 +208,16 @@ RSpec.describe GroupsController, type: :controller do
       
       it_should_behave_like "has appropriate permissions" do 
         let(:test_group) {@test_group}
+      end
+    end
+    
+    context "non-logged in user" do
+      before :each do
+        @test_group = FactoryGirl.create(:group)
+      end
+
+      it_should_behave_like "user not signed in", :get, :edit do
+        let(:sent_params) { {id: @test_group} }
       end
     end
   end
@@ -309,7 +326,6 @@ RSpec.describe GroupsController, type: :controller do
   
   describe "DELETE #destroy" do
 
-    
     context "as user" do
       login_user
       before :each do
