@@ -44,29 +44,6 @@ RSpec.describe "Custom Routes", :type => :request do
     end
   end
         
-  describe "path for projects#calendar" do
-    before :each do
-      @user = FactoryGirl.create(:user)
-      @project = FactoryGirl.create(:project, start_date: Date.today)
-      sign_in(@user)
-    end
-    
-    it "Displaying the calendar" do
-      get projects_calendar_path,  params: { projects: Project.all }
-      expect(response).to have_http_status(:success)
-    end
-    
-    it "set the projects to nil" do
-      get projects_calendar_path,  params: { projects: nil }
-      expect(response).to have_http_status(:success)
-    end
-    
-    it "Pass with no params" do
-      get projects_calendar_path
-      expect(response).to have_http_status(:success)
-    end
-  end
-  
   describe "custom user projects path for projects#index" do
     shared_examples_for "with permissions" do
       it "successfully loads page" do
@@ -118,58 +95,4 @@ RSpec.describe "Custom Routes", :type => :request do
       end
     end
   end
-  
-  describe "Edit project step path for projects#edit" do
-    context "logged in as admin" do
-      before :each do
-          @admin = FactoryGirl.create(:admin)
-          @project = FactoryGirl.create(:project)
-          sign_in(@admin)
-          @admin.add_role :leader, @project
-          @admin.projects << @project
-      end
-        
-      it "get the project edit page by the project id and pending" do
-          get edit_project_step_path(@project)
-          expect(response).to have_http_status(:success)
-      end
-      
-      it "redirects if wrong step is passed in" do
-          get edit_project_step_path(@project, step: :completed) 
-          expect(response).to have_http_status(:redirect)
-      end
-      
-      it "renders show template" do
-          get edit_project_step_path(@project)
-          expect(response).to render_template :edit
-      end
-    end
-    
-    context "logged in as user" do
-      before :each do
-          @user = FactoryGirl.create(:user)
-          @project = FactoryGirl.create(:project)
-          sign_in(@user)
-          @user.add_role :leader, @project
-          @user.projects << @project
-      end
-        
-      it "get the project edit page by the project id and pending" do
-          get edit_project_step_path(@project)
-          expect(response).to have_http_status(:success)
-      end
-      
-      it "redirects if wrong step is passed in" do
-          get edit_project_step_path(@project, step: :completed) 
-          expect(response).to have_http_status(:redirect)
-      end
-      
-      it "renders show template" do
-          get edit_project_step_path(@project)
-          expect(response).to render_template :edit
-      end
-    end
-    
-  end
-  
 end
