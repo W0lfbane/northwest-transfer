@@ -9,7 +9,7 @@ RSpec.describe "Projects Calendar Route", :type => :request do
         end
         
         it "Displaying the calendar" do
-          get projects_calendar_path,  params: { projects: Project.all }
+          get projects_calendar_path, params: { projects: Project }
           expect(response).to have_http_status(:success)
         end
         
