@@ -32,8 +32,10 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    @step = params[:step].to_sym unless params[:step].nil?
-    redirect_to root_path unless @project.interacting_with_state?(@step)
+    unless current_user.admin?
+      @step = params[:step].to_sym unless params[:step].nil?
+      redirect_to root_path unless @project.interacting_with_state?(@step)
+    end
   end
 
   def update
@@ -72,7 +74,8 @@ class ProjectsController < ApplicationController
                                       :estimated_completion_date, 
                                       :total_time, 
                                       :notes,
-                                      document_attributes: [:id, :title])
+                                      document_attributes: [:id, :title, :_destroy],
+                                      tasks_attributes: [:id, :name, :description, :_destroy])
     end
 
 end

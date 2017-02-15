@@ -2,7 +2,7 @@ module Helpers::ResourceRolesHelper
     # Ghost Method technique for dynamism in role entries
     def method_missing(method, *args)
         method_name = method.to_s
-        role_name = method_name.tr('>>=<< ', '').singularize
+        role_name = method_name.singularize
         method_is_role = method_name[/[a-zA-Z]+/] == method_name
 
         if( show_roles(self.class).include?(role_name) && method_is_role )
@@ -22,4 +22,5 @@ module Helpers::ResourceRolesHelper
             @roles ||= object.find_roles.pluck(:name)
         end
     end
+
 end

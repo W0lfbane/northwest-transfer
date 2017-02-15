@@ -1,2 +1,61 @@
 <h1>Projects#show</h1>
-<p>Find me in app/views/projects/show.html.erb</p>
+<p>Find me in app/views/project/show.html.erb</p>
+
+    <%= content_tag :div do %>    
+        <%= label_tag :title %>
+        <%= @project.title %>
+    <% end %>
+
+    <%= content_tag :div do %>    
+        <%= label_tag :description %>
+        <%= @project.description %>
+    <% end %>
+
+    <%= content_tag :div do %>    
+        <%= label_tag :address %>
+        <%= @project.address %>
+    <% end %>
+
+    <%= content_tag :div do %>    
+        <%= label_tag :city %>
+        <%= @project.city %>
+    <% end %>
+
+    <%= content_tag :div do %>    
+        <%= label_tag :state %>
+        <%= @project.state %>
+    <% end %>
+
+    <%= content_tag :div do %>    
+        <%= label_tag :postal, I18n.t(:postal_code).capitalize %>
+        <%= @project.postal %>
+    <% end %>
+
+    <%= content_tag :div do %>    
+        <%= label_tag :country %>
+        <%= @project.country %>
+    <% end %>
+
+    <%= content_tag :div do %>    
+        <%= label_tag :start_date %>
+        <%= @project.start_date %>
+    <% end %>
+
+    <%= content_tag :div do %>    
+        <%= label_tag :estimated_completion_date %>
+        <%= @project.estimated_completion_date %>
+    <% end %>
+
+    <%= content_tag :div do %>    
+        <%= label_tag :notes, I18n.t(:project_notes).capitalize %>
+        <%= @project.notes %>
+    <% end %>
+
+    <% @project.tasks.each do |task| %>
+        <%= content_tag :div do %>    
+            <%= task.name %>
+        <% end %>
+    <% end %>
+
+
+<%= link_to :edit, edit_project_path(@project) %>
