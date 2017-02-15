@@ -27,6 +27,6 @@ Rails.application.routes.draw do
   end
 
   as :group do
-    get '/account/groups', to: 'groups#index', as: :user_groups
+    get '/account/groups', to: 'groups#user_groups_index', as: :user_groups
   end
 end

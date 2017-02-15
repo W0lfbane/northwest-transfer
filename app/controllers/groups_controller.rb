@@ -4,11 +4,12 @@ class GroupsController < ApplicationController
   before_action :authorize_group, except: [:index, :create]
 
   def index
-    if request.original_url.include?( user_groups_path )
-      @groups = policy_scope( current_user.groups )
-    else
-      @groups = policy_scope(Group)
-    end
+    @groups = policy_scope(Group).page(params[:page])
+  end
+
+  def user_groups_index
+    @groups = policy_scope( current_user.groups ).page(params[:page]).order(:created_at)
+    render :index
   end
 
   def show
