@@ -17,5 +17,5 @@
 //= require_tree .
 
 // Bower packages
-// require moment/min/moment.min.js
-// require fullcalendar/dist/fullcalendar.min.js
+//= require moment/min/moment.min.js
+//= require fullcalendar/dist/fullcalendar.min.js

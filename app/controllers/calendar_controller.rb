@@ -1,6 +1,5 @@
 class CalendarController < ApplicationController
   before_action :authenticate_user!
-  
 
   def index
     params[:resources].each { |name, resource|
