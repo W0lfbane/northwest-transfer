@@ -1,10 +1,10 @@
   <header>
     <!-- ///////////////////////HEADER///////////////////////////// -->
     <div class="row">
-      <div class="col-md-1">
+      <div class="col-xs-1">
         <img id="user-image" src="images/User_Silhouette_Placeholder.png" alt="User Silhouette Placeholder">
       </div>
-      <div class="col-md-7">
+      <div class="col-xs-3">
         <h1 id="user-name"><%= @project.customer.first_name + " " + @project.customer.last_name %></h1>
         <h6 id="hours">
           <script>
@@ -18,20 +18,23 @@
           </script>
         </h6>
       </div>
-      <div class="col-md-4s" id="header-right">
+      <div class="col-xs-pull-0" id="header-right">
         <!--
-        already a clock in the header so...¯\_(ツ)_/¯
+        already a clock in the application header so...¯\_(ツ)_/¯
         <h1 id="local-time"><#%= render "shared/clock" %></h1>
         -->
-        <h3 id="local-date"><%= Date.today %></h3>
+        <h3 id="current-date"><%= Date.today %></h3>
       </div>
     </div>
     <!-- //////////////////TOGGLE JOBS BAR/////////////////////////// -->
     <div class="row" id="toggle-screen-bar">
-      <img class="col-md-1 arrow" id="left-arrow" src="images/left-arrow.png" alt="left arrow">
-      <a class="col-md-5" id="last-job-text" href="#">Previous Job Page</a>
-      <a class="col-md-5" id="next-job-text" href="#">Next Job Page</a>
-      <img class="col-md-1 arrow" id="right-arrow" src="images/right-arrow.png" alt="right arrow">
+      <div class="col-xs-6" id="last-job-text">
+        <img class="arrow" src="images/left-arrow.png" alt="left arrow"><a href="#">Previous Job Page</a>
+      </div>
+      <div class="col-xs-6" id="next-job-text">
+        <a href="#">Next Job Page</a>
+        <img class="arrow" src="images/right-arrow.png" alt="right arrow">
+      </div> 
     </div>
   </header>
     <div class="row">
@@ -46,16 +49,16 @@
         </div>
 
         <!-- /////////////////////TIMELINE/////////////////////////// -->
-        <div class="row">
-          <div class="col-md-4 timeline">
+        <div class="row timeline-section">
+          <div class="col-xs-4 timeline">
             <p><span class="subsection-title">Address: </span> <%= @project.address %> </p>
             <p> <%= @project.city %>,  <%= @project.state %>  <%= @project.postal %></p>
           </div>
-          <div class="col-md-4 timeline" id="start-end-date">
+          <div class="col-xs-4 timeline" id="start-end-date">
             <p><span class="subsection-title">Start: </span> <%= @project.start_date %></p>
             <p><span class="subsection-title">Due: </span> <%= @project.completion_date %></p>
           </div>
-          <div class="col-md-4 timeline">
+          <div class="col-xs-4 timeline">
             <%= render partial: "leader", collection: @project.leaders %>
           </div>
         </div>
