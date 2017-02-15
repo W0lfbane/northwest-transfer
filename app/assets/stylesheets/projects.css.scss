@@ -129,6 +129,13 @@ a:visited {
   margin-right: 0 !important;
 }
 
+.row > [class*='col-']{
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+
+
 .table-striped {
   margin-bottom: 0 !important;
 }

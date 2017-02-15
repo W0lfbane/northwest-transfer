@@ -1,39 +1,35 @@
-  <header>
-    <!-- ///////////////////////HEADER///////////////////////////// -->
-    <div class="row">
-      <div class="col-xs-1">
-        <img id="user-image" src="images/User_Silhouette_Placeholder.png" alt="User Silhouette Placeholder">
-      </div>
-      <div class="col-xs-3">
-        <h1 id="user-name"><%= @project.customers.first.first_name + " " + @project.customers.first.last_name %></h1>
-        <h6 id="hours">
-          <script>
-            var div = document.getElementById('hours');
-            var datetime = document.createTextNode( 
-                moment( new Date(<%= @project.start_date.to_f * 1000 %>) ).format("MMM D, h:mm A") +
-                " - " +
-                moment( new Date(<%= @project.estimated_completion_date.to_f * 1000 %>) ).format("MMM D, h:mm A")
-            );
-            div.appendChild(datetime);
-          </script>
-        </h6>
-      </div>
-      <div class="col-xs-pull-0" id="header-right">
-        <!--
-        already a clock in the application header so...¯\_(ツ)_/¯
-        <h1 id="local-time"><#%= render "shared/clock" %></h1>
-        -->
-        <h3 id="current-date"><%= Date.today %></h3>
-      </div>
-    </div>
+  <!-- seems like it should be part of the shared header-->
+  <!--<div class="row">-->
+  <!--    <div class="col-xs-1">-->
+  <!--      <%= image_tag "/assets/images/User_Silhouette_Placeholder.png" %>-->
+  <!--    </div>-->
+  <!--    <div class="col-xs-3">-->
+  <!--      <h1 id="user-name"><%= @project.customers.first.first_name + " " + @project.customers.first.last_name %></h1>-->
+  <!--      <h6 id="hours">-->
+  <!--        <script>-->
+  <!--          var div = document.getElementById('hours');-->
+  <!--          var datetime = document.createTextNode( -->
+  <!--              moment( new Date(<%= @project.start_date.to_f * 1000 %>) ).format("MMM D, h:mm A") +-->
+  <!--              " - " +-->
+  <!--              moment( new Date(<%= @project.estimated_completion_date.to_f * 1000 %>) ).format("MMM D, h:mm A")-->
+  <!--          );-->
+  <!--          div.appendChild(datetime);-->
+  <!--        </script>-->
+  <!--      </h6>-->
+  <!--    </div>-->
+  <!--    <div class="col-xs-pull-0" id="header-right">-->
+  <!--      <h1 id="local-time"><%= render "shared/clock" %></h1>-->
+  <!--      <h3 id="current-date"><%= Date.today %></h3>-->
+  <!--    </div>-->
+  <!--  </div>-->
     <!-- //////////////////TOGGLE JOBS BAR/////////////////////////// -->
     <div class="row" id="toggle-screen-bar">
       <div class="col-xs-6" id="last-job-text">
-        <img class="arrow" src="images/left-arrow.png" alt="left arrow"><a href="#">Previous Job Page</a>
+         <%= image_tag("left-arrow", alt: 'left arrow', class: 'arrow') %>
       </div>
       <div class="col-xs-6" id="next-job-text">
         <a href="#">Next Job Page</a>
-        <img class="arrow" src="images/right-arrow.png" alt="right arrow">
+        <%= image_tag("right-arrow", alt: 'right arrow', class: 'arrow') %>
       </div> 
     </div>
   </header>
@@ -83,7 +79,7 @@
                 <p>posted by Jerry DiCanio | March 12, 2017 | 1:56pm</p>
                 <p id="notification-description-1">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
               </td>
-              <td><img class="notification-icon" src="images/button-placeholder.png" alt="right arrow"></td>
+              <td> <%= image_tag("button-placeholder", alt: 'notification icon', class: 'notification-icon') %></td>
             </tr>
             <tr class="notification-item">
               <td>
@@ -91,7 +87,7 @@
                 <p>posted by Jefro Kurt | March 12, 2017 | 11:01am</p>
                 <p id="notification-description-2">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. </p>
               </td>
-              <td><img class="notification-icon" src="images/button-placeholder.png" alt="right arrow"></td>
+              <td> <%= image_tag("button-placeholder", alt: 'notification icon', class: 'notification-icon') %></td>
             </tr>
           </tbody>
         </table>
@@ -108,13 +104,13 @@
           </thead>
           <tbody>
             <tr>
-              <td><img id="contact-image" src="images/User_Silhouette_Placeholder.png" alt="User Silhouette Placeholder"></td>
+              <td> <%= image_tag("User_Silhouette_Placeholder.PNG", alt: 'user placeholder', id: 'contact-image') %></td>
               <td>Client Name</td>
               <td>503-555-5555</td>
               <td>clientemail@gmail.com</td>
             </tr>
             <tr>
-              <td><img id="contact-image" src="images/User_Silhouette_Placeholder.png" alt="User Silhouette Placeholder"></td>
+              <td><%= image_tag("User_Silhouette_Placeholder.PNG", alt: 'user placeholder', id: 'contact-image') %></td>
               <td>Client Name</td>
               <td>503-555-5555</td>
               <td>clientemail@gmail.com</td>
@@ -128,18 +124,21 @@
           <thead>
             <tr>
               <div class="section-title">
-                <p>Documents</p>
+                <p>Document</p>
               </div>
             </tr>
           </thead>
           <tbody>
-            <% if @project.document.exists? %>
-              <%= render partial: "document", collection: @project.documents %>
-            <% else %>
-              <tr>
-                <td><h4>No Documents Yet!</h4></td>
-              </tr>
-            <% end %>
+            <tr>
+              <% if @project.document.present? %>
+                <td><h4><%= @project.document.title %></h4></td>
+                <td>last updated by</td>
+                <td><%= @project.document.updated_at.strftime("%B %e, %Y") %></td>
+                <td><%= @project.document.updated_at.strftime("%H:%M") %></td>
+              <% else %>
+                <td>No Document Yet</td>
+              <% end %>
+            </tr>
           </tbody>
         </table>
       </div>
