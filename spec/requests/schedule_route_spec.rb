@@ -1,17 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe "Schedule Routes", :type => :request do
-    describe "custom schedule path for projects#index" do
+  describe "custom schedule path for projects#index" do
     shared_examples_for "with permissions" do
       it "successfully loads page" do
         get schedule_path
         expect(response).to have_http_status(:success)
       end 
       
-      it "assigns user owned groups to instance variable" do
+      it "assigns only user owned groups to instance variable" do
+        new_project = FactoryGirl.create(:project)
         get schedule_path
         expect(assigns(:projects).count).to eql user.projects.count
         expect(assigns(:projects)).to include project
+        expect(assigns(:projects)).to_not include new_project
       end
     end
     
@@ -40,15 +42,8 @@ RSpec.describe "Schedule Routes", :type => :request do
       end
       
       it_should_behave_like "with permissions" do
-        let(:user) {@admin}
-        let(:project) {@project}
-      end
-      
-      it "assigns only admin owned projects to instance variable" do
-        new_project = FactoryGirl.create(:project)
-        get schedule_path
-        expect(assigns(:projects).count).to eql @admin.projects.count
-        expect(assigns(:projects)).to_not include new_project
+        let(:user) { @admin }
+        let(:project) { @project }
       end
     end
   end
