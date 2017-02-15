@@ -5,14 +5,14 @@
         <img id="user-image" src="images/User_Silhouette_Placeholder.png" alt="User Silhouette Placeholder">
       </div>
       <div class="col-xs-3">
-        <h1 id="user-name"><%= @project.customer.first_name + " " + @project.customer.last_name %></h1>
+        <h1 id="user-name"><%= @project.customers.first.first_name + " " + @project.customers.first.last_name %></h1>
         <h6 id="hours">
           <script>
             var div = document.getElementById('hours');
             var datetime = document.createTextNode( 
-                moment( new Date(<%= project.start_date.to_f * 1000 %>) ).format("MMM D, h:mm A") +
+                moment( new Date(<%= @project.start_date.to_f * 1000 %>) ).format("MMM D, h:mm A") +
                 " - " +
-                moment( new Date(<%= project.estimated_completion_date.to_f * 1000 %>) ).format("MMM D, h:mm A")
+                moment( new Date(<%= @project.estimated_completion_date.to_f * 1000 %>) ).format("MMM D, h:mm A")
             );
             div.appendChild(datetime);
           </script>
@@ -64,7 +64,7 @@
         </div>
         <!-- ///////////////////////TASK LIST/////////////////////// -->
             <!-- ///////TASK ONE PLACEHOLDER//////// -->
-        <%= render partial: "tasks", collection: @project.tasks %>
+        <%= render partial: "task", collection: @project.tasks %>
       </div>
       <!-- //////////////////NOTIFICATIONS/////////////////////// -->
       <div class="col-md-pull-0 col-md-4 right-sidebar-section">
@@ -133,7 +133,13 @@
             </tr>
           </thead>
           <tbody>
-            <%= render partial: "document", collection: @project.documents %>
+            <% if @project.document.exists? %>
+              <%= render partial: "document", collection: @project.documents %>
+            <% else %>
+              <tr>
+                <td><h4>No Documents Yet!</h4></td>
+              </tr>
+            <% end %>
           </tbody>
         </table>
       </div>
