@@ -16,14 +16,14 @@ Rails.application.routes.draw do
     match 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session, via: Devise.mappings[:user].sign_out_via
   end
 
-  get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, page: 'index', resources: {projects: Project}
+  get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, resources: { projects: Project }
 
   resources :projects, :groups
   
   as :project do
-    get '/account/schedule', to: 'projects#index', as: :schedule
-    get '/account/projects', to: 'projects#index', as: :user_projects
-    get '/projects/:id/:step', to: 'projects#edit', step: :pending, as: :edit_project_step
+    get '/account/schedule', to: 'projects#schedule_index', as: :schedule
+    get '/account/projects', to: 'projects#user_projects_index', as: :user_projects
+    get '/projects/:id/edit/:step', to: 'projects#edit', as: :edit_project_step
   end
 
   as :group do

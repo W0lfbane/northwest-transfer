@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Custom Routes", :type => :request do
+RSpec.describe "Custom Routes", type: :request do
   describe "custom index route for groups" do
     context "logged in as user" do
       before :each do

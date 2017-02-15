@@ -10,7 +10,15 @@ class ProjectPolicy < ApplicationPolicy
     end
     
     def index?
-        true 
+        true
+    end
+
+    def schedule_index?
+        index? 
+    end
+
+    def user_projects_index?
+        index? 
     end
 
     def show?
