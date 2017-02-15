@@ -24,7 +24,7 @@
 /spring-1000
 
 # Ignore other unneeded files.
-database.yml
+/config/database.yml
 doc/
 *.swp
 *~
