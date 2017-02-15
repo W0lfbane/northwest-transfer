@@ -15,10 +15,8 @@ Rails.application.routes.draw do
     post 'login', to: 'devise/sessions#create', as: :user_session
     match 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session, via: Devise.mappings[:user].sign_out_via
   end
-  
-  as :project do
-    get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, page: 'index', resources: {projects: Project}
-  end
+
+  get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, page: 'index', resources: {projects: Project}
 
   resources :projects, :groups
   

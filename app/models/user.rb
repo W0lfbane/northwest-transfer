@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Helpers::ResourceRolesHelper
+
   has_many :project_users, dependent: :destroy
   has_many :projects, -> { distinct }, through: :project_users
   has_many :group_users, dependent: :destroy
@@ -15,6 +17,10 @@ class User < ApplicationRecord
          
   def name
     self.first_name.to_s.capitalize + ' ' + self.last_name.to_s.capitalize
+  end
+  
+  def admin?
+    self.has_role?(:admin)
   end
 
   protected

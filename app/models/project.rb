@@ -6,9 +6,11 @@ class Project < ApplicationRecord
     has_many :users, -> { distinct }, through: :project_users
     has_many :group_projects, dependent: :destroy
     has_many :groups, -> { distinct }, through: :group_projects
-    has_many :tasks, dependent: :destroy
+    has_many :tasks, dependent: :destroy, inverse_of: :project
     has_one :document, dependent: :destroy
-    accepts_nested_attributes_for :document
+    accepts_nested_attributes_for :document, :tasks, reject_if: :all_blank, allow_destroy: true
+    
+    validates_associated :tasks, :document
 
     resourcify
 
