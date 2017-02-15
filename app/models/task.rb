@@ -1,7 +1,7 @@
 class Task < ApplicationRecord
     include Helpers::ResourceStateHelper
 
-    belongs_to :project
+    belongs_to :project, inverse_of: :tasks
 
     include AASM
     STATES = [:pending, :completed, :problem]

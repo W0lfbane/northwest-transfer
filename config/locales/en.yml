@@ -26,3 +26,6 @@ en:
   deactivated: "deactivated"
   en_route: "en route"
   in_progress: "in progress"
+  postal_code: "postal code"
+  project_notes: "project notes"
+  remove: "remove"
