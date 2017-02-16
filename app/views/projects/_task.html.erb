@@ -7,9 +7,15 @@
   </div>
     <%= image_tag("button-placeholder", alt: 'done', class: 'icons') %>
     <%= image_tag("button-placeholder", alt: 'edit', class: 'icons') %>
-    <%= image_tag("button-placeholder", alt: 'done', class: 'icons') %>
+    <%= image_tag("down-arrow", alt: 'down arrow', class: 'icons') %>
 </div>
 <div class="task-description">
   <h3 class="subheader">Description</h3>
-  <h4><%= task.description %></h4>
+  <h4>
+    <% if task.description.blank? %>
+    <%= task.description %>
+    <% else %>
+    No description given
+    <% end %>
+    </h4>
 </div>

@@ -55,7 +55,7 @@
             <p><span class="subsection-title">Due: </span> <%= @project.completion_date %></p>
           </div>
           <div class="col-xs-4 timeline">
-            <%= render partial: "leader", collection: @project.leaders %>
+            <%= render partial: "leader", collection: @project.leaders.limit(3) %>
           </div>
         </div>
         <!-- ///////////////////////TASK LIST/////////////////////// -->
