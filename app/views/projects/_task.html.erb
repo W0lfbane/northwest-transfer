@@ -11,11 +11,5 @@
 </div>
 <div class="task-description">
   <h3 class="subheader">Description</h3>
-  <h4>
-    <% if task.description.blank? %>
-    <%= task.description %>
-    <% else %>
-    No description given
-    <% end %>
-    </h4>
+  <%= content_tag(:h4, (task.description.blank? ? 'No description' : task.description) ) %>
 </div>
