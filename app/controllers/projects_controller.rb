@@ -4,13 +4,17 @@ class ProjectsController < ApplicationController
   before_action :authorize_project, except: [:index, :create]
 
   def index
-    if request.original_url.include?( schedule_path )
-      @projects = policy_scope( current_user.projects.where("DATE(start_date) = ?", Date.today).order(:start_date).page(params[:page]) )
-    elsif request.original_url.include?( user_projects_path )
-      @projects = policy_scope( current_user.projects.order(:start_date).page(params[:page]) )
-    else
-      @projects = policy_scope( Project.order(:start_date).page(params[:page]) )
-    end
+    @projects = policy_scope( Project ).order(:start_date).page(params[:page])
+  end
+
+  def user_projects_index
+    @projects = policy_scope( current_user.projects ).order(:start_date).page(params[:page])
+    render :index
+  end
+
+  def schedule_index
+    @projects = policy_scope( current_user.projects.where("DATE(start_date) = ?", Date.today) ).order(:start_date).page(params[:page])
+    render :index
   end
 
   def show
@@ -30,8 +34,17 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    @step = params[:step].to_sym unless params[:step].nil?
-    redirect_to root_path unless @project.interacting_with_state?(@step)
+    # This is unfinished. If a test is implemented on it, use the following intentions:
+    # An admin does not need to provide a step, and instead will be presented with the full projects#edit template if no step is passed
+    # An admin can optionally pass a step to see the same view as a regular user (admins should ALWAYS have access to the same views/information that non-privileged users do)
+    # Unless the user is an admin, it should collect a step from the route.
+    # If no step is present, or an invalid step is passed, it will gather the project's current state using the AASM helper (do not use resource state)
+    # Information provided to the template will vary based upon the step, with all information present from previously completely steps
+    @step = params[:step]
+    
+    unless current_user.admin?
+      redirect_to edit_project_step_path(@project, step: @project.aasm.current_state) unless @project.interacting_with_state?(@step)
+    end
   end
 
   def update
@@ -70,7 +83,8 @@ class ProjectsController < ApplicationController
                                       :estimated_completion_date, 
                                       :total_time, 
                                       :notes,
-                                      document_attributes: [:id, :title])
+                                      document_attributes: [:id, :title, :_destroy],
+                                      tasks_attributes: [:id, :name, :description, :_destroy])
     end
 
 end
