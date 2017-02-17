@@ -60,7 +60,7 @@
         </p>
       </div>
       <div class="col-xs-4 timeline">
-        <% if @project.roles.pluck(:name).include?("leader") %>
+        <% if @project.respond_to? :leaders %>
           <% @project.leaders.each_with_index do |user, index| %>
             <p>
               <% break unless index <= 2 %>
