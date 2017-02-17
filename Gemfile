@@ -65,6 +65,8 @@ group :development, :test do
 
   # Use Faker to generate test info for resources
   gem 'faker'
+  
+  gem 'poltergeist'
 end
 
 group :development do

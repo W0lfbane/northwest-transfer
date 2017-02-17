@@ -1,17 +1,17 @@
   <!-- seems like it should be part of the shared header-->
   <!--<div class="row">-->
   <!--    <div class="col-xs-1">-->
-  <!--      <%= image_tag "User_Silhouette_Placeholder" %>-->
+  <!--      <#%= image_tag "User_Silhouette_Placeholder" %>-->
   <!--    </div>-->
   <!--    <div class="col-xs-7">-->
-  <!--      <h1 id="user-name"><%= @project.customers.first.first_name + " " + @project.customers.first.last_name %></h1>-->
+  <!--      <h1 id="user-name"><#%= @project.customers.first.first_name + " " + @project.customers.first.last_name %></h1>-->
   <!--      <h6 id="hours">-->
   <!--        <script>-->
   <!--          var div = document.getElementById('hours');-->
   <!--          var datetime = document.createTextNode( -->
-  <!--              moment( new Date(<%= @project.start_date.to_f * 1000 %>) ).format("MMM D, h:mm A") +-->
+  <!--              moment( new Date(<#%= @project.start_date.to_f * 1000 %>) ).format("MMM D, h:mm A") +-->
   <!--              " - " +-->
-  <!--              moment( new Date(<%= @project.estimated_completion_date.to_f * 1000 %>) ).format("MMM D, h:mm A")-->
+  <!--              moment( new Date(<#%= @project.estimated_completion_date.to_f * 1000 %>) ).format("MMM D, h:mm A")-->
   <!--          );-->
   <!--          div.appendChild(datetime);-->
   <!--        </script>-->
@@ -19,140 +19,142 @@
   <!--    </div>-->
   <!--    <div class="col-xs-pull-0" id="header-right">-->
   <!--      <h1 id="local-time"><#%= render "shared/clock" %></h1>-->
-  <!--      <h3 id="current-date"><%= Date.today %></h3>-->
+  <!--      <h3 id="current-date"><#%= Date.today %></h3>-->
   <!--    </div>-->
   <!--  </div>-->
     <!-- //////////////////TOGGLE JOBS BAR/////////////////////////// -->
-    <div class="row" id="toggle-screen-bar">
-      <div class="col-xs-6" id="last-job-text">
-         <%= image_tag("left-arrow", alt: 'left arrow', class: 'arrow') %>
-      </div>
-      <div class="col-xs-6" id="next-job-text">
-        <a href="#">Next Job Page</a>
-        <%= image_tag("right-arrow", alt: 'right arrow', class: 'arrow') %>
-      </div> 
+<div class="row" id="toggle-screen-bar">
+  <div class="col-xs-6" id="last-job-text">
+     <%= image_tag("left-arrow", alt: 'left arrow', class: 'arrow') %>
+  </div>
+  <div class="col-xs-6" id="next-job-text">
+    <a href="#">Next Job Page</a>
+    <%= image_tag("right-arrow", alt: 'right arrow', class: 'arrow') %>
+  </div> 
+</div>
+<!-- //////////////////JOB DETAILS SECTION/////////////////////// -->
+<div class="row center-column">
+  <div class="row col-md-7" id="job-details">
+    <div class="section-title">
+      <p>Job Details</p>
     </div>
-    <!-- //////////////////JOB DETAILS SECTION/////////////////////// -->
-    <div class="row center-column">
-      <div class="row col-md-7" id="job-details">
-        <div class="section-title">
-          <p>Job Details</p>
-        </div>
-        <div id="job-description">
-          <h4 class="subheader">Job Description:</h4>
-          <p><%= @project.description %></p>
-        </div>
+    <div id="job-description">
+      <h4 class="subheader">Job Description:</h4>
+      <p><%= @project.description %></p>
+    </div>
 
-        <!-- /////////////////////TIMELINE/////////////////////////// -->
-        <div class="row timeline-section is-flex">
-          <div class="col-xs-4 timeline">
-            <p><span class="subsection-title">Address: </span> <%= @project.address %> </p>
-            <p> <%= @project.city + ", " +  @project.state + " " + @project.postal %></p>
-          </div>
-          <div class="col-xs-4 timeline" id="start-end-date">
-            <p><span class="subsection-title">Start: </span> <%= @project.start_date.strftime("%m/%d/%Y") %></p>
+    <!-- /////////////////////TIMELINE/////////////////////////// -->
+    <div class="row timeline-section is-flex">
+      <div class="col-xs-4 timeline">
+        <p><span class="subsection-title">Address: </span> <%= @project.address %> </p>
+        <p> <%= @project.city + ", " +  @project.state + " " + @project.postal %></p>
+      </div>
+      <div class="col-xs-4 timeline" id="start-end-date">
+        <p><span class="subsection-title">Start: </span> <%= @project.start_date.strftime("%m/%d/%Y") %></p>
+        <p>
+          <% if @project.completion_date.blank? %>
+            <span class="subsection-title">Due: </span> <%= @project.estimated_completion_date.strftime("%m/%d/%Y") %>
+          <% else %>
+            <span class="subsection-title">End: </span> <%= @project.completion_date.strftime("%m/%d/%Y") %>
+          <% end %>
+        </p>
+      </div>
+      <div class="col-xs-4 timeline">
+        <% if @project.roles.pluck(:name).include?("leader") %>
+          <% @project.leaders.each_with_index do |user, index| %>
             <p>
-              <% if @project.completion_date.blank? %>
-                <span class="subsection-title">Due: </span> <%= @project.estimated_completion_date.strftime("%m/%d/%Y") %>
+              <% break unless index <= 2 %>
+              <% if index == 2 && @project.leaders.size > 2%>
+                <span class="subsection-title">View More... </span>
               <% else %>
-                <span class="subsection-title">End: </span> <%= @project.completion_date.strftime("%m/%d/%Y") %>
+                <span class="subsection-title">Leader: </span><%= user.name %>
               <% end %>
             </p>
-          </div>
-          <div class="col-xs-4 timeline">
-            <% @project.leaders.each_with_index do |user, index| %>
-              <p>
-                <% break unless index <= 2 %>
-                <% if index == 2 && @project.leaders.size > 2%>
-                  <span class="subsection-title">View More... </span>
-                <% else %>
-                  <span class="subsection-title">Leader: </span><%= user.name %>
-                <% end %>
-              </p>
-            <% end %>
-          </div>
-        </div>
-        <!-- ///////////////////////TASK LIST/////////////////////// -->
-        <%= render partial: "task", collection: @project.tasks %>
-      </div>
-      <!-- //////////////////NOTIFICATIONS/////////////////////// -->
-      <div class="col-xs-pull-0 col-xs-4 right-sidebar-section">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <div class="section-title">
-                <p>Notifications</p>
-              </div>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="notification-item">
-              <td>
-                <h4>There is a screw missing for the television mount.</h4>
-                <p>posted by Jerry DiCanio | March 12, 2017 | 1:56pm</p>
-                <p id="notification-description-1">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-              </td>
-              <td> <%= image_tag("down-arrow", alt: 'notification icon', class: 'notification-icon') %></td>
-            </tr>
-            <tr class="notification-item">
-              <td>
-                <h4>Something is wrong with air hockey table.</h4>
-                <p>posted by Jefro Kurt | March 12, 2017 | 11:01am</p>
-                <p id="notification-description-2">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. </p>
-              </td>
-              <td> <%= image_tag("down-arrow", alt: 'notification icon', class: 'notification-icon') %></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- //////////////////CONTACTS/////////////////////// -->
-      <div class="col-xs-pull-0 col-xs-4 right-sidebar-section">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <div class="section-title">
-                <p>Contacts</p>
-              </div>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td> <%= image_tag("User_Silhouette_Placeholder", alt: 'user placeholder', id: 'contact-image') %></td>
-              <td>Client Name</td>
-              <td>503-555-5555</td>
-              <td>clientemail@gmail.com</td>
-            </tr>
-            <tr>
-              <td><%= image_tag("User_Silhouette_Placeholder", alt: 'user placeholder', id: 'contact-image') %></td>
-              <td>Client Name</td>
-              <td>503-555-5555</td>
-              <td>clientemail@gmail.com</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- //////////////////DOCUMENTS/////////////////////// -->
-      <div class="col-xs-pull-0 col-xs-4 right-sidebar-section">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <div class="section-title">
-                <p>Document</p>
-              </div>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <% if @project.document.present? %>
-                <td><h4><%= @project.document.title %></h4></td>
-                <td>last updated by</td>
-                <td><%= @project.document.updated_at.strftime("%B %e, %Y") %></td>
-                <td><%= @project.document.updated_at.strftime("%H:%M") %></td>
-              <% else %>
-                <td>No Document Yet</td>
-              <% end %>
-            </tr>
-          </tbody>
-        </table>
+          <% end %>
+        <% end %>
       </div>
     </div>
+    <!-- ///////////////////////TASK LIST/////////////////////// -->
+    <%= render partial: "task", collection: @project.tasks %>
+  </div>
+  <!-- //////////////////NOTIFICATIONS/////////////////////// -->
+  <div class="col-xs-pull-0 col-xs-4 right-sidebar-section">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <div class="section-title">
+            <p>Notifications</p>
+          </div>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="notification-item">
+          <td>
+            <h4>There is a screw missing for the television mount.</h4>
+            <p>posted by Jerry DiCanio | March 12, 2017 | 1:56pm</p>
+            <p id="notification-description-1">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+          </td>
+          <td> <%= image_tag("down-arrow", alt: 'notification icon', class: 'notification-icon') %></td>
+        </tr>
+        <tr class="notification-item">
+          <td>
+            <h4>Something is wrong with air hockey table.</h4>
+            <p>posted by Jefro Kurt | March 12, 2017 | 11:01am</p>
+            <p id="notification-description-2">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. </p>
+          </td>
+          <td> <%= image_tag("down-arrow", alt: 'notification icon', class: 'notification-icon') %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- //////////////////CONTACTS/////////////////////// -->
+  <div class="col-xs-pull-0 col-xs-4 right-sidebar-section">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <div class="section-title">
+            <p>Contacts</p>
+          </div>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td> <%= image_tag("User_Silhouette_Placeholder", alt: 'user placeholder', id: 'contact-image') %></td>
+          <td>Client Name</td>
+          <td>503-555-5555</td>
+          <td>clientemail@gmail.com</td>
+        </tr>
+        <tr>
+          <td><%= image_tag("User_Silhouette_Placeholder", alt: 'user placeholder', id: 'contact-image') %></td>
+          <td>Client Name</td>
+          <td>503-555-5555</td>
+          <td>clientemail@gmail.com</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- //////////////////DOCUMENTS/////////////////////// -->
+  <div class="col-xs-pull-0 col-xs-4 right-sidebar-section">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <div class="section-title">
+            <p>Document</p>
+          </div>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <% if @project.document.present? %>
+            <td><h4><%= @project.document.title %></h4></td>
+            <td>last updated by</td>
+            <td><%= @project.document.updated_at.strftime("%B %e, %Y") %></td>
+            <td><%= @project.document.updated_at.strftime("%H:%M") %></td>
+          <% else %>
+            <td>No Document Yet</td>
+          <% end %>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
