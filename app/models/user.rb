@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  include Helpers::ResourceRolesHelper
-
   has_many :project_users, dependent: :destroy
   has_many :projects, -> { distinct }, through: :project_users
   has_many :group_users, dependent: :destroy

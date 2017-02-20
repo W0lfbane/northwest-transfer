@@ -1,5 +1,5 @@
 class Group < ApplicationRecord
-    include Helpers::ResourceRolesHelper
+    include Roles::RoleUsers
     include Helpers::ResourceStateHelper
 
     has_many :group_users, dependent: :destroy

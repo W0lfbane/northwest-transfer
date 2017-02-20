@@ -1,5 +1,5 @@
 class Project < ApplicationRecord
-    include Helpers::ResourceRolesHelper
+    include Roles::RoleUsers
     include Helpers::ResourceStateHelper
     
     has_many :project_users, dependent: :destroy

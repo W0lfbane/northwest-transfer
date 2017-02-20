@@ -65,6 +65,9 @@ group :development, :test do
 
   # Use Faker to generate test info for resources
   gem 'faker'
+  
+  # Use Pry to inspect dynamic and ghost methods which are created at runtime
+  gem 'pry'
 end
 
 group :development do
