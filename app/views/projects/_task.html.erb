@@ -1,15 +1,18 @@
-<div class="row task-list">
-  <h3 class="col-xs-2 task-number">Task <%= task_counter + 1 %></h3>
-  <h3 class="col-xs-1 bar">|</h3>
-  <div class="col-xs-6">
-    <h3><%= task.name %></h3>
-    <p class="subtext">assigned to Darryl Philbin</p>
+<div class="container-fluid border-top-grey-3 border-bottom-grey-3 background-lightest-grey text-darkest-grey buffer-margin-10 no-margin-top">
+  <div class="col-md-3 col-xs-3">
+    <h3 class="border-right-grey-3 buffer-padding-10 buffer-padding-10-horizontal text-right text-bold">Task <%= task_counter + 1 %></h3>
   </div>
-    <%= image_tag("button-placeholder", alt: 'done', class: 'icons') %>
-    <%= image_tag("button-placeholder", alt: 'edit', class: 'icons') %>
-    <%= image_tag("down-arrow", alt: 'down arrow', class: 'icons') %>
+  <div class="col-md-6 col-xs-5">
+    <h3><%= task.name %></h3>
+    <p class="text-italic">assigned to Darryl Philbin</p>
+  </div>
+  <div class="col-md-3 col-xs-4 buffer-margin-25 text-right">
+    <%= content_tag(:div, fa_icon("check"), class: "btn btn-success buffer-margin-5-horizontal") %>
+    <%= content_tag(:div, fa_icon("close"), class: "btn btn-danger buffer-margin-5-horizontal") %>
+    <%= content_tag(:div, fa_icon("chevron-down"), class: "btn btn-info buffer-margin-5-horizontal") %>
+  </div>
 </div>
-<div class="task-description">
-  <h3 class="subheader">Description</h3>
+<div class="hidden">
+  <h3 class="text-bold">Description</h3>
   <%= content_tag(:h4, (task.description.blank? ? 'No description' : task.description) ) %>
 </div>

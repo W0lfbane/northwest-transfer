@@ -1,6 +1,7 @@
 class Project < ApplicationRecord
     include Helpers::ResourceRolesHelper
     include Helpers::ResourceStateHelper
+    include Helpers::ResourceRecordHelper
     
     has_many :project_users, dependent: :destroy
     has_many :users, -> { distinct }, through: :project_users
