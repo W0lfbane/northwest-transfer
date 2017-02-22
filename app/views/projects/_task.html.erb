@@ -12,7 +12,7 @@
     <%= content_tag(:div, fa_icon("chevron-down"), class: "btn btn-info buffer-margin-5-horizontal") %>
   </div>
 </div>
-<div class="hidden">
+<div id="task-description-<%= task_counter %>" class="hidden">
   <h3 class="text-bold">Description</h3>
   <%= content_tag(:h4, (task.description.blank? ? 'No description' : task.description) ) %>
 </div>
