@@ -66,6 +66,9 @@ group :development, :test do
   # Use Faker to generate test info for resources
   gem 'faker'
   
+  # Use Poltergeist to test responsive views using PhantomJS
+  gem 'poltergeist'
+  
   # Use Pry to inspect dynamic and ghost methods which are created at runtime
   gem 'pry'
 end

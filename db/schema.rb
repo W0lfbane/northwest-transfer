@@ -59,19 +59,19 @@ ActiveRecord::Schema.define(version: 20170206232521) do
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string   "title",                                    null: false
-    t.text     "description",                              null: false
+    t.string   "title",                     null: false
+    t.text     "description",               null: false
     t.text     "address",                                  null: false
     t.text     "city",                                     null: false
     t.text     "state",                                    null: false
     t.text     "postal",                                   null: false
     t.text     "country",                   default: "US", null: false
-    t.datetime "start_date",                               null: false
+    t.datetime "start_date",                null: false
     t.datetime "completion_date"
-    t.datetime "estimated_completion_date",                null: false
+    t.datetime "estimated_completion_date", null: false
     t.text     "notes"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "resource_state"
   end
 
@@ -115,8 +115,8 @@ ActiveRecord::Schema.define(version: 20170206232521) do
     t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "first_name"

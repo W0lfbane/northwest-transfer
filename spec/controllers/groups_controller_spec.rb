@@ -67,7 +67,7 @@ RSpec.describe GroupsController, type: :controller do
       it "returns all groups" do
         FactoryGirl.create(:group)
         get :index
-        expect(assigns(:groups).count).to eql Group.count
+        expect(assigns(:groups).count).to eql Group.count > 20 ? 20 : Group.count
       end
     end
   end

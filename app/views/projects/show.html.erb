@@ -1,61 +1,178 @@
-<h1>Projects#show</h1>
-<p>Find me in app/views/project/show.html.erb</p>
+  <!-- seems like it should be part of the shared header-->
+  <!--<div class="row">-->
+  <!--    <div class="col-md-1">-->
+  <!--      <#%= image_tag "User_Silhouette_Placeholder" %>-->
+  <!--    </div>-->
+  <!--    <div class="col-md-7">-->
+  <!--      <h1 id="user-name"><#%= @project.customers.first.first_name + " " + @project.customers.first.last_name %></h1>-->
+  <!--      <h6 id="hours">-->
+  <!--        <script>-->
+  <!--          var div = document.getElementById('hours');-->
+  <!--          var datetime = document.createTextNode( -->
+  <!--              moment( new Date(<#%= @project.start_date.to_f * 1000 %>) ).format("MMM D, h:mm A") +-->
+  <!--              " - " +-->
+  <!--              moment( new Date(<#%= @project.estimated_completion_date.to_f * 1000 %>) ).format("MMM D, h:mm A")-->
+  <!--          );-->
+  <!--          div.appendChild(datetime);-->
+  <!--        </script>-->
+  <!--      </h6>-->
+  <!--    </div>-->
+  <!--    <div class="col-md-pull-0" id="header-right">-->
+  <!--      <h1 id="local-time"><#%= render "shared/clock" %></h1>-->
+  <!--      <h3 id="current-date"><#%= Date.today %></h3>-->
+  <!--    </div>-->
+  <!--  </div>-->
+  
+<div class="container-fluid">
+  
+  <!-- //////////////////TOGGLE JOBS BAR/////////////////////////// -->
+  <div class="row vertical-align-middle">
+    <div class="col-xs-6 text-left">
+      <%= link_to project_path(@project.previous) do %>
+        <%= fa_icon "chevron-left", class: 'fa-2x text-darkest-grey' %>
+        <span>Previous Project</span>
+      <% end %>
+    </div>
+    <div class="col-xs-6 text-right">
+      <%= link_to project_path(@project.next) do %>
+        <span>Next Project</span>
+        <%= fa_icon "chevron-right", class: 'fa-2x text-darkest-grey' %>
+      <% end %>
+    </div> 
+  </div>
 
-    <%= content_tag :div do %>    
-        <%= label_tag :title %>
-        <%= @project.title %>
-    <% end %>
+  <!-- //////////////////JOB DETAILS SECTION/////////////////////// -->
+  <div class="row">
+    <div id="project_details" class="container-fluid">
+      <div class="buffer-margin-20 background-lighter-grey border-grey-3">
+        <div class="text-bold background-dark-grey text-lightest-grey">
+          <p>Job Details</p>
+        </div>
+        <div id="project_description" class="text-center border-bottom-grey-3 container-fluid">
+          <div class="col-md-6 col-md-offset-3">
+            <h4 class="text-bold">Job Description:</h4>
+            <p><%= @project.description %></p>
+          </div>
+        </div>
+    
+        <!-- /////////////////////TIMELINE/////////////////////////// -->
+        <div class="container-fluid text-bold text-center">
+          <div class="col-xs-4 buffer-padding-20 border-right-grey-3">
+            <span class="text-grey text-italic">Address:</span> <%= @project.location %>
+          </div>
+          <div class="col-xs-4 buffer-padding-20">
+            <p> <span class="text-grey text-italic">Start:</span> <%= format_date_with_time(@project.start_date) %> </p>
+            <p>
+              <% if @project.completion_date.blank? %>
+                <span class="text-grey text-italic">Due: </span> <%= format_date_with_time(@project.estimated_completion_date) %>
+              <% else %>
+                <span class="text-grey text-italic">End: </span> <%= format_date_with_time(@project.completion_date) %>
+              <% end %>
+            </p>
+          </div>
+          <div class="col-xs-4 buffer-padding-20 border-left-grey-3">
+            <% if @project.respond_to? :leaders %>
+              <% @project.leaders.each_with_index do |user, index| %>
+                <p>
+                  <% break unless index <= 2 %>
+                  <% if index == 2 && @project.leaders.size > 2%>
+                    <span class="text-grey text-italic">View More... </span>
+                  <% else %>
+                    <span class="text-grey text-italic">Leader: </span><%= user.name %>
+                  <% end %>
+                </p>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <!-- ///////////////////////TASK LIST/////////////////////// -->
+        <div id="project_tasks">
+          <%= render partial: "task", collection: @project.tasks %>
+        </div>
+      </div>
+    </div>
 
-    <%= content_tag :div do %>    
-        <%= label_tag :description %>
-        <%= @project.description %>
-    <% end %>
+    <!-- //////////////////NOTIFICATIONS/////////////////////// -->
+    <div id="project_notifications" class="container-fluid">
+      <div class="border-grey-3 buffer-margin-10">
+        <table class="table table-striped vertical-align-middle">
+          <thead>
+            <tr>
+              <div class="text-bold background-dark-grey text-lightest-grey">Notifications</div>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="notification-item">
+              <td>
+                <h4>There is a screw missing for the television mount.</h4>
+                <p>posted by Jerry DiCanio | March 12, 2017 | 1:56pm</p>
+                <p id="notification-description-1" class="hidden">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+              </td>
+              <td><%= fa_icon "chevron-down", class: 'fa-2x' %></td>
+            </tr>
+            <tr class="notification-item">
+              <td>
+                <h4>Something is wrong with air hockey table.</h4>
+                <p>posted by Jefro Kurt | March 12, 2017 | 11:01am</p>
+                <p id="notification-description-2" class="hidden">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. </p>
+              </td>
+              <td><%= fa_icon "chevron-down", class: 'fa-2x' %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-    <%= content_tag :div do %>    
-        <%= label_tag :address %>
-        <%= @project.address %>
-    <% end %>
+    <!-- //////////////////CONTACTS/////////////////////// -->
+    <div id="project_contacts" class="container-fluid">
+      <div class="buffer-margin-20 background-lighter-grey border-grey-3">
+        <table class="table table-striped vertical-align-middle">
+          <thead>
+            <tr>
+              <div class="text-bold background-dark-grey text-lightest-grey">Contacts</div>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= fa_icon "user", class: "fa-3x" %></td>
+              <td>Client Name</td>
+              <td>503-555-5555</td>
+              <td>clientemail@gmail.com</td>
+            </tr>
+            <tr>
+              <td><%= fa_icon "user", class: "fa-3x" %></td>
+              <td>Client Name</td>
+              <td>503-555-5555</td>
+              <td>clientemail@gmail.com</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-    <%= content_tag :div do %>    
-        <%= label_tag :city %>
-        <%= @project.city %>
-    <% end %>
+    <!-- //////////////////DOCUMENTS/////////////////////// -->
+    <div id="project_documents" class="container-fluid">
+      <div class="buffer-margin-20 background-lighter-grey border-grey-3">
+        <table class="table table-striped vertical-align-middle">
+          <thead>
+            <tr>
+              <div class="text-bold background-dark-grey text-lightest-grey">Document</div>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <% if @project.document.present? %>
+                <td><h4><%= @project.document.title %></h4></td>
+                <td>last updated by</td>
+                <td><%= format_date_with_time(@project.document.updated_at) %></td>
+              <% else %>
+                <td>No Document Yet</td>
+              <% end %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
-    <%= content_tag :div do %>    
-        <%= label_tag :state %>
-        <%= @project.state %>
-    <% end %>
-
-    <%= content_tag :div do %>    
-        <%= label_tag :postal, I18n.t(:postal_code).capitalize %>
-        <%= @project.postal %>
-    <% end %>
-
-    <%= content_tag :div do %>    
-        <%= label_tag :country %>
-        <%= @project.country %>
-    <% end %>
-
-    <%= content_tag :div do %>    
-        <%= label_tag :start_date %>
-        <%= @project.start_date %>
-    <% end %>
-
-    <%= content_tag :div do %>    
-        <%= label_tag :estimated_completion_date %>
-        <%= @project.estimated_completion_date %>
-    <% end %>
-
-    <%= content_tag :div do %>    
-        <%= label_tag :notes, I18n.t(:project_notes).capitalize %>
-        <%= @project.notes %>
-    <% end %>
-
-    <% @project.tasks.each do |task| %>
-        <%= content_tag :div do %>    
-            <%= task.name %>
-        <% end %>
-    <% end %>
-
-
-<%= link_to :edit, edit_project_path(@project) %>
+</div>
