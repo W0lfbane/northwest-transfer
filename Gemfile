@@ -68,8 +68,6 @@ group :development, :test do
   
   # Use Pry to inspect dynamic and ghost methods which are created at runtime
   gem 'pry'
-  
-  gem 'simplecov', :require => false, :group => :test
 end
 
 group :development do

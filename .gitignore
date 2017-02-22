@@ -38,4 +38,3 @@ s3_keys
 .env
 /public/assets
 /vendor/assets/bower_components
-/coverage

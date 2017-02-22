@@ -7,8 +7,8 @@ class PagesController < ApplicationController
     
 private
     #returns true if input string does not follow pattern of: Modelname or Modelname.find/where/order/limit
-    #note: the where query is currently limited to only very simple, single conditions
+    #note: the where query is currently limited to only single hash conditions
     def is_invalid? (value)
-        value !~ /(?:\A[A-Z][a-z]+)(?:(\.)?(?(1)(?:(?:limit|where|find|order)\(\w+:?\s?\w*\))))*$/
+        value !~ /(?:\A[A-Z][a-z]+)(?:(\.)?(?(1)(?:(?:limit|find|order|wher)\(\w*:?\s?:?'?\w*'?\))))*$/
     end
 end
