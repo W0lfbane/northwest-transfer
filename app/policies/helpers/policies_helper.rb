@@ -6,4 +6,5 @@ module Helpers::PoliciesHelper
   def resource_user?
     record.users.include?(user)
   end
+  
 end

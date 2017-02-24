@@ -2,7 +2,7 @@ class UserPolicy < ApplicationPolicy
     class Scope < Scope
         def resolve
             if is_admin?
-                scope.all
+                scope.respond_to?(:all) ? scope.all : scope
             end
         end
     end
