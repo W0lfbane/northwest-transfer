@@ -1,6 +1,7 @@
 <div>
     <%= f.label :name %>
     <%= f.text_field :name %>
+    <%= f.text_area :description %>
 
     <% if f.object.persisted? %>
         <%= f.check_box :_destroy %>

@@ -6,10 +6,13 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'spec_helper'
 require 'rspec/rails'
 
+
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'devise'
 require "pundit/rspec"
 require 'aasm/rspec'
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -34,6 +37,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.extend ControllerMacros, type: :controller
   config.include RequestSpecHelper, type: :request
+  config.include Devise::Test::IntegrationHelpers, type: :feature
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

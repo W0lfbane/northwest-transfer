@@ -1,6 +1,7 @@
 module ApplicationHelper
     include Modules::ExtendableNestedFormFields
     include Modules::BootstrapFlashMessages
+    include Modules::DateTimeFormats
     
     # Usage: <% title(STRING or method that returns STRING) %>
     def title(page_title)

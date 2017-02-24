@@ -62,7 +62,7 @@ RSpec.describe ProjectsController, type: :controller do
       it "returns all projects" do
         FactoryGirl.create(:project)
         get :index
-        expect(assigns(:projects).count).to eql Project.count
+        expect(assigns(:projects).count).to eql Project.count > 20 ? 20 : Project.count
       end
     end
   end

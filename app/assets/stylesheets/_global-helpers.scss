@@ -226,6 +226,10 @@
 
 .text-vertical-center-height-60 { @include text-vertical-align-middle(60px); }
 
+.vertical-align-middle, 
+  .vertical-align-middle *, 
+  .vertical-align-middle > tbody > tr > td { vertical-align: middle; }
+
 
 /* List CSS */
 
