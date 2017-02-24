@@ -4,6 +4,7 @@ RSpec.describe "Show Pages Route", :type => :request do
   
   describe "allowed parameter strings" do
     before :each do
+       sign_in(FactoryGirl.create(:admin))
        5.times { FactoryGirl.create(:project) }
     end
     
