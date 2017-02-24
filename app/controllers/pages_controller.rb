@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
     def show
         authorize :page
-        params[:resources].each { |key, value| instance_variable_set("@#{key}", is_invalid?(value) ? nil : eval(value)) } unless params[:resources].nil?
+        params[:resources].each { |key, value| instance_variable_set("@#{key}", is_invalid?(value) ? nil : policy_scope(eval(value))) } unless params[:resources].nil?
         render template: "pages/#{params[:page]}"
     end
     
