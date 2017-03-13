@@ -2,6 +2,8 @@ class Task < ApplicationRecord
     include Helpers::ResourceStateHelper
 
     belongs_to :project, inverse_of: :tasks
+    
+    validates :name, presence: true
 
     include AASM
     STATES = [:pending, :completed, :problem]

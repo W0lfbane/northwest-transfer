@@ -7,6 +7,8 @@ class User < ApplicationRecord
   before_create :assign_default_role
 
   rolify strict: true
+  
+  validates :email, :encrypted_password, :first_name, :last_name, :phone, presence: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
