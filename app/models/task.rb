@@ -17,8 +17,22 @@ class Task < ApplicationRecord
             transitions to: :completed
         end
     
-        event :report_problem do
-            transitions to: :problem
+        event :report_problem, :error => :no_note do
+            transitions to: :problem, :after => Proc.new {|*args| add_note(*args) }
+        end
+    end
+    
+    def add_note(text, author)
+        self.notes << Note.new(author: author.to_s, text: text.to_s)
+        self.save
+    end
+    
+    #note: if we don't want the error to do anything special we may as well take this out and remove the :error => :no_note above
+    def no_note(error)
+        if error.class == ArgumentError 
+            p "You need to pass in the note >:|"
+        else
+            raise error
         end
     end
 end
