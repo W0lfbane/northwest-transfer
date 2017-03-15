@@ -20,7 +20,7 @@ class Project < ApplicationRecord
                 :postal, :country, :start_date, :estimated_completion_date, presence: true
 
     include AASM
-    STATES = [:pending, :en_route, :in_progress, :completed, :problem, :deactivated]
+    STATES = [:pending, :en_route, :in_progress, :review_request, :completed, :problem, :deactivated]
     aasm :column => 'resource_state' do
         STATES.each do |status|
             state(status, initial: STATES[0] == status)
@@ -33,9 +33,13 @@ class Project < ApplicationRecord
         event :begin_working do
             transitions from: [:en_route, :problem], to: :in_progress
         end
+        
+        event :review_request do
+            transitions from: [:in_progress, :problem], to: :review_request
+        end
     
-        event :complete, success: :set_completion_date! do
-            transitions from: [:in_progress, :problem], to: :completed
+        event :complete, success: :set_completion_date!, guards: :admin_user? do
+            transitions from: [:review_request], to: :completed
         end
     
         event :report_problem do
@@ -45,6 +49,10 @@ class Project < ApplicationRecord
         event :deactivate do
             transitions to: :deactivated
         end
+    end
+    
+    def admin_user?
+        !User.current.nil? && User.current.admin?
     end
     
     def total_time
