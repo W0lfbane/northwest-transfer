@@ -7,6 +7,9 @@ class User < ApplicationRecord
   before_create :assign_default_role
 
   rolify strict: true
+  
+  # Devise has default validations for it's attributes, only validate ones specific to this application
+  validates :first_name, :last_name, :phone, presence: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

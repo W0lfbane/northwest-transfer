@@ -1,0 +1,2 @@
+class RecordLog < Log
+end

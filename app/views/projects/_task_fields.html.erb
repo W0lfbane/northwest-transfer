@@ -2,6 +2,7 @@
     <%= f.label :name %>
     <%= f.text_field :name %>
     <%= f.text_area :description %>
+    <%= f.text_area :notes %>
 
     <% if f.object.persisted? %>
         <%= f.check_box :_destroy %>

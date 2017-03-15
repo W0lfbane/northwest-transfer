@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170206232521) do
+ActiveRecord::Schema.define(version: 20170313204727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,17 @@ ActiveRecord::Schema.define(version: 20170206232521) do
     t.string   "resource_state"
   end
 
+  create_table "logs", force: :cascade do |t|
+    t.string   "logable_type"
+    t.integer  "logable_id"
+    t.string   "text"
+    t.string   "type"
+    t.string   "author"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["logable_type", "logable_id"], name: "index_logs_on_logable_type_and_logable_id", using: :btree
+  end
+
   create_table "project_users", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "project_id"
@@ -59,19 +70,18 @@ ActiveRecord::Schema.define(version: 20170206232521) do
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string   "title",                     null: false
-    t.text     "description",               null: false
+    t.string   "title",                                    null: false
+    t.text     "description",                              null: false
     t.text     "address",                                  null: false
     t.text     "city",                                     null: false
     t.text     "state",                                    null: false
     t.text     "postal",                                   null: false
     t.text     "country",                   default: "US", null: false
-    t.datetime "start_date",                null: false
+    t.datetime "start_date",                               null: false
     t.datetime "completion_date"
-    t.datetime "estimated_completion_date", null: false
-    t.text     "notes"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "estimated_completion_date",                null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.string   "resource_state"
   end
 
@@ -101,7 +111,6 @@ ActiveRecord::Schema.define(version: 20170206232521) do
     t.integer  "project_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.text     "notes"
     t.string   "resource_state"
     t.index ["project_id"], name: "index_tasks_on_project_id", using: :btree
   end
@@ -115,12 +124,13 @@ ActiveRecord::Schema.define(version: 20170206232521) do
     t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "phone"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
