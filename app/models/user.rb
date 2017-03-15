@@ -8,7 +8,8 @@ class User < ApplicationRecord
 
   rolify strict: true
   
-  validates :email, :encrypted_password, :first_name, :last_name, :phone, presence: true
+  # Devise has default validations for it's attributes, only validate ones specific to this application
+  validates :first_name, :last_name, :phone, presence: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

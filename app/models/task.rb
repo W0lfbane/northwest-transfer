@@ -2,7 +2,7 @@ class Task < ApplicationRecord
     include Helpers::ResourceStateHelper
 
     belongs_to :project, inverse_of: :tasks
-    has_many :notes, as: :logable
+    has_many :notes, as: :loggable
     
     validates :name, presence: true
 
