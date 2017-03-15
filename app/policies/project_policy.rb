@@ -2,7 +2,7 @@ class ProjectPolicy < ApplicationPolicy
     class Scope < Scope
         def resolve
             if is_admin?
-                scope.respond_to?(:all) ? scope.all : scope
+                scope.all
             else
                 user.projects
             end
