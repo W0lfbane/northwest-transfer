@@ -33,12 +33,12 @@
         <span>Previous Project</span>
       <% end %>
     </div>
-    <div class="col-xs-6 text-right">
-      <%= link_to project_path(@project.next) do %>
-        <span>Next Project</span>
-        <%= fa_icon "chevron-right", class: 'fa-2x text-darkest-grey' %>
-      <% end %>
-    </div> 
+      <div class="col-xs-6 text-right">
+        <%= link_to @project.next.nil? ? '#' : project_path(@project.next) do %>
+          <span>Next Project</span>
+          <%= fa_icon "chevron-right", class: 'fa-2x text-darkest-grey' %>
+        <% end %>
+      </div> 
   </div>
 
   <!-- //////////////////JOB DETAILS SECTION/////////////////////// -->
@@ -71,7 +71,7 @@
             </p>
           </div>
           <div class="col-xs-4 buffer-padding-20 border-left-grey-3">
-            <% if @project.respond_to? :leaders %>
+            <% if !@project.leaders.nil? %>
               <% @project.leaders.each_with_index do |user, index| %>
                 <p>
                   <% break unless index <= 2 %>

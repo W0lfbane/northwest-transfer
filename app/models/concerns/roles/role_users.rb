@@ -23,8 +23,11 @@ module Roles::RoleUsers
                 puts self.roles
     
                 # Fix this query, N+1 problem
-                instance_variable_defined?(role_user) ? instance_variable_get(role_user) : 
+                #temporary if for getting leaderless project to render
+                if !self.roles.where(name: role).empty? 
+                    instance_variable_defined?(role_user) ? instance_variable_get(role_user) : 
                                                     instance_variable_set( role_user, self.roles.where(name: role).first.users )
+               end
             end
         end
     

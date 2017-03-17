@@ -1,5 +1,5 @@
 <div>
-    <%= f.label :title %>
+    <%= f.label :title, I18n.t(:document_title).capitalize %>
     <%= f.text_field :title %>
 
     <% if f.object.persisted? %>

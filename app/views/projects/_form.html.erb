@@ -56,8 +56,5 @@
         <%= render 'document_fields', f: builder %>
     <% end %>
 
-    <% if @project.document.nil? %>
-        <%= link_to_add_fields 'Add Document', f, :document %>
-    <% end %>
     <p><%= f.submit %></p>
 <% end %>
