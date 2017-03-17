@@ -6,7 +6,6 @@ class Task < ApplicationRecord
     accepts_nested_attributes_for :notes, reject_if: :all_blank, allow_destroy: true
     
     validates :name, presence: true
-    validate :note_added, if: :transitioning_to_problem_state
 
     include AASM
     STATES = [:pending, :completed, :problem]
