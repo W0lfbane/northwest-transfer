@@ -28,6 +28,6 @@ module Helpers::ResourceStateHelper
 
     # Figure out a good way to test for state transitions
     def transitioning_to_problem_state
-        "resource_state == 'problem'"
+        resource_state == 'problem'
     end
 end
