@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, resources: { projects: Project }
 
   resources :projects do
-      resources :tasks
+    resources :tasks, :notes
   end
   
   resources :groups

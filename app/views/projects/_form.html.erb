@@ -46,11 +46,6 @@
         <%= f.datetime_local_field :estimated_completion_date %>
     <% end %>
 
-    <%= content_tag :div, class: 'form-group' do %>    
-        <%= f.label :notes, I18n.t(:project_notes).capitalize %>
-        <%= f.text_area :notes %>
-    <% end %>
-
     <%= f.fields_for :tasks do |builder| %>
         <%= render 'task_fields', f: builder %>
     <% end %>

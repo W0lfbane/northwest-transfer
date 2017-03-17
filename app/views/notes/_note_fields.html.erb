@@ -1,0 +1,14 @@
+    <div class="field">
+        <%= f.label :text %>
+        <%= f.text_area :text %>
+    </div>
+    
+    <div class="field">
+        <%= f.label :author %>
+        <%= f.text_field :author %>
+    </div>
+    
+    <% if f.object.persisted? %>
+        <%= f.check_box :_destroy %>
+        <%= f.label :_destroy, I18n.t(:remove) %>
+    <% end %>

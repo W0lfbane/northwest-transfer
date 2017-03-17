@@ -20,11 +20,10 @@ module Roles::RoleUsers
         def source.create_role_method(role, object = self)
             object.send(:define_method, role.to_s.pluralize) do
                 role_user = "@#{role}_users"
-                puts self.roles
-    
+
                 # Fix this query, N+1 problem
                 instance_variable_defined?(role_user) ? instance_variable_get(role_user) : 
-                                                    instance_variable_set( role_user, self.roles.where(name: role).first.users )
+                                                    instance_variable_set( role_user, object.find_roles.where(name: role).first.users )
             end
         end
     
