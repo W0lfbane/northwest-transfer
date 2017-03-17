@@ -50,14 +50,14 @@ ActiveRecord::Schema.define(version: 20170313204727) do
   end
 
   create_table "logs", force: :cascade do |t|
-    t.string   "logable_type"
-    t.integer  "logable_id"
+    t.string   "loggable_type"
+    t.integer  "loggable_id"
     t.string   "text"
     t.string   "type"
     t.string   "author"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["logable_type", "logable_id"], name: "index_logs_on_logable_type_and_logable_id", using: :btree
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["loggable_type", "loggable_id"], name: "index_logs_on_loggable_type_and_loggable_id", using: :btree
   end
 
   create_table "project_users", force: :cascade do |t|
