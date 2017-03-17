@@ -20,11 +20,13 @@ class Project < ApplicationRecord
                 :postal, :country, :start_date, :estimated_completion_date, presence: true
 
     include AASM
-    STATES = [:pending, :en_route, :in_progress, :review_request, :completed, :problem, :deactivated]
+    STATES = [:pending, :en_route, :in_progress, :pending_review, :completed, :problem, :deactivated]
     aasm :column => 'resource_state' do
         STATES.each do |status|
             state(status, initial: STATES[0] == status)
         end
+        
+        before_all_events :set_state_user
 
         event :begin_route do
             transitions from: [:pending, :problem], to: :en_route
@@ -34,12 +36,12 @@ class Project < ApplicationRecord
             transitions from: [:en_route, :problem], to: :in_progress
         end
         
-        event :review_request do
-            transitions from: [:in_progress, :problem], to: :review_request
+        event :request_review do
+            transitions from: [:in_progress, :problem], to: :pending_review
         end
     
-        event :complete, success: :set_completion_date!, guards: :admin_user? do
-            transitions from: [:review_request], to: :completed
+        event :complete, success: :set_completion_date!, guards: lambda { @user.admin? } do
+            transitions from: [:pending_review], to: :completed
         end
     
         event :report_problem do
@@ -50,11 +52,7 @@ class Project < ApplicationRecord
             transitions to: :deactivated
         end
     end
-    
-    def admin_user?
-        !User.current.nil? && User.current.admin?
-    end
-    
+
     def total_time
        if self.completed? then TimeDifference.between(self.start_date.to_datetime, self.completion_date.to_datetime).in_hours end
     end

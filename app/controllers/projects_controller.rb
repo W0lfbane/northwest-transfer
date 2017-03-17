@@ -1,6 +1,4 @@
 class ProjectsController < ApplicationController
-  before_filter :require_user # require_user will set the current_user in controllers
-  before_filter :set_current_user
   before_action :authenticate_user!
   before_action :set_project, except: [:index, :create]
   before_action :authorize_project, except: [:index, :create]

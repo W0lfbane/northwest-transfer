@@ -25,6 +25,10 @@ module Helpers::ResourceStateHelper
             false
         end
     end
+    
+    def set_state_user(user = User.new)
+       @user = user 
+    end
 
     # Figure out a good way to test for state transitions
     def transitioning_to_problem_state
