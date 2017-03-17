@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project, except: [:index, :create]
   before_action :authorize_project, except: [:index, :create]
-  before_action :build_document, only: [:new]
+  before_action :build_document, only: [:new, :edit]
 
   def index
     @projects = policy_scope( Project ).order(:start_date).page(params[:page])
@@ -89,8 +89,7 @@ class ProjectsController < ApplicationController
     end
     
     def build_document
-      #@document = policy_scope(Document)
-      @project.document = Document.new 
+      @project.build_document if @project.document.nil?
     end
 
 
