@@ -24,7 +24,7 @@ module Roles::RoleUsers
     
                 # Fix this query, N+1 problem
                 instance_variable_defined?(role_user) ? instance_variable_get(role_user) : 
-                                                    instance_variable_set( role_user, self.roles.find(name: role).users )
+                                                    instance_variable_set( role_user, self.roles.where(name: role).first.users )
             end
         end
     
