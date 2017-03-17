@@ -1,0 +1,9 @@
+<div>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+
+    <% if f.object.persisted? %>
+        <%= f.check_box :_destroy %>
+        <%= f.label :_destroy, I18n.t(:remove) %>
+    <% end %>
+</div>

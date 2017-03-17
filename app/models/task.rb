@@ -19,7 +19,7 @@ class Task < ApplicationRecord
             transitions to: :completed
         end
     
-        event :report_problem, guard: :note_added? do
+        event :report_problem, guards: :note_added? do
             transitions to: :problem
         end
     end
