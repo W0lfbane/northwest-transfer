@@ -1,4 +1,4 @@
-<%= form_for([@task.project, @task]) do |f| %>
+<%= form_for(@task) do |f| %>
   <% if task.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
@@ -11,26 +11,13 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
+  <%= render 'task_fields', f: f %>
 
-  <div class="field">
-    <%= f.label :description %>
-    <%= f.text_area :description %>
-  </div>
-
-  <div class="field">
-    <%= f.label :resource_state, :status %>
-    <%= f.select :resource_state, filter_states(Task, [:pending]), { include_blank: true } %>
-  </div>
-  
   <%= f.fields_for :notes do |builder| %>
-    <%= render 'task_fields', f: builder %>
+    <%= render 'notes/note_fields', f: builder %>
   <% end %>
 
-  <%= link_to_add_fields 'Add Note', f, :notes %>
+  <%= link_to_add_fields 'Add Note', f, :notes, { partial: 'notes/note_fields' } %>
 
   <div class="actions">
     <%= f.submit %>
