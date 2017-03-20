@@ -16,9 +16,9 @@
       <tr>
         <td><%= task.name %></td>
         <td><%= task.description %></td>
-        <td><%= link_to 'Show', [@project, task] %></td>
-        <td><%= link_to 'Edit', edit_project_task_path(@project, task) %></td>
-        <td><%= link_to 'Destroy', [@project, task], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', task_path(@route_resource, @resource, task) %></td>
+        <td><%= link_to 'Edit', edit_task_path(@route_resource, @resource, task) %></td>
+        <td><%= link_to 'Destroy', task_path(@route_resource, @resource, task), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +26,4 @@
 
 <br>
 
-<%= link_to 'New Task', new_project_task_path %>
+<%= link_to 'New Task', new_task_path(@route_resource, @resource) %>

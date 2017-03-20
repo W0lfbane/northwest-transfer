@@ -18,12 +18,16 @@ Rails.application.routes.draw do
 
   get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, resources: { projects: Project }
 
+  resources :groups
   resources :projects do
-      resources :tasks
       resource :document
   end
-  
-  resources :groups
+
+  # Nested routes with multiple or unknown parents
+  scope '/:resource/:resource_id' do
+    resources :tasks
+    resources :notes
+  end
   
   as :project do
     get '/account/schedule', to: 'projects#schedule_index', as: :schedule
