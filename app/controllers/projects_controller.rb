@@ -1,7 +1,10 @@
 class ProjectsController < ApplicationController
+  include Nested::Notes::SetAuthor
+  
   before_action :authenticate_user!
   before_action :set_project, except: [:index, :create]
   before_action :authorize_project, except: [:index, :create]
+  before_action :set_author, only: [:create, :update]
 
   def index
     @projects = policy_scope( Project ).order(:start_date).page(params[:page])
@@ -82,7 +85,7 @@ class ProjectsController < ApplicationController
                                       :completion_date, 
                                       :estimated_completion_date, 
                                       :total_time, 
-                                      :notes,
+                                      notes_attributes: [:text, :author, :_destroy],
                                       document_attributes: [:id, :title, :_destroy],
                                       tasks_attributes: [:id, :name, :description, :_destroy])
     end

@@ -1,10 +1,12 @@
 class TasksController < ApplicationController
   include Nested::Resource::SetResource
+   include Nested::Notes::SetAuthor
 
   before_action :authenticate_user!
   before_action :set_resource
   before_action :set_task, except: [:index, :create]
   before_action :authorize_task, except: [:index, :create]
+  before_action :set_author, only: [:create, :update]
 
   # GET /tasks
   # GET /tasks.json
