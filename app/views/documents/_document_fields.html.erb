@@ -1,6 +1,8 @@
 <div>
-    <%= f.label :title, I18n.t(:document_title).capitalize %>
-    <%= f.text_field :title %>
+    <div class="field">
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+    </div>
 
     <% if f.object.persisted? %>
         <%= f.check_box :_destroy %>

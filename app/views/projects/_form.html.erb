@@ -53,7 +53,7 @@
     <%= link_to_add_fields 'Add Task', f, :tasks, { partial: 'tasks/task_fields' } %>
     
     <%= f.fields_for :document do |builder| %>
-        <%= render 'document_fields', f: builder %>
+        <%= render 'documents/document_fields', f: builder %>
     <% end %>
 
     <p><%= f.submit %></p>

@@ -11,10 +11,7 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </div>
+  <%= render 'document_fields', f: f %>
 
   <div class="actions">
     <%= f.submit %>
