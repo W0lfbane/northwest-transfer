@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
-  include Nested::Resource::SetResource
-   include Nested::Notes::SetAuthor
+  include Concerns::Nested::Notes::SetAuthor
+  include Concerns::Nested::Resource::SetResource
 
   before_action :authenticate_user!
   before_action :set_resource
@@ -11,6 +11,7 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
+    puts "resource= #{@resource}"
     @tasks = policy_scope(@resource.tasks)
   end
 

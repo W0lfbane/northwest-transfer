@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  include Nested::Notes::SetAuthor
+  include Concerns::Nested::Notes::SetAuthor
   
   before_action :authenticate_user!
   before_action :set_project, except: [:index, :create]
@@ -51,11 +51,11 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    if @project.update_attributes(project_params)
+    # if @project.update_attributes(project_params)
       redirect_to @project, success: "Project successfully updated!"
-    else
-      render :edit
-    end
+    # else
+    #   render :edit
+    # end
   end
 
   def destroy

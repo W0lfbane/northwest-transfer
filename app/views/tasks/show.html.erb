@@ -15,5 +15,16 @@
   <%= @task.resource_state %>
 </p>
 
+<p>
+  <strong>Notes</strong>
+</p>
+
+<% @task.notes.each_with_index do |note, index| %>
+<ul>
+    <li><strong><%= (index + 1).to_s + ". " + note.text  %></strong></li>
+    <li>author: <%= note.author %></li>
+</ul>
+<% end %>
+
 <%= link_to 'Edit', edit_task_path(@route_resource, @resource, @task) %> |
 <%= link_to 'Back', tasks_path(@route_resource, @resource) %>

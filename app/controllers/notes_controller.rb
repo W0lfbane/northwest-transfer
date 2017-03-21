@@ -1,5 +1,5 @@
 class NotesController < ApplicationController
-  include Nested::Resource::SetResource
+  include Concerns::Nested::Resource::SetResource
 
   before_action :authenticate_user!
   before_action :set_resource
