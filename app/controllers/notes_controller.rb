@@ -1,8 +1,10 @@
 class NotesController < ApplicationController
   include Concerns::Nested::Resource::SetResource
+  include Concerns::Nested::Notes::SetAuthor
 
   before_action :authenticate_user!
   before_action :set_resource
+  before_action :set_author, only: [:create, :update]
   before_action :set_note, except: [:index, :create]
   before_action :authorize_note, except: [:index, :create]
 
