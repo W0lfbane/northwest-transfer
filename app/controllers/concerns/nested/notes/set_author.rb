@@ -6,10 +6,14 @@ module Concerns::Nested::Notes::SetAuthor
         def set_author
             params.each do |key, value|
               if params[key].class == ActionController::Parameters
-                params[key][:notes_attributes].each do |note|
-                  params[key][:notes_attributes][note][:author] = current_user.name
-                  puts params[key][:notes_attributes][note][:author]
-                end unless params[key][:notes_attributes].nil?
+                if params[key].key? :notes_attributes
+                  params[key][:notes_attributes].each do |note|
+                    params[key][:notes_attributes][note][:author] = current_user.name
+                    puts params[key][:notes_attributes][note][:author]
+                  end 
+                elsif params[key].key? :author
+                  params[key][:author] = current_user.name
+                end
               end 
             end
         end
