@@ -2,19 +2,16 @@ module Concerns::Nested::Notes::SetAuthor
     
     private
     
-        # This method is used to infer an object's class and it's ID by using common patterns among routes
+        # This method is used to find the note or note_attributes node and update the author to current_user
         def set_author
-          params.each do |key, value|
-            if params[key].class == ActionController::Parameters
-              if key == "note"
-                params[key][:author] = current_user.name
-              elsif params[key].key? :notes_attributes
-                params[key][:notes_attributes].each do |note|
-                  params[key][:notes_attributes][note][:author] = current_user.name
-                  puts params[key][:notes_attributes][note][:author]
-                end
-              end
-            end 
+          model = controller_name.singularize.downcase
+          if model == "note"
+            params[model][:author] = current_user.name
+          elsif params[model].key? :notes_attributes
+            params[model][:notes_attributes].each do |note|
+              params[model][:notes_attributes][note][:author] = current_user.name
+              puts params[model][:notes_attributes][note][:author]
+            end
           end
         end
 end
