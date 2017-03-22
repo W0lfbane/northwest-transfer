@@ -46,11 +46,26 @@
         <%= f.datetime_local_field :estimated_completion_date %>
     <% end %>
 
+    <%= content_tag :div, class: 'form-group' do %>    
+        <%= f.label :resource_state, :status %>
+        <%= f.select :resource_state, resource_states(Project), { include_blank: true } %>
+    <% end %>
+
     <%= f.fields_for :tasks do |builder| %>
         <%= render 'tasks/task_fields', f: builder %>
     <% end %>
 
     <%= link_to_add_fields 'Add Task', f, :tasks, { partial: 'tasks/task_fields' } %>
+    
+    <%= f.fields_for :notes do |builder| %>
+        <%= render 'notes/note_fields', f: builder %>
+    <% end %>
+    
+    <%= link_to_add_fields 'Add Note', f, :notes, { partial: 'notes/note_fields' } %>
+
+    <%= f.fields_for :document do |builder| %>
+        <%= render 'documents/document_fields', f: builder %>
+    <% end %>
 
     <p><%= f.submit %></p>
 <% end %>

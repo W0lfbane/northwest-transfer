@@ -54,4 +54,10 @@ class ApplicationPolicy
       scope
     end
   end
+  
+  # Non-common routes
+  
+  def resource_state_change?
+    show?
+  end
 end

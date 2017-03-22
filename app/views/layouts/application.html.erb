@@ -25,9 +25,11 @@
       </div>
   
       <main class="row">
+        <% unless flash.empty? %>
         <div class="col-xs-12" style="position: absolute; z-index: 1000;">
           <%= flash_messages %>
         </div>
+        <% end %>
 
         <%= yield %>
       </main>

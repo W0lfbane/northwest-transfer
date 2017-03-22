@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   include Concerns::Nested::Notes::SetAuthor
-  include Concerns::Nested::Resource::SetResource
+  include Resource::Nested::SetResource
 
   before_action :authenticate_user!
   before_action :set_resource
@@ -26,6 +26,7 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
+    puts "resource= #{@resource}"
   end
 
   # POST /tasks
@@ -36,8 +37,8 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to task_path(@route_resource, @resource, @task), notice: 'Task was successfully created.' }
-        format.json { render :show, status: :created, location: task_path(@route_resource, @resource, @task) }
+        format.html { redirect_to task_path(@resource_route, @resource, @task), notice: 'Task was successfully created.' }
+        format.json { render :show, status: :created, location: task_path(@resource_route, @resource, @task) }
       else
         format.html { render :new }
         format.json { render json: @task.errors, status: :unprocessable_entity }
@@ -50,8 +51,8 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to task_path(@route_resource, @resource, @task), notice: 'Task was successfully updated.' }
-        format.json { render :show, status: :ok, location: task_path(@route_resource, @resource, @task) }
+        format.html { redirect_to task_path(@resource_route, @resource, @task), notice: 'Task was successfully updated.' }
+        format.json { render :show, status: :ok, location: task_path(@resource_route, @resource, @task) }
       else
         format.html { render :edit }
         format.json { render json: @task.errors, status: :unprocessable_entity }
@@ -64,7 +65,7 @@ class TasksController < ApplicationController
   def destroy
     @task.destroy
     respond_to do |format|
-      format.html { redirect_to tasks_url(@route_resource, @resource), notice: 'Task was successfully destroyed.' }
+      format.html { redirect_to tasks_url(@resource_route, @resource), notice: 'Task was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

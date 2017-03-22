@@ -11,7 +11,7 @@
     
     <div class="field">
         <%= f.label :resource_state, :status %>
-        <%= f.select :resource_state, filter_states(Task, [:pending]), { include_blank: true } %>
+        <%= f.select :resource_state, resource_states(Task), { include_blank: true } %>
     </div>
     
     <% if f.object.persisted? %>

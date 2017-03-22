@@ -1,10 +1,12 @@
 class ProjectsController < ApplicationController
   include Concerns::Nested::Notes::SetAuthor
+  include Nested::Resource::State::ResourceStateChange
   
   before_action :authenticate_user!
   before_action :set_project, except: [:index, :create]
   before_action :authorize_project, except: [:index, :create]
   before_action :set_author, only: [:create, :update]
+  before_action :build_document, only: [:new, :edit]
 
   def index
     @projects = policy_scope( Project ).order(:start_date).page(params[:page])
@@ -30,7 +32,7 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
     authorize_project
     if @project.save
-      redirect_to @project, success: "Project successfully updated!"
+      redirect_to @project, flash: { success: "Project successfully updated!" }
     else
       render :new
     end
@@ -51,16 +53,16 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    # if @project.update_attributes(project_params)
-      redirect_to @project, success: "Project successfully updated!"
-    # else
-    #   render :edit
-    # end
+    if @project.update_attributes(project_params)
+      redirect_to @project, flash: { success: "Project successfully updated!" }
+    else
+      render :edit
+    end
   end
 
   def destroy
     @project.deactivate!
-    redirect_to projects_path, success: "Project successfully deactivated!"
+    redirect_to projects_path, flash: { success: "Project successfully deactivated!" }
   end
   
   private
@@ -85,9 +87,15 @@ class ProjectsController < ApplicationController
                                       :completion_date, 
                                       :estimated_completion_date, 
                                       :total_time, 
-                                      notes_attributes: [:text, :author, :_destroy],
+                                      :resource_state,
+                                      notes_attributes: [:id, :text, :author, :_destroy],
                                       document_attributes: [:id, :title, :_destroy],
-                                      tasks_attributes: [:id, :name, :description, :_destroy])
+                                      tasks_attributes: [:id, :name, :description, :resource_state, :_destroy])
     end
+    
+    def build_document
+      @project.build_document if @project.document.nil?
+    end
+
 
 end

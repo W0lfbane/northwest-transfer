@@ -22,7 +22,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
     authorize_group
     if @group.save
-      redirect_to @group, success: "Group successfully updated!"
+      redirect_to @group, flash: { success: "Group successfully updated!" }
     else
       render :new
     end
@@ -33,7 +33,7 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update_attributes(group_params)
-      redirect_to @group, success: "Group successfully updated!"
+      redirect_to @group, flash: { success: "Group successfully updated!" }
     else
       render :edit
     end
@@ -41,7 +41,7 @@ class GroupsController < ApplicationController
 
   def destroy
     @group.deactivate!
-    redirect_to groups_path, success: "Group successfully deactivated!"
+    redirect_to groups_path, flash: { success: "Group successfully deactivated!" }
   end
   
   private

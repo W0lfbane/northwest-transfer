@@ -1,11 +1,9 @@
 module ResourceStatesHelper
-    def filter_states(klass, admin_only_states)
+    def resource_states(klass)
        states = klass::STATES.clone
+       parsed_states = states.map { |n| I18n.t(n).capitalize }
+       paired_state_hash = Hash[parsed_states.zip(states)]
 
-       unless current_user.admin?
-        admin_only_states.to_a.each { |state| states.delete(state) }
-       end
-       
-       return states
+       return paired_state_hash
     end
 end
