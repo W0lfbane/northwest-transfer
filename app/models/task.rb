@@ -1,12 +1,11 @@
 class Task < ApplicationRecord
     include Helpers::ResourceStateHelper
+    include Notes::Notable
 
     belongs_to :project, inverse_of: :tasks
-    has_many :notes, as: :loggable
-    accepts_nested_attributes_for :notes, reject_if: :all_blank, allow_destroy: true
-    
+
     validates :name, presence: true
-    validate :note_added, if: :transitioning_to_problem_state
+    validate :note_added, if: :transitioning_to_problem_state?
 
     include AASM
     STATES = [:pending, :completed, :problem]
@@ -23,17 +22,5 @@ class Task < ApplicationRecord
             transitions to: :problem
         end
     end
-    
-    def note_added?
-        task = self
-        persisted_count = task.notes.count
-        ram_count = task.notes.to_a.count
-        
-        ram_count > persisted_count
-    end
-    
-    def note_added
-        errors.add(:notes, "must be added") unless note_added?
-    end
-    
+
 end

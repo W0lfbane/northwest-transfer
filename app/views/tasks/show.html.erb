@@ -15,5 +15,16 @@
   <%= @task.resource_state %>
 </p>
 
-<%= link_to 'Edit', edit_task_path(@route_resource, @resource, @task) %> |
-<%= link_to 'Back', tasks_path(@route_resource, @resource) %>
+<p>
+  <strong>Notes</strong>
+  <ol>
+    <% @task.notes.each do |note| %>
+    <li>
+      <%= render 'notes/note_attributes', note: note %>
+    </li>
+    <% end %>
+  </ol>
+</p>
+
+<%= link_to 'Edit', edit_task_path(@resource_route, @resource, @task) %> |
+<%= link_to 'Back', tasks_path(@resource_route, @resource) %>

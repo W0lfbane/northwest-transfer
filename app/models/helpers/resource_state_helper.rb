@@ -1,4 +1,5 @@
 module Helpers::ResourceStateHelper
+
     # Helper methods for managing resource states
     def valid_state?(state)
         self.class::STATES.include?(state.to_sym)
@@ -31,7 +32,7 @@ module Helpers::ResourceStateHelper
     end
 
     # Figure out a good way to test for state transitions
-    def transitioning_to_problem_state
+    def transitioning_to_problem_state?
         resource_state == 'problem'
     end
 end

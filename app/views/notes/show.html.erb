@@ -1,14 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Text:</strong>
-  <%= @note.text %>
-</p>
+<%= render 'note_attributes', note: @note %>
 
-<p>
-  <strong>Author:</strong>
-  <%= @note.author %>
-</p>
-
-<%= link_to 'Edit', edit_note_path(@route_resource, @resource, @note) %> |
-<%= link_to 'Back', notes_path(@route_resource, @resource) %>
+<%= link_to 'Edit', edit_note_path(@resource_route, @resource, @note) %> |
+<%= link_to 'Back', notes_path(@resource_route, @resource) %>

@@ -16,9 +16,9 @@
       <tr>
         <td><%= note.text %></td>
         <td><%= note.author %></td>
-        <td><%= link_to 'Show', note_path(@route_resource, @resource, note) %></td>
-        <td><%= link_to 'Edit', edit_note_path(@route_resource, @resource, note) %></td>
-        <td><%= link_to 'Destroy', note_path(@route_resource, @resource, note), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', note_path(@resource_route, @resource, note) %></td>
+        <td><%= link_to 'Edit', edit_note_path(@resource_route, @resource, note) %></td>
+        <td><%= link_to 'Destroy', note_path(@resource_route, @resource, note), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +26,4 @@
 
 <br>
 
-<%= link_to 'New Note', new_note_path(@route_resource, @resource) %>
+<%= link_to 'New Note', new_note_path(@resource_route, @resource) %>

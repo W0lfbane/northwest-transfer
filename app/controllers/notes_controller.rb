@@ -1,5 +1,5 @@
 class NotesController < ApplicationController
-  include Nested::Resource::SetResource
+  include Resource::Nested::SetResource
 
   before_action :authenticate_user!
   before_action :set_resource
@@ -33,8 +33,8 @@ class NotesController < ApplicationController
 
     respond_to do |format|
       if @note.save
-        format.html { redirect_to note_path(@route_resource, @resource, @note), notice: 'Note was successfully created.' }
-        format.json { render :show, status: :created, location: note_path(@route_resource, @resource, @note) }
+        format.html { redirect_to note_path(@resource_route, @resource, @note), notice: 'Note was successfully created.' }
+        format.json { render :show, status: :created, location: note_path(@resource_route, @resource, @note) }
       else
         format.html { render :new }
         format.json { render json: @note.errors, status: :unprocessable_entity }
@@ -47,8 +47,8 @@ class NotesController < ApplicationController
   def update
     respond_to do |format|
       if @note.update(note_params)
-        format.html { redirect_to note_path(@route_resource, @resource, @note), notice: 'Note was successfully updated.' }
-        format.json { render :show, status: :ok, location: note_path(@route_resource, @resource, @note) }
+        format.html { redirect_to note_path(@resource_route, @resource, @note), notice: 'Note was successfully updated.' }
+        format.json { render :show, status: :ok, location: note_path(@resource_route, @resource, @note) }
       else
         format.html { render :edit }
         format.json { render json: @note.errors, status: :unprocessable_entity }
@@ -61,7 +61,7 @@ class NotesController < ApplicationController
   def destroy
     @note.destroy
     respond_to do |format|
-      format.html { redirect_to notes_url(@route_resource, @resource), notice: 'Note was successfully destroyed.' }
+      format.html { redirect_to notes_url(@resource_route, @resource), notice: 'Note was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

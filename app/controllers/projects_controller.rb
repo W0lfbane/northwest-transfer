@@ -1,4 +1,6 @@
 class ProjectsController < ApplicationController
+  include Resource::State::ResourceStateChange
+
   before_action :authenticate_user!
   before_action :set_project, except: [:index, :create]
   before_action :authorize_project, except: [:index, :create]
@@ -28,7 +30,7 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
     authorize_project
     if @project.save
-      redirect_to @project, success: "Project successfully updated!"
+      redirect_to @project, flash: { success: "Project successfully updated!" }
     else
       render :new
     end
@@ -50,7 +52,7 @@ class ProjectsController < ApplicationController
 
   def update
     if @project.update_attributes(project_params)
-      redirect_to @project, success: "Project successfully updated!"
+      redirect_to @project, flash: { success: "Project successfully updated!" }
     else
       render :edit
     end
@@ -58,7 +60,7 @@ class ProjectsController < ApplicationController
 
   def destroy
     @project.deactivate!
-    redirect_to projects_path, success: "Project successfully deactivated!"
+    redirect_to projects_path, flash: { success: "Project successfully deactivated!" }
   end
   
   private
@@ -83,9 +85,10 @@ class ProjectsController < ApplicationController
                                       :completion_date, 
                                       :estimated_completion_date, 
                                       :total_time, 
-                                      :notes,
+                                      :resource_state,
+                                      notes_attributes: [:id, :text, :author, :_destroy],
                                       document_attributes: [:id, :title, :_destroy],
-                                      tasks_attributes: [:id, :name, :description, :_destroy])
+                                      tasks_attributes: [:id, :name, :description, :resource_state, :_destroy])
     end
     
     def build_document

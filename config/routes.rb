@@ -28,11 +28,12 @@ Rails.application.routes.draw do
     resources :tasks
     resources :notes
   end
+
+  patch '/:controller/:id/status', action: :resource_state_change, as: :resource_state_change
   
   as :project do
     get '/account/schedule', to: 'projects#schedule_index', as: :schedule
     get '/account/projects', to: 'projects#user_projects_index', as: :user_projects
-    get '/projects/:id/edit/:step', to: 'projects#edit', as: :edit_project_step
   end
 
   as :group do
