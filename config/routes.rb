@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   scope '/:resource/:resource_id' do
     resources :tasks
     resources :notes
+    resources :roles
   end
 
   patch '/:controller/:id/status', action: :resource_state_change, as: :resource_state_change
