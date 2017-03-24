@@ -1,7 +1,7 @@
-module Resource::State::ResourceStateChange
+module Resource::Role::ResourceRoleChange
   
-  # Takes a parameter STATUS_METHOD, which is the name of the role method to be invoked. 
-  def resource_state_change
+  # Takes a parameter, which is the name of the role method to be invoked. 
+  def resource_role_change
     model = controller_name.singularize.capitalize.constantize
     @resource = model.send(:find, params[:id])
 
