@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
-  include Concerns::Nested::Notes::SetAuthor
-  include Nested::Resource::State::ResourceStateChange
+  include Notes::Nested::SetAuthor
+  include Resource::State::ResourceStateChange
   
   before_action :authenticate_user!
   before_action :set_project, except: [:index, :create]

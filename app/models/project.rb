@@ -1,4 +1,4 @@
- class Project < ApplicationRecord
+class Project < ApplicationRecord
     include Roles::RoleUsers
     include Notes::Notable
     include Helpers::ResourceStateHelper
