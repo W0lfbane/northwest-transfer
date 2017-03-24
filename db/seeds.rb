@@ -16,7 +16,7 @@ resource_roles = { user: ["customer", "employee", "admin"],
                     project: ["customer", "employee", "leader"], 
                     group: ["customer", "employee", "moderator", "admin"] }
 
-admin_user = User.create!( email: "test@test.com", password: "password123", first_name: "Admin", last_name: "Admin" )
+admin_user = User.create!( email: "test@test.com", password: "password123", first_name: "Admin", last_name: "Admin", phone: "000-000-0000" )
 
 resource_roles[:user].each do |role|
     Role.create!(name: role)
@@ -27,7 +27,8 @@ resource_interval.times do |i|
     user = User.new( email: Faker::Internet.email, 
                         password: Faker::Internet.password, 
                         first_name: Faker::Name.first_name, 
-                        last_name: Faker::Name.last_name )
+                        last_name: Faker::Name.last_name,
+                        phone: Faker::PhoneNumber.phone_number)
     user.save!
     user.add_role resource_roles[:user].sample
 end
@@ -42,9 +43,6 @@ resource_interval.times do |i|
                    postal: Faker::Address.postcode,
                    start_date: start_date,
                    estimated_completion_date: Faker::Date.between(start_date, start_date + (i + i).days) )
-
-    Group.create!( name: Faker::Company.name,
-                    description: Faker::Lorem.paragraph )
 end
 
 Project.all.each do |project|
@@ -54,12 +52,6 @@ Project.all.each do |project|
     5.times do |i|
         project.tasks.create!(name: "Task ##{i}", description: "This is task ##{i} on #{project.title}.")
     end
-end
-
-Group.all.each do |group|
-    users = User.all.sample(5)
-    group.users  << users 
-    group.projects << Project.all.sample(5)
 end
 
 resource_roles.each do |resource, roles|
