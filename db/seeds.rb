@@ -16,7 +16,7 @@ resource_roles = { user: ["customer", "employee", "admin"],
                     project: ["customer", "employee", "leader"], 
                     group: ["customer", "employee", "moderator", "admin"] }
 
-admin_user = User.create!( email: "test@test.com", password: "password123", first_name: "Admin", last_name: "Admin" )
+admin_user = User.create!( email: "test@test.com", password: "password123", first_name: "Admin", last_name: "Admin", phone: "666-666-6666" )
 
 resource_roles[:user].each do |role|
     Role.create!(name: role)
@@ -27,7 +27,8 @@ resource_interval.times do |i|
     user = User.new( email: Faker::Internet.email, 
                         password: Faker::Internet.password, 
                         first_name: Faker::Name.first_name, 
-                        last_name: Faker::Name.last_name )
+                        last_name: Faker::Name.last_name,
+                        phone: Faker::PhoneNumber.phone_number)
     user.save!
     user.add_role resource_roles[:user].sample
 end
