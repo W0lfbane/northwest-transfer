@@ -49,7 +49,7 @@ class Project < ApplicationRecord
             transitions to: :problem
         end
 
-        event :deactivate do
+        event :deactivate, guards: lambda { @user.admin? }  do
             transitions to: :deactivated
         end
     end
