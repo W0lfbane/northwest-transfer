@@ -60,4 +60,8 @@ class ApplicationPolicy
   def resource_state_change?
     show?
   end
+
+  def resource_role_change?
+    show?
+  end
 end

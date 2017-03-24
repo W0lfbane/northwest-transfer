@@ -4,9 +4,7 @@ Rails.application.routes.draw do
 
   devise_for :users, skip: [:sessions], path_names: { cancel: 'deactive', sign_up: 'new' }, controllers: { registrations: "registrations" }
 
-  resources :users, only: [:index, :show] do
-    resources :user_roles, :path => "roles", except: [:edit, :update]
-  end
+  resources :users, only: [:index, :show]
 
   devise_scope :user do
     get 'account', to: 'users#show', as: :account
@@ -24,13 +22,15 @@ Rails.application.routes.draw do
   end
 
   # Nested routes with multiple or unknown parents
-  scope '/:resource/:resource_id' do
+  scope '/:parent_resource/:parent_resource_id' do
     resources :tasks
     resources :notes
+    resources :roles
+  
+    patch '/status', controller: :parent_resource, action: :resource_state_change, as: :resource_state_change
+    patch '/role', controller: :parent_resource, action: :resource_role_change, as: :resource_role_change 
   end
 
-  patch '/:controller/:id/status', action: :resource_state_change, as: :resource_state_change
-  
   as :project do
     get '/account/schedule', to: 'projects#schedule_index', as: :schedule
     get '/account/projects', to: 'projects#user_projects_index', as: :user_projects

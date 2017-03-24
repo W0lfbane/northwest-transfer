@@ -18,9 +18,9 @@
         <td><%= task.name %></td>
         <td><%= task.description %></td>
         <td><%= task.aasm.current_state %></td>
-        <td><%= link_to 'Show', task_path(@resource_route, @resource, task) %></td>
-        <td><%= link_to 'Edit', edit_task_path(@resource_route, @resource, task) %></td>
-        <td><%= link_to 'Destroy', task_path(@resource_route, @resource, task), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', task_path(id: task) %></td>
+        <td><%= link_to 'Edit', edit_task_path(id: task) %></td>
+        <td><%= link_to 'Destroy', task_path(id: task), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Task', new_task_path(@resource_route, @resource) %>
+<%= link_to 'New Task', new_task_path %>
