@@ -26,10 +26,11 @@ Rails.application.routes.draw do
     resources :tasks
     resources :notes
     resources :roles
+  
+    patch '/status', controller: :parent_resource, action: :resource_state_change, as: :resource_state_change
+    patch '/role', controller: :parent_resource, action: :resource_role_change, as: :resource_role_change 
   end
 
-  patch '/:controller/:id/status', action: :resource_state_change, as: :resource_state_change
-  
   as :project do
     get '/account/schedule', to: 'projects#schedule_index', as: :schedule
     get '/account/projects', to: 'projects#user_projects_index', as: :user_projects

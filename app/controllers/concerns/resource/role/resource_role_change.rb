@@ -3,15 +3,27 @@ module Resource::Role::ResourceRoleChange
   # Takes a parameter, which is the name of the role method to be invoked. 
   def resource_role_change
     model = controller_name.singularize.capitalize.constantize
-    @resource = model.send(:find, params[:id])
+    @resource ||= model.send(:find, params[:id])
+    roles = params[:roles].nil? ? [] : params[:roles].map(&:to_sym)
 
     begin
-      @resource.send(params[:status_method] + '!')
+      roles.each do |role_name|
+        role = Role.find_by_name(role_name)
+        if @resource.roles.include? role
+          next
+        else
+          @resource.roles << role
+        end
+      end
+
+      inverse_role_names = @resource.class::ROLES - roles
+      inverse_role_list = inverse_role_names.map { |role_name| Role.find_by_name(role_name) }
+      @resource.roles = @resource.roles - inverse_role_list
     rescue => e
       logger.error(e.message)
-      redirect_to @resource, flash: { error: "The status could not be updated!" }
+      redirect_to @resource, flash: { error: "The role could not be updated!" }
     else
-      redirect_to @resource, flash: { success: "Status updated successfully!" }
+      redirect_to @resource, flash: { success: "Role updated successfully!" }
     end
   end
 

@@ -33,8 +33,8 @@ class RolesController < ApplicationController
 
     respond_to do |format|
       if @role.save
-        format.html { redirect_to role_path(@resource_route, @resource, @role), notice: 'Role was successfully created.' }
-        format.json { render :show, status: :created, location: role_path(@resource_route, @resource, @role) }
+        format.html { redirect_to role_path(id: @role), notice: 'Role was successfully created.' }
+        format.json { render :show, status: :created, location: role_path(id: @role) }
       else
         format.html { render :new }
         format.json { render json: @role.errors, status: :unprocessable_entity }
@@ -47,8 +47,8 @@ class RolesController < ApplicationController
   def update
     respond_to do |format|
       if @role.update(role_params)
-        format.html { redirect_to role_path(@resource_route, @resource, @role), notice: 'Role was successfully updated.' }
-        format.json { render :show, status: :ok, location: role_path(@resource_route, @resource, @role) }
+        format.html { redirect_to role_path(id: @role), notice: 'Role was successfully updated.' }
+        format.json { render :show, status: :ok, location: role_path(id: @role) }
       else
         format.html { render :edit }
         format.json { render json: @role.errors, status: :unprocessable_entity }
@@ -61,7 +61,7 @@ class RolesController < ApplicationController
   def destroy
     @role.destroy
     respond_to do |format|
-      format.html { redirect_to roles_url(@resource_route, @resource), notice: 'Role was successfully destroyed.' }
+      format.html { redirect_to roles_url, notice: 'Role was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

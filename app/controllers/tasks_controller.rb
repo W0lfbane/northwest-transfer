@@ -33,8 +33,8 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to task_path(@resource_route, @resource, @task), notice: 'Task was successfully created.' }
-        format.json { render :show, status: :created, location: task_path(@resource_route, @resource, @task) }
+        format.html { redirect_to task_path(id: @task), notice: 'Task was successfully created.' }
+        format.json { render :show, status: :created, location: task_path(id: @task) }
       else
         format.html { render :new }
         format.json { render json: @task.errors, status: :unprocessable_entity }
@@ -47,8 +47,8 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to task_path(@resource_route, @resource, @task), notice: 'Task was successfully updated.' }
-        format.json { render :show, status: :ok, location: task_path(@resource_route, @resource, @task) }
+        format.html { redirect_to task_path(id: @task), notice: 'Task was successfully updated.' }
+        format.json { render :show, status: :ok, location: task_path(id: @task) }
       else
         format.html { render :edit }
         format.json { render json: @task.errors, status: :unprocessable_entity }
@@ -61,7 +61,7 @@ class TasksController < ApplicationController
   def destroy
     @task.destroy
     respond_to do |format|
-      format.html { redirect_to tasks_url(@resource_route, @resource), notice: 'Task was successfully destroyed.' }
+      format.html { redirect_to tasks_url, notice: 'Task was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
