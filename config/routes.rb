@@ -22,13 +22,15 @@ Rails.application.routes.draw do
   end
 
   # Nested routes with multiple or unknown parents
-  scope '/:parent_resource/:parent_resource_id' do
-    resources :tasks
-    resources :notes
-    resources :roles
-  
-    patch '/status', controller: :parent_resource, action: :resource_state_change, as: :resource_state_change
-    patch '/role', controller: :parent_resource, action: :resource_role_change, as: :resource_role_change 
+  scope '/:resource_controller' do
+    scope '/:resource_id' do
+      resources :tasks
+      resources :notes
+      resources :roles
+
+      patch '/status', controller: :resource_controller, action: :resource_state_change, as: :resource_state_change
+      patch '/role', controller: :resource_controller, action: :resource_role_change, as: :resource_role_change
+    end
   end
 
   as :project do

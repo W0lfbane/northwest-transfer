@@ -16,7 +16,7 @@ resource_roles = { user: ["customer", "employee", "admin"],
                     project: ["customer", "employee", "leader"], 
                     group: ["customer", "employee", "moderator", "admin"] }
 
-admin_user = User.create!( email: "test@test.com", password: "password123", first_name: "Admin", last_name: "Admin", phone: "000-000-0000" )
+admin_user = User.create!( email: "test@test.com", password: "password123", first_name: "Admin", last_name: "Admin", phone: "666-666-6666" )
 
 resource_roles[:user].each do |role|
     Role.create!(name: role)
