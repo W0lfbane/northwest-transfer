@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<%= button_to "test", resource_state_change_path, method: :patch, params: { status_method: 'complete' } %>
+
 <p>
   <strong>Title:</strong>
   <%= @document.title %>

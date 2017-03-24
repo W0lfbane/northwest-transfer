@@ -13,12 +13,16 @@ class Document < ApplicationRecord
         
         before_all_events :set_state_user
     
-        event :complete do
+        event :complete, guards: :signed? do
             transitions to: :completed
         end
     
-        event :deactivate!, guards: lambda { @user.admin? } do
+        event :deactivate, guards: lambda { @user.admin? } do
             transitions to: :problem
         end
+    end
+    
+    def signed?
+       !self.signature.blank? && !self.completion_date.blank?
     end
 end

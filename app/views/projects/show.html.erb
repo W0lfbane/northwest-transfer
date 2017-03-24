@@ -23,7 +23,7 @@
   <!--    </div>-->
   <!--  </div>-->
   
-<%= button_to "test", resource_state_change_path, method: :patch, params: { status_method: 'complete' } %>
+<!--<#%= button_to "test", resource_state_change_path, method: :patch, params: { status_method: 'complete' } %>-->
   
   
 <div class="container-fluid">
@@ -74,11 +74,11 @@
             </p>
           </div>
           <div class="col-xs-4 buffer-padding-20 border-left-grey-3">
-            <% if !@project.leaders.nil? %>
-              <% @project.leaders.each_with_index do |user, index| %>
+            <% if !@project.users.nil? %>
+              <% @project.users.each_with_index do |user, index| %>
                 <p>
                   <% break unless index <= 2 %>
-                  <% if index == 2 && @project.leaders.size > 2%>
+                  <% if index == 2 && @project.users.size > 2%>
                     <span class="text-grey text-italic">View More... </span>
                   <% else %>
                     <span class="text-grey text-italic">Leader: </span><%= user.name %>
