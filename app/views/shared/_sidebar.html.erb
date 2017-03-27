@@ -27,7 +27,7 @@
             </li>
             <ul class="sub-menu collapse list-unstyled row" id="groups">
                 <%= content_tag(:li, link_to('My Groups', user_groups_path) ) %>
-                <%= content_tag(:li, link_to('All Groups (Admin)', groups_path) ) unless !current_user.has_role?(:admin) %>
+                <%= content_tag(:li, link_to('All Groups (Admin)', groups_path) ) if current_user.has_role?(:admin) %>
             </ul>
 
             <li data-toggle="collapse" data-target="#products" class="collapsed row cursor-pointer">
@@ -37,12 +37,13 @@
             <ul class="sub-menu collapse list-unstyled row" id="products">
                 <%= content_tag(:li, link_to('My Projects', user_projects_path) ) %>
                 <%= content_tag(:li, link_to('Calendar', projects_calendar_path) ) %>
-                <%= content_tag(:li, link_to('View All (Admin)', projects_path) ) unless !current_user.has_role?(:admin) %>
+                <%= content_tag(:li, link_to('View All (Admin)', projects_path) ) if current_user.has_role?(:admin) %>
+                <%= content_tag(:li, link_to('New Project (Admin)', new_project_path) ) if current_user.has_role?(:admin) %>
             </ul>
             
             <%= yield(:sidebar) %>
 
-            <%= content_tag(:li, link_to(fa_icon("tag", text: "Users (Admin)", class: "fa-lg"), users_path, class: "col-xs-12" ), class: "row") unless !current_user.has_role?(:admin) %>
+            <%= content_tag(:li, link_to(fa_icon("tag", text: "Users (Admin)", class: "fa-lg"), users_path, class: "col-xs-12" ), class: "row") if current_user.has_role?(:admin) %>
         </ul>
     </div>
 </div>

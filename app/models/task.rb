@@ -1,7 +1,11 @@
 class Task < ApplicationRecord
     include Helpers::ResourceStateHelper
+    include Notes::Notable
 
-    belongs_to :project
+    belongs_to :project, inverse_of: :tasks
+
+    validates :name, presence: true
+    validate :note_added, if: :transitioning_to_problem_state?
 
     include AASM
     STATES = [:pending, :completed, :problem]
@@ -14,8 +18,9 @@ class Task < ApplicationRecord
             transitions to: :completed
         end
     
-        event :report_problem do
+        event :report_problem, guards: :note_added? do
             transitions to: :problem
         end
     end
+
 end

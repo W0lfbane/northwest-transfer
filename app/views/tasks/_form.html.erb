@@ -1,0 +1,25 @@
+<%= form_for @task, url: @task.persisted? ? task_path : tasks_path do |f| %>
+  <% if task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+      <% task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= render 'task_fields', f: f %>
+
+  <%= f.fields_for :notes do |builder| %>
+    <%= render 'notes/note_fields', f: builder %>
+  <% end %>
+
+  <%= link_to_add_fields 'Add Note', f, :notes, { partial: 'notes/note_fields' } %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

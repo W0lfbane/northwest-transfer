@@ -1,0 +1,8 @@
+@import "fullcalendar/dist/fullcalendar";
+
+// This is included to re-skin FullCalendar, which uses jQuery-UI
+@import "jquery-ui/themes/custom";
+
+.fc-scroller {
+   overflow-y: hidden !important;
+}

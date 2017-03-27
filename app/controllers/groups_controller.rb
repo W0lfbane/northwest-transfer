@@ -4,11 +4,12 @@ class GroupsController < ApplicationController
   before_action :authorize_group, except: [:index, :create]
 
   def index
-    if request.original_url.include?( user_groups_path )
-      @groups = policy_scope( current_user.groups )
-    else
-      @groups = policy_scope(Group)
-    end
+    @groups = policy_scope(Group).page(params[:page])
+  end
+
+  def user_groups_index
+    @groups = policy_scope( current_user.groups ).page(params[:page]).order(:created_at)
+    render :index
   end
 
   def show
@@ -21,7 +22,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
     authorize_group
     if @group.save
-      redirect_to @group, success: "Group successfully updated!"
+      redirect_to @group, flash: { success: "Group successfully updated!" }
     else
       render :new
     end
@@ -32,7 +33,7 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update_attributes(group_params)
-      redirect_to @group, success: "Group successfully updated!"
+      redirect_to @group, flash: { success: "Group successfully updated!" }
     else
       render :edit
     end
@@ -40,7 +41,7 @@ class GroupsController < ApplicationController
 
   def destroy
     @group.deactivate!
-    redirect_to groups_path, success: "Group successfully deactivated!"
+    redirect_to groups_path, flash: { success: "Group successfully deactivated!" }
   end
   
   private

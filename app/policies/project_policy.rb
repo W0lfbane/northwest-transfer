@@ -10,7 +10,7 @@ class ProjectPolicy < ApplicationPolicy
     end
     
     def index?
-        true 
+        true
     end
 
     def show?
@@ -27,5 +27,16 @@ class ProjectPolicy < ApplicationPolicy
     
     def destroy?
         is_admin? or resource_user?
+    end
+
+
+    # Non-standard Routes
+
+    def schedule_index?
+        index? 
+    end
+
+    def user_projects_index?
+        index? 
     end
 end

@@ -67,7 +67,7 @@ RSpec.describe GroupsController, type: :controller do
       it "returns all groups" do
         FactoryGirl.create(:group)
         get :index
-        expect(assigns(:groups).count).to eql Group.count
+        expect(assigns(:groups).count).to eql Group.count > 20 ? 20 : Group.count
       end
     end
   end
@@ -133,22 +133,23 @@ RSpec.describe GroupsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
       
-      it "renders show template" do
+      it "renders new template" do
         expect(response).to render_template :new
       end
     end
+
+    shared_examples_for "has inappropriate permissions" do
+      it "raises NotAuthorizedError" do
+        expect{ get :new }.to raise_error(Pundit::NotAuthorizedError)
+      end
+    end
     
-    context "logged in as non-group user" do
+    context "logged in as standard user" do
       login_user
-      it_should_behave_like "has appropriate permissions"
+      it_should_behave_like "has inappropriate permissions"
     end
-    
-    context "logged in as group user" do
-      login_group_user
-      it_should_behave_like "has appropriate permissions"
-    end
-    
-    context "logged in as admin" do
+
+    context "logged in as admin user" do
       login_admin
       it_should_behave_like "has appropriate permissions"
     end
@@ -225,7 +226,7 @@ RSpec.describe GroupsController, type: :controller do
   describe "POST #create" do
     let (:valid_params) { { group: FactoryGirl.attributes_for(:group) } }
     let (:invalid_params) { { group: FactoryGirl.attributes_for(:group, name: nil) } }
-    login_user
+    login_admin
     
     context "with valid parameters" do
       it "increases amount of groups by 1" do
