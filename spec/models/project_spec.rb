@@ -150,9 +150,15 @@ describe Project, type: :model do
     expect(subject).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
   end
 
+<<<<<<< HEAD
   it "transition from problem to complete" do
     expect(subject).to transition_from(:problem).to(:completed).on_event(:complete)
   end
+=======
+  # it "transition from problem to complete" do
+  #   expect(subject).to transition_from(:problem).to(:completed).on_event(:complete)
+  # end
+>>>>>>> 40428fce33ad8a507b31f3d0954c424b5ed83c03
 
   it "transition from deactivated to problem" do
     expect(subject).to transition_from(:deactivated).to(:problem).on_event(:report_problem)
@@ -174,24 +180,20 @@ describe Project, type: :model do
     expect(subject).to transition_from(:completed).to(:problem).on_event(:report_problem)
   end
 
-  it "transition from deactivated to deactivated" do
-    expect(subject).to transition_from(:deactivated).to(:deactivated).on_event(:deactivate)
-  end
-
   it "transition from pending to deactivated" do
-    expect(subject).to transition_from(:pending).to(:deactivated).on_event(:deactivate)
+    expect(subject).to transition_from(:pending).to(:deactivated).on_event(:deactivate, test_user)
   end
 
   it "transition from en_route to deactivated" do
-    expect(subject).to transition_from(:en_route).to(:deactivated).on_event(:deactivate)
+    expect(subject).to transition_from(:en_route).to(:deactivated).on_event(:deactivate, test_user)
   end
 
   it "transition from in_progress to deactivated" do
-    expect(subject).to transition_from(:in_progress).to(:deactivated).on_event(:deactivate)
+    expect(subject).to transition_from(:in_progress).to(:deactivated).on_event(:deactivate, test_user)
   end
 
   it "transition from completed to deactivated" do
-    expect(subject).to transition_from(:completed).to(:deactivated).on_event(:deactivate)
+    expect(subject).to transition_from(:completed).to(:deactivated).on_event(:deactivate, test_user)
   end
 
   it "total time for complete" do
@@ -199,10 +201,10 @@ describe Project, type: :model do
     expect( subject.total_time ).to eq( 2 )
   end
 
-  # it "Test set_completion_date method works" do
-  #   subject.set_completion_date!
-  #   expect( subject.completion_date.strftime("%m/%d/%Y at %I:%M%p") ).to eq( DateTime.now.strftime("%m/%d/%Y at %I:%M%p") )
-  # end
+  it "Test set_completion_date method works" do
+    subject.set_completion_date!
+    expect( subject.completion_date.strftime("%m/%d/%Y at %I:%M%p") ).to eq( DateTime.now.utc.strftime("%m/%d/%Y at %I:%M%p") )
+  end
 
   it "has an alert_level method that returns inactive when the state is pending" do
     expect( subject.alert_level ).to eq ( "inactive" )
@@ -245,9 +247,16 @@ describe Project, type: :model do
   #   expect( subject.flags.count ).to eq ( 1 )
   # end
 
+<<<<<<< HEAD
   # it "Test flags for zero flag" do
   #   subject.resource_state = "problem"
   #   expect( subject.flags.count ).to eq ( 0 )
   # end
 
+=======
+  it "Test flags for zero flag" do
+    subject.resource_state = "problem"
+    expect( subject.flags.count ).to eq ( 0 )
+  end
+>>>>>>> 40428fce33ad8a507b31f3d0954c424b5ed83c03
 end
