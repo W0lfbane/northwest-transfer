@@ -44,7 +44,6 @@ class Project < ApplicationRecord
         event :complete, success: :set_completion_date!, guards: lambda { @user.admin? } do
             transitions from: [:pending_review], to: :completed
         end
-      end
 
         event :report_problem do
             transitions to: :problem
@@ -89,5 +88,4 @@ class Project < ApplicationRecord
         self.postal + ' ' +
         self.country
     end
-
 end

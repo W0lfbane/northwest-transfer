@@ -30,11 +30,6 @@ describe Project, type: :model do
     expect( subject ).not_to be_valid
   end
 
-  it "is invalid without a description" do
-    subject.description = nil
-    expect( subject ).not_to be_valid
-  end
-
   it "is invalid without a address" do
     subject.address = nil
     expect( subject ).not_to be_valid
@@ -91,7 +86,7 @@ describe Project, type: :model do
 
   it "transition from pending review to completed" do
     expect(subject).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
-  end  
+  end
 
   it "returns a project start_date as a date" do
     subject.start_date = "2001-1-1"
@@ -241,16 +236,9 @@ describe Project, type: :model do
   #   expect( subject.flags.count ).to eq ( 1 )
   # end
 
-<<<<<<< HEAD
-  # it "Test flags for zero flag" do
-  #   subject.resource_state = "problem"
-  #   expect( subject.flags.count ).to eq ( 0 )
-  # end
 
-=======
   it "Test flags for zero flag" do
     subject.resource_state = "problem"
     expect( subject.flags.count ).to eq ( 0 )
   end
->>>>>>> 40428fce33ad8a507b31f3d0954c424b5ed83c03
 end
