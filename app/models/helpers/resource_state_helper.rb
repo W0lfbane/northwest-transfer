@@ -13,10 +13,10 @@ module Helpers::ResourceStateHelper
 
     def current_state?(state)
         if self.aasm.current_state == state.to_sym
-           true 
+           true
         end
     end
-    
+
     def interacting_with_state?(state)
         @state = state.to_sym
 
@@ -26,9 +26,9 @@ module Helpers::ResourceStateHelper
             false
         end
     end
-    
+
     def set_state_user(user = User.new)
-       @user = user 
+       @user = user
     end
 
     # Figure out a good way to test for state transitions

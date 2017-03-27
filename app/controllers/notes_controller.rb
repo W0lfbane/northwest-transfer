@@ -1,5 +1,5 @@
 class NotesController < ApplicationController
-  include Concerns::Nested::Notes::SetAuthor
+  include Notes::Nested::SetAuthor
   include Resource::Nested::SetResource
 
   before_action :authenticate_user!
@@ -73,11 +73,11 @@ class NotesController < ApplicationController
     def set_note
       @note = params[:id] ? @resource.notes.find(params[:id]) : @resource.notes.build
     end
-    
+
     def authorize_note
       authorize @note
     end
-  
+
     def note_params
       params.require(:note).permit(:text, :author)
     end
