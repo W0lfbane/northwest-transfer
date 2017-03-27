@@ -10,18 +10,18 @@ describe Project, type: :model do
 
   it "will have many tasks" do
     assc = described_class.reflect_on_association(:tasks)
-     expect(assc.macro).to eq(:has_many)
+    expect(assc.macro).to eq(:has_many)
   end
 
 
   it "will have many users" do
     assc = described_class.reflect_on_association(:users)
-     expect(assc.macro).to eq(:has_many)
+    expect(assc.macro).to eq(:has_many)
   end
 
   it "will have one document" do
     assc = described_class.reflect_on_association(:document)
-     expect(assc.macro).to eq(:has_one)
+    expect(assc.macro).to eq(:has_one)
   end
 
   it "is invalid without a title" do
@@ -145,10 +145,9 @@ describe Project, type: :model do
     expect(subject).to transition_from(:pending_review).to(:completed).on_event(:complete, test_user)
   end
 
-  #
-  it "transition from problem to complete" do
-    expect(subject).to transition_from(:problem).to(:completed).on_event(:complete)
-  end
+  # it "transition from problem to complete" do
+  #   expect(subject).to transition_from(:problem).to(:completed).on_event(:complete)
+  # end
 
   it "transition from deactivated to problem" do
     expect(subject).to transition_from(:deactivated).to(:problem).on_event(:report_problem)
@@ -170,24 +169,20 @@ describe Project, type: :model do
     expect(subject).to transition_from(:completed).to(:problem).on_event(:report_problem)
   end
 
-  it "transition from deactivated to deactivated" do
-    expect(subject).to transition_from(:deactivated).to(:deactivated).on_event(:deactivate)
-  end
-
   it "transition from pending to deactivated" do
-    expect(subject).to transition_from(:pending).to(:deactivated).on_event(:deactivate)
+    expect(subject).to transition_from(:pending).to(:deactivated).on_event(:deactivate, test_user)
   end
 
   it "transition from en_route to deactivated" do
-    expect(subject).to transition_from(:en_route).to(:deactivated).on_event(:deactivate)
+    expect(subject).to transition_from(:en_route).to(:deactivated).on_event(:deactivate, test_user)
   end
 
   it "transition from in_progress to deactivated" do
-    expect(subject).to transition_from(:in_progress).to(:deactivated).on_event(:deactivate)
+    expect(subject).to transition_from(:in_progress).to(:deactivated).on_event(:deactivate, test_user)
   end
 
   it "transition from completed to deactivated" do
-    expect(subject).to transition_from(:completed).to(:deactivated).on_event(:deactivate)
+    expect(subject).to transition_from(:completed).to(:deactivated).on_event(:deactivate, test_user)
   end
 
   it "total time for complete" do
@@ -195,10 +190,10 @@ describe Project, type: :model do
     expect( subject.total_time ).to eq( 2 )
   end
 
-  # it "Test set_completion_date method works" do
-  #   subject.set_completion_date!
-  #   expect( subject.completion_date.strftime("%m/%d/%Y at %I:%M%p") ).to eq( DateTime.now.strftime("%m/%d/%Y at %I:%M%p") )
-  # end
+  it "Test set_completion_date method works" do
+    subject.set_completion_date!
+    expect( subject.completion_date.strftime("%m/%d/%Y at %I:%M%p") ).to eq( DateTime.now.utc.strftime("%m/%d/%Y at %I:%M%p") )
+  end
 
   it "Test alert_level method work for inactive" do
     expect( subject.alert_level ).to eq ( "inactive" )
@@ -245,5 +240,4 @@ describe Project, type: :model do
     subject.resource_state = "problem"
     expect( subject.flags.count ).to eq ( 0 )
   end
-
 end
