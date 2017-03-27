@@ -70,7 +70,7 @@ group :development, :test do
   gem 'poltergeist'
   
   # Use Pry to inspect dynamic and ghost methods which are created at runtime
-  gem 'pry'
+  gem 'pry-rails'
 end
 
 group :development do

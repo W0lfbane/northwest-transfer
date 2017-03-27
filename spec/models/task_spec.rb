@@ -21,18 +21,21 @@ describe Task, type: :model do
   end
 
   it "is valid without a description" do
-    expect( FactoryGirl.create(:task, description: nil) ).to be_valid
+    subject.description = nil
+    expect( subject ).to be_valid
   end
 
   it "returns a task description as a string" do
-    expect( FactoryGirl.create(:task, description: "Bob").description ).to eq( "Bob" )
+    subject.description = "Bob"
+    expect( subject.description ).to eq( "Bob" )
   end
 
   it "is valid without a resource_state" do
-    expect( FactoryGirl.create(:task, resource_state: nil) ).to be_valid
+    subject.resource_state = nil
+    expect( subject ).to be_valid
   end
 
-  it "error when task resource_state is not part of the list like 'pending'" do
+  it "check for valid resource_state" do
     expect{ FactoryGirl.create( :task, resource_state: "Bob" ) }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
@@ -41,11 +44,12 @@ describe Task, type: :model do
   end
 
   it "change the pending to problem for task resource_state" do
-    expect( subject ).to transition_from(:pending).to(:problem).on_event(:report_problem, )
+    subject.notes.build(attributes_for(:note))
+    expect( subject ).to transition_from(:pending).to(:problem).on_event(:report_problem, @note)
   end
 
   it "check initial state as pending for task resource_state" do
-    expect( FactoryGirl.create(:task).resource_state ).to eq( "pending" )
+    expect( subject.resource_state ).to eq( "pending" )
   end
 
   it "is invalid without a project id" do
