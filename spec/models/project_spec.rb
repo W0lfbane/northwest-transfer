@@ -150,15 +150,9 @@ describe Project, type: :model do
     expect(subject).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
   end
 
-<<<<<<< HEAD
-  it "transition from problem to complete" do
-    expect(subject).to transition_from(:problem).to(:completed).on_event(:complete)
-  end
-=======
   # it "transition from problem to complete" do
   #   expect(subject).to transition_from(:problem).to(:completed).on_event(:complete)
   # end
->>>>>>> 40428fce33ad8a507b31f3d0954c424b5ed83c03
 
   it "transition from deactivated to problem" do
     expect(subject).to transition_from(:deactivated).to(:problem).on_event(:report_problem)
