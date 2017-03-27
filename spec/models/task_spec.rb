@@ -60,4 +60,9 @@ describe Task, type: :model do
     assc = described_class.reflect_on_association(:project)
     expect( assc.macro ).to eq :belongs_to
   end
+
+  it "have many notes" do
+    assc = described_class.reflect_on_association(:notes)
+    expect( assc.macro ).to eq :has_many
+  end
 end
