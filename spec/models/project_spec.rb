@@ -1,27 +1,28 @@
 require 'rails_helper'
 
 describe Project, type: :model do
-  test_user= FactoryGirl.create(:admin)
-
   subject { FactoryGirl.build(:project) }
+
+  admin = FactoryGirl.create(:admin)
+
   it "has a valid factory" do
     expect( subject ).to be_valid
   end
 
   it "will have many tasks" do
     assc = described_class.reflect_on_association(:tasks)
-     expect(assc.macro).to eq(:has_many)
+    expect(assc.macro).to eq(:has_many)
   end
-
 
   it "will have many users" do
     assc = described_class.reflect_on_association(:users)
-     expect(assc.macro).to eq(:has_many)
+    expect(assc.macro).to eq(:has_many)
   end
 
+  # This will change
   it "will have one document" do
     assc = described_class.reflect_on_association(:document)
-     expect(assc.macro).to eq(:has_one)
+    expect(assc.macro).to eq(:has_one)
   end
 
   it "is invalid without a title" do
@@ -70,8 +71,8 @@ describe Project, type: :model do
   end
 
   it "state of the project is initialized as 'pending' " do
-    test_project = FactoryGirl.create(:project)
-    expect(test_project.resource_state).to eq("pending")
+    subject.save!
+    expect(subject.resource_state).to eq("pending")
   end
 
   it "returns a project title as a string" do
@@ -89,7 +90,6 @@ describe Project, type: :model do
   end
 
   it "transition from pending review to completed" do
-    admin = FactoryGirl.create(:admin)
     expect(subject).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
   end  
 
@@ -147,7 +147,7 @@ describe Project, type: :model do
   end
 
   it "transition from pending review to completed" do
-    expect(subject).to transition_from(:pending_review).to(:completed).on_event(:complete, test_user)
+    expect(subject).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
   end
 
   it "transition from problem to complete" do
@@ -204,7 +204,7 @@ describe Project, type: :model do
   #   expect( subject.completion_date.strftime("%m/%d/%Y at %I:%M%p") ).to eq( DateTime.now.strftime("%m/%d/%Y at %I:%M%p") )
   # end
 
-  it "Test alert_level method work for inactive" do
+  it "has an alert_level method that returns inactive when the state is pending" do
     expect( subject.alert_level ).to eq ( "inactive" )
   end
 
@@ -213,24 +213,24 @@ describe Project, type: :model do
   #   expect( subject.alert_level ).to eq ( "inactive" )
   # end
 
-  it "Test alert_level method work for operatonal" do
-    subject.resource_state = "problem"
-    expect( subject.alert_level ).to eq ( "operatonal" )
-  end
+  # it "Test alert_level method work for operatonal" do
+  #   subject.resource_state = "problem"
+  #   expect( subject.alert_level ).to eq ( "operatonal" )
+  # end
 
   # it "Test alert_level method work for advisory" do
   #   subject.resource_state = "problem"
   #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
   #   expect( subject.alert_level ).to eq ( "advisory" )
   # end
-  #
+
   # it "Test alert_level method work for danger" do
   #   subject.resource_state = "problem"
   #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
   #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
   #   expect( subject.alert_level ).to eq ( "danger" )
   # end
-  #
+
   # it "Test alert_level method work for danger with three task" do
   #   subject.resource_state = "problem"
   #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
@@ -238,16 +238,16 @@ describe Project, type: :model do
   #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
   #   expect( subject.alert_level ).to eq ( "danger" )
   # end
-  #
+
   # it "Test flags for one flag" do
   #   subject.resource_state = "problem"
   #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
   #   expect( subject.flags.count ).to eq ( 1 )
   # end
 
-  it "Test flags for zero flag" do
-    subject.resource_state = "problem"
-    expect( subject.flags.count ).to eq ( 0 )
-  end
+  # it "Test flags for zero flag" do
+  #   subject.resource_state = "problem"
+  #   expect( subject.flags.count ).to eq ( 0 )
+  # end
 
 end

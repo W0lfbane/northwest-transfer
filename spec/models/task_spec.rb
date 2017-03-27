@@ -1,17 +1,16 @@
 require 'rails_helper'
 
 describe Task, type: :model do
-    before(:each) do
-      test_project = FactoryGirl.create(:project)
-
-    end
+  before(:each) do
+    test_project = FactoryGirl.create(:project)
+  end
 
   it "has a valid factory" do
     expect( FactoryGirl.create(:task, :project_id => test_project.id) ).to be_valid
   end
 
   it "is invalid without a name" do
-    expect( FactoryGirl.create(:task, name: nil) ).to be_valid
+    expect( FactoryGirl.create(:task, name: nil) ).to be_invalid
   end
 
   it "returns a task name as a string" do
@@ -26,14 +25,6 @@ describe Task, type: :model do
     expect( FactoryGirl.create(:task, description: "Bob").description ).to eq( "Bob" )
   end
 
-  it "is valid without a notes" do
-    expect( FactoryGirl.create(:task, notes: nil) ).to be_valid
-  end
-
-  it "returns a task notes as a string" do
-    expect( FactoryGirl.create(:task, notes: "Bob").notes ).to eq( "Bob" )
-  end
-
   it "is valid without a resource_state" do
     expect( FactoryGirl.create(:task, resource_state: nil) ).to be_valid
   end
@@ -42,13 +33,15 @@ describe Task, type: :model do
     expect{ FactoryGirl.create( :task, resource_state: "Bob" ) }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
-  it "change the pending to completed for task resource_state" do
-    expect( FactoryGirl.create(:task, resource_state: "completed").resource_state ).to eq( "completed" )
-  end
+  # These should be revised, we do not want to access the resource_state attribute directly
 
-  it "change the pending to problem for task resource_state" do
-    expect( FactoryGirl.create(:task, resource_state: "problem").resource_state ).to eq( "problem" )
-  end
+  # it "change the pending to completed for task resource_state" do
+  #   expect( FactoryGirl.create(:task, resource_state: "completed").resource_state ).to eq( "completed" )
+  # end
+
+  # it "change the pending to problem for task resource_state" do
+  #   expect( FactoryGirl.create(:task, resource_state: "problem").resource_state ).to eq( "problem" )
+  # end
 
   it "check pending for task resource_state" do
     expect( FactoryGirl.create(:task).resource_state ).to eq( "pending" )
