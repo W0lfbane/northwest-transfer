@@ -59,7 +59,7 @@ class Project < ApplicationRecord
     end
     
     def set_completion_date!(date = DateTime.now)
-       self.update!(completion_date: date) 
+       self.update!(completion_date: date)
     end
     
     def flags

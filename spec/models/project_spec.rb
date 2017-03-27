@@ -66,6 +66,12 @@ describe Project, type: :model do
   it "returns a project location as a string" do
     expect( subject.location ).to be_a(String)
   end
+
+  it "transition from pending review to completed" do
+    admin = FactoryGirl.create(:admin)
+    puts admin.admin?
+    expect(subject).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
+  end  
   
   it "returns a project start_date as a date" do
     subject.start_date = "2001-1-1"
