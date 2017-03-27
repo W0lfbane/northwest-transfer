@@ -37,11 +37,11 @@ class Project < ApplicationRecord
             transitions from: [:en_route, :problem], to: :in_progress
         end
 
-        event :request_review, guards: :no_pending_tasks? do
+        event :request_review, guards: [:no_pending_tasks?, :document_complete?] do
             transitions from: [:in_progress, :problem], to: :pending_review
         end
 
-        event :complete, success: :set_completion_date!, guards: [lambda { @user.admin? }, :no_pending_tasks?] do
+        event :complete, success: :set_completion_date!, guards: [lambda { @user.admin? }, :no_pending_tasks?, :document_complete?] do
             transitions from: [:pending_review], to: :completed
         end
 
@@ -60,6 +60,14 @@ class Project < ApplicationRecord
     
     def no_pending_tasks?
        !tasks_pending?
+    end
+    
+    def document_complete?
+        if self.document.nil?
+            return false
+        else
+            self.document.completed?
+        end
     end
 
     def total_time
