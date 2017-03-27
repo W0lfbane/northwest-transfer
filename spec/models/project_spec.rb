@@ -13,10 +13,6 @@ describe Project, type: :model do
      expect(assc.macro).to eq(:has_many)
   end
 
-  it "will have many tasks" do
-    assc = described_class.reflect_on_association(:tasks)
-     expect(assc.macro).to eq(:has_many)
-  end
 
   it "will have many users" do
     assc = described_class.reflect_on_association(:users)
@@ -74,7 +70,8 @@ describe Project, type: :model do
   end
 
   it "state of the project is initialized as 'pending' " do
-    expect (subject.resource_state).to eq("pending")
+    test_project = FactoryGirl.create(:project)
+    expect(test_project.resource_state).to eq("pending")
   end
 
   it "returns a project title as a string" do
