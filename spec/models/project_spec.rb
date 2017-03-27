@@ -170,19 +170,19 @@ describe Project, type: :model do
   end
 
   it "transition from pending to deactivated" do
-    expect(subject).to transition_from(:pending).to(:deactivated).on_event(:deactivate, test_user)
+    expect(subject).to transition_from(:pending).to(:deactivated).on_event(:deactivate, admin)
   end
 
   it "transition from en_route to deactivated" do
-    expect(subject).to transition_from(:en_route).to(:deactivated).on_event(:deactivate, test_user)
+    expect(subject).to transition_from(:en_route).to(:deactivated).on_event(:deactivate, admin)
   end
 
   it "transition from in_progress to deactivated" do
-    expect(subject).to transition_from(:in_progress).to(:deactivated).on_event(:deactivate, test_user)
+    expect(subject).to transition_from(:in_progress).to(:deactivated).on_event(:deactivate, admin)
   end
 
   it "transition from completed to deactivated" do
-    expect(subject).to transition_from(:completed).to(:deactivated).on_event(:deactivate, test_user)
+    expect(subject).to transition_from(:completed).to(:deactivated).on_event(:deactivate, admin)
   end
 
   it "total time for complete" do
