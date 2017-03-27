@@ -62,7 +62,7 @@ RSpec.describe ProjectsController, type: :controller do
       it "returns all projects" do
         FactoryGirl.create(:project)
         get :index
-        expect(assigns(:projects).count).to eql Project.count
+        expect(assigns(:projects).count).to eql Project.count > 20 ? 20 : Project.count
       end
     end
   end
@@ -155,9 +155,9 @@ RSpec.describe ProjectsController, type: :controller do
       
       it_should_behave_like "invalid id", :get, :edit
       
-      it "redirects if wrong step is passed in" do
+      it "redirects if wrong step is passed in unless user is admin" do
         get :edit, params: {id: test_project, step: :completed}
-        expect(response).to have_http_status(:redirect)
+        expect(response).to have_http_status( subject.current_user.admin? ? :success : :redirect )
       end
       
       it "returns http success" do
@@ -232,6 +232,14 @@ RSpec.describe ProjectsController, type: :controller do
             post :create, params: valid_params
           }.to change(Project, :count).by(1)
         end
+
+        it "increases amount of tasks by 1 if a task is associated at creation time" do
+          valid_params[:project].merge!( tasks_attributes: FactoryGirl.attributes_for_list(:task, 5) )
+
+          expect {
+            post :create, params: valid_params
+          }.to change(Task, :count).by(5)
+        end
         
         it "redirects to new project" do
           post :create, params: valid_params
@@ -244,6 +252,12 @@ RSpec.describe ProjectsController, type: :controller do
           expect {
             post :create, params: invalid_params
           }.to_not change(Project, :count)
+        end
+        
+        it "does not increase amount of tasks" do
+          expect {
+            post :create, params: invalid_params
+          }.to_not change(Task, :count)
         end
         
         it "rerenders new template" do
@@ -373,5 +387,4 @@ RSpec.describe ProjectsController, type: :controller do
       end
     end
   end
-  
 end

@@ -6,7 +6,6 @@ class CalendarController < ApplicationController
       authorize resource
       instance_variable_set("@#{name}", policy_scope(resource)) 
     } unless params[:resources].nil?
-
-    render template: "calendar/#{params[:page]}"
   end
+  
 end

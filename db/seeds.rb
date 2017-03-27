@@ -12,35 +12,45 @@ Project.destroy_all
 Group.destroy_all
 
 resource_interval = 100
+resource_roles = { user: ["customer", "employee", "admin" ],
+                    project: ["customer", "employee", "leader"],
+                    group: ["customer", "employee", "moderator", "admin"] }
 
-test_user = User.create!( email: "test@test.com", password: "password123", first_name: "Admin", last_name: "Admin" )
+admin_user = User.create!( email: "test@test.com", password: "password123", first_name: "Admin", last_name: "Admin", phone: "888-888-8888" )
 
-["customer", "employee", "admin"].each do |role|
+resource_roles[:user].each do |role|
     Role.create!(name: role)
-    test_user.add_role(role)
+    admin_user.add_role(role)
 end
 
 resource_interval.times do |i|
-    User.create!( email: "user-#{i}@paulsens.com", password: "password-#{i}", first_name: "User#{i}", last_name: "User#{i}" )
+    user = User.new( email: Faker::Internet.email,
+                        password: Faker::Internet.password,
+                        first_name: Faker::Name.first_name,
+                        last_name: Faker::Name.last_name,
+                        phone: '888-888-8888' )
+    user.save!
+    user.add_role resource_roles[:user].sample
 end
 
 resource_interval.times do |i|
-    start_date = DateTime.now + (i + i).days
-    Project.create!( title: "Project ##{i}", 
-                   description: "This is a project.", 
-                   address: "Here!",
-                   city: "Dank",
-                   state: "Funland",
-                   postal: "606066",
+    start_date = Faker::Date.between(Date.today, i.days.from_now)
+    Project.create!( title: Faker::Company.name,
+                   description: Faker::Lorem.paragraph,
+                   address: Faker::Address.street_address,
+                   city: Faker::Address.city,
+                   state: Faker::Address.state,
+                   postal: Faker::Address.postcode,
                    start_date: start_date,
-                   estimated_completion_date: start_date + i.minutes + i.hours )
+                   estimated_completion_date: Faker::Date.between(start_date, start_date + (i + i).days) )
 
-    Group.create!( name: "group-#{i}",
-                    description: "This is group number #{i}" )
+    Group.create!( name: Faker::Company.name,
+                    description: Faker::Lorem.paragraph )
 end
 
 Project.all.each do |project|
-    project.users << User.all.sample(5)
+    users = User.all.sample(5)
+    project.users << users
 
     5.times do |i|
         project.tasks.create!(name: "Task ##{i}", description: "This is task ##{i} on #{project.title}.")
@@ -48,19 +58,18 @@ Project.all.each do |project|
 end
 
 Group.all.each do |group|
-   group.users  << User.all.sample(5)
-   group.projects << Project.all.sample(5)
+    users = User.all.sample(5)
+    group.users  << users
+    group.projects << Project.all.sample(5)
 end
 
-User.all.each do |user|
-    user.add_role(Role.pluck(:name).sample)
+resource_roles.each do |resource, roles|
+    unless resource == :user
+        klass = resource.to_s.capitalize.constantize
 
-    resource_roles = { project: ["customer", "employee", "leader"], 
-                       group: ["customer", "employee", "moderator", "admin"] }
-
-    resource_roles.each do |resource, roles|
-        applied_resource = resource.to_s.capitalize.constantize
-
-        user.add_role(roles.sample, applied_resource.offset(rand(applied_resource.count)).first)
+        ObjectSpace.each_object(klass) do |object|
+            users = object.users
+            users.each { |user| user.add_role(roles.sample, object) }
+        end
     end
 end

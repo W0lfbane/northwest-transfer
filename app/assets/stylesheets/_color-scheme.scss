@@ -1,0 +1,74 @@
+/* ================ SASS Variables ================ */
+
+$grey: grey;
+$light-grey: lighten($grey, 20%);
+$lighter-grey: lighten($grey, 40%);
+$lightest-grey: lighten($grey, 60%);
+$dark-grey: darken($grey, 20%);
+$darker-grey: darken($grey, 40%);
+$darkest-grey: darken($grey, 60%);
+
+$green: green;
+$orange: orange;
+$red: red;
+
+
+/* ================ Font Colors ================ */
+
+.link-light-grey, .link-light-grey * { @include link-colors($light-grey, $grey, $grey); }
+
+.text-grey, .text-grey *, 
+.text-inactive, .text-inactive * { color: $grey; }
+
+.text-light-grey, .text-light-grey * { color: $light-grey; }
+.text-lighter-grey, .text-lighter-grey * { color: $lighter-grey; }
+.text-lightest-grey, .text-lightest-grey * { color: $lightest-grey; }
+
+.text-dark-grey, .text-dark-grey * { color: $dark-grey; }
+.text-darker-grey, .text-darker-grey * { color: $darker-grey; }
+.text-darkest-grey, .text-darkest-grey * { color: $darkest-grey; }
+
+.text-green, .text-green *, 
+.text-operatonal, .text-operatonal * { color: $green; }
+
+
+/* ================ Backgrounds ================ */
+
+.background-radial-grey-darkergrey { @include background-image(radial-gradient($grey, $darker-grey)); }
+
+.background-white { background-color: white; }
+
+.background-grey { background-color: $grey; }
+
+.background-dark-grey { background-color: $dark-grey; }
+.background-darker-grey { background-color: $darker-grey; }
+.background-darkest-grey { background-color: $darkest-grey; }
+
+.background-light-grey { background-color: $light-grey; }
+.background-lighter-grey { background-color: $lighter-grey; }
+.background-lightest-grey { background-color: $lightest-grey; }
+
+
+
+/* ================ Borders ================ */
+
+.border-dark-grey-1 { border: solid 1px $dark-grey;}
+.border-darker-grey-1 { border: solid 1px $darker-grey;}
+
+.border-grey-3 { border: solid 3px $grey; }
+.border-top-grey-3 { border-top: solid 3px $grey; }
+.border-bottom-grey-3 { border-bottom: solid 3px $grey; }
+.border-right-grey-3 { border-right: solid 3px $grey; }
+.border-left-grey-3 { border-left: solid 3px $grey; }
+
+
+/* ================ Shadows ================ */
+
+.box-shadow-radial {
+  @include box-shadow($dark-grey 0 0 25px);
+}
+
+
+/* ================ Buttons ================ */
+
+.btn-dark-grey { @include button-variant($lighter-grey, $grey, $light-grey); }

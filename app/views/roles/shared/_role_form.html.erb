@@ -1,0 +1,12 @@
+<%= form_tag resource_role_change_path(resource.class.name.downcase.pluralize, resource.id), method: :patch do %>
+    <% resource.class::ROLES.each do |role| %>
+        <%= content_tag :div do %>
+            <%= label_tag do %>
+                <%= check_box_tag 'roles[]', role %>
+                <%= role %>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <%= submit_tag %>
+<% end %>

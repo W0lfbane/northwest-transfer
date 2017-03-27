@@ -8,13 +8,17 @@ class GroupPolicy < ApplicationPolicy
             end
         end
     end
+    
+    def index?
+        true
+    end
 
     def show?
         is_admin? or resource_user?
     end
 
     def create?
-        true
+        is_admin?
     end
 
     def update?
@@ -23,5 +27,12 @@ class GroupPolicy < ApplicationPolicy
     
     def destroy?
         is_admin? or resource_user?
+    end
+
+
+    # Non-standard Routes
+    
+    def user_groups_index?
+       index? 
     end
 end

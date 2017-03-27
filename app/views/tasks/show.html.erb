@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @task.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @task.description %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @task.resource_state %>
+</p>
+
+<p>
+  <strong>Notes</strong>
+  <ol>
+    <% @task.notes.each do |note| %>
+    <li>
+      <%= render 'notes/note_attributes', note: note %>
+    </li>
+    <% end %>
+  </ol>
+</p>
+
+<%= link_to 'Edit', edit_task_path(id: @task) %> |
+<%= link_to 'Back', tasks_path %>

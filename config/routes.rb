@@ -4,9 +4,7 @@ Rails.application.routes.draw do
 
   devise_for :users, skip: [:sessions], path_names: { cancel: 'deactive', sign_up: 'new' }, controllers: { registrations: "registrations" }
 
-  resources :users, only: [:index, :show] do
-    resources :user_roles, :path => "roles", except: [:edit, :update]
-  end
+  resources :users, only: [:index, :show]
 
   devise_scope :user do
     get 'account', to: 'users#show', as: :account
@@ -16,16 +14,31 @@ Rails.application.routes.draw do
     match 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session, via: Devise.mappings[:user].sign_out_via
   end
 
-  resources :projects, :groups
-  
+  get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, resources: { projects: Project }
+
+  resources :groups
+  resources :projects do
+      resource :document
+  end
+
+  # Nested routes with multiple or unknown parents
+  scope '/:resource_controller' do
+    scope '/:resource_id' do
+      resources :tasks
+      resources :notes
+      resources :roles
+
+      patch '/status', controller: :resource_controller, action: :resource_state_change, as: :resource_state_change
+      patch '/role', controller: :resource_controller, action: :resource_role_change, as: :resource_role_change
+    end
+  end
+
   as :project do
-    get '/account/schedule', to: 'projects#index', as: :schedule
-    get '/account/projects', to: 'projects#index', as: :user_projects
-    get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, page: 'index', resources: { projects: Project }
-    get '/projects/:id/:step', to: 'projects#edit', step: :pending, as: :edit_project_step
+    get '/account/schedule', to: 'projects#schedule_index', as: :schedule
+    get '/account/projects', to: 'projects#user_projects_index', as: :user_projects
   end
 
   as :group do
-    get '/account/groups', to: 'groups#index', as: :user_groups
+    get '/account/groups', to: 'groups#user_groups_index', as: :user_groups
   end
 end

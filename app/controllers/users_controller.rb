@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
+  include Resource::Role::ResourceRoleChange
+
   before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update]
+  before_action :set_user, except: :index
   before_action :authorize_user, except: :index
 
   def index

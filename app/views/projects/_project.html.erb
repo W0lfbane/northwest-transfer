@@ -20,9 +20,11 @@
             <div class="col-sm-6">
                 <h4 class="text-bold">Crew Leader(s)</h4>
                 <ul class="list-unstyled">
-                <% project.leaders.each_with_index do |user, index| %>
-                    <% break unless index <= 2 %>
-                    <%= content_tag(:li, (index >= 2 ? 'View More...' : user.name) ) %>
+                <% if !project.leaders.nil? %>
+                    <% project.leaders.each_with_index do |user, index| %>
+                        <% break unless index <= 2 %>
+                        <%= content_tag(:li, (index >= 2 ? 'View More...' : user.name) ) %>
+                    <% end %>
                 <% end %>
                 </ul>
             </div>

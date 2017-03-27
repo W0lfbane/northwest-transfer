@@ -1,0 +1,6 @@
+<p id="notice"><%= notice %></p>
+
+<%= render 'note_attributes', note: @note %>
+
+<%= link_to 'Edit', edit_note_path(id: @note) %> |
+<%= link_to 'Back', notes_path %>
