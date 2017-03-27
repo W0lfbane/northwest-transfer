@@ -77,7 +77,7 @@
               <% @project.leaders.each_with_index do |user, index| %>
                 <p>
                   <% break unless index <= 2 %>
-                  <% if index == 2 && @project.leaders.size > 2%>
+                  <% if index == 2 && @project.leaders.size > 2 %>
                     <span class="text-grey text-italic">View More... </span>
                   <% else %>
                     <span class="text-grey text-italic">Leader: </span><%= user.name %>
