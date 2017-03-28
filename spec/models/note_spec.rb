@@ -12,4 +12,9 @@ subject { FactoryGirl.create(:task) }
     note =  subject.notes.create(attributes_for(:note, author: nil))
     expect( note ).to_not be_valid
   end
+
+it "belongs to loggable" do
+   assc = Note.reflect_on_association(:loggable)
+   expect( assc.macro ).to eq :belongs_to
+ end
 end

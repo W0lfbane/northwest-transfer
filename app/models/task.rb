@@ -13,11 +13,11 @@ class Task < ApplicationRecord
         STATES.each do |status|
             state(status, initial: STATES[0] == status)
         end
-    
+
         event :complete do
             transitions to: :completed
         end
-    
+
         event :report_problem, guards: :note_added? do
             transitions to: :problem
         end
