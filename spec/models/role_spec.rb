@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Role, type: :model do
+describe Role do
   it "has a valid factory" do
      expect( FactoryGirl.create(:role) ).to be_valid
   end
@@ -11,5 +11,10 @@ describe Role, type: :model do
 
   it "returns a role name as a string" do
     expect( FactoryGirl.create(:role, name: "Bob").name ).to eq( "Bob" )
+  end
+
+  it "have relation has and belongs to many with users" do
+    assc = Role.reflect_on_association(:users)
+    expect( assc.macro ).to eq :has_and_belongs_to_many
   end
 end
