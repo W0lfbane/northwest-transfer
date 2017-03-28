@@ -1,5 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe Note, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Note do
+
+subject { FactoryGirl.create(:task) }
+
+  it"has a valid factory" do
+    expect( subject.notes.create(attributes_for(:note))).to be_valid
+  end
 end
