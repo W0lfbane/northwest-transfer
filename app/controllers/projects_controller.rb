@@ -1,12 +1,12 @@
 class ProjectsController < ApplicationController
-  include Notes::Nested::SetAuthor
-  include Resource::State::ResourceStateChange
+  include Concerns::Notes::Nested::SetAuthor
+  include Concerns::Resource::State::ResourceStateChange
   
   before_action :authenticate_user!
   before_action :set_project, except: [:index, :create]
   before_action :authorize_project, except: [:index, :create]
   before_action :set_author, only: [:create, :update]
-  before_action :build_document, only: [:new, :edit]
+  before_action :build_document, :set_form_resources, only: [:new, :edit, :update]
 
   def index
     @projects = policy_scope( Project ).order(:start_date).page(params[:page])
@@ -32,24 +32,13 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
     authorize_project
     if @project.save
-      redirect_to @project, flash: { success: "Project successfully updated!" }
+      redirect_to @project, flash: { success: "Project successfully created!" }
     else
       render :new
     end
   end
 
   def edit
-    # This is unfinished. If a test is implemented on it, use the following intentions:
-    # An admin does not need to provide a step, and instead will be presented with the full projects#edit template if no step is passed
-    # An admin can optionally pass a step to see the same view as a regular user (admins should ALWAYS have access to the same views/information that non-privileged users do)
-    # Unless the user is an admin, it should collect a step from the route.
-    # If no step is present, or an invalid step is passed, it will gather the project's current state using the AASM helper (do not use resource state)
-    # Information provided to the template will vary based upon the step, with all information present from previously completely steps
-    @step = params[:step]
-    
-    unless current_user.admin?
-      redirect_to edit_project_step_path(@project, step: @project.aasm.current_state) unless @project.interacting_with_state?(@step)
-    end
   end
 
   def update
@@ -71,6 +60,10 @@ class ProjectsController < ApplicationController
       @project = params[:id] ? Project.find(params[:id]) : Project.new
     end
     
+    def set_form_resources
+      @users = User.all
+    end
+    
     def authorize_project
       authorize @project
     end
@@ -89,8 +82,9 @@ class ProjectsController < ApplicationController
                                       :total_time, 
                                       :resource_state,
                                       notes_attributes: [:id, :text, :author, :_destroy],
-                                      document_attributes: [:id, :title, :_destroy],
-                                      tasks_attributes: [:id, :name, :description, :resource_state, :_destroy])
+                                      document_attributes: [:id, :title, :resource_state, :signature, :completion_date, :_destroy],
+                                      tasks_attributes: [:id, :name, :description, :resource_state, :_destroy],
+                                      users_attributes: [:id, :_destroy])
     end
     
     def build_document

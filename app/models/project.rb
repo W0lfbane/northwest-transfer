@@ -10,7 +10,26 @@ class Project < ApplicationRecord
     has_many :groups, -> { distinct }, through: :group_projects
     has_many :tasks, dependent: :destroy, inverse_of: :project
     has_one :document, dependent: :destroy
-    accepts_nested_attributes_for :document, :tasks, reject_if: :all_blank, allow_destroy: true
+    accepts_nested_attributes_for :document, :tasks, :users, reject_if: :all_blank, allow_destroy: true
+
+    # This is temporary, waiting to think of a better solution. Do not test.
+    def users_attributes=(users_attributes)
+        users_attributes.each do |key, user_attributes|
+            user_hash = users_attributes[key]
+            
+            if user_hash[:id]
+                user = User.find(user_hash[:id])
+                if user_hash[:_destroy] == "1"
+                    users.delete(user)
+                    next
+                else
+                    users << user unless users.include? user
+                end
+            else
+                super
+            end
+        end
+    end
 
     validates_associated :tasks, :document
     validate :note_added, if: :transitioning_to_problem_state?

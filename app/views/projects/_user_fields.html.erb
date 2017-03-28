@@ -1,0 +1,12 @@
+<div>
+    <%= content_tag :div, class: 'form-group' do %>    
+        <%= f.label :id, :user %>
+        <%= f.collection_select(:id, @users, :id, :name, include_blank: true) %>
+    <% end %>
+    <% if f.object.persisted? %>
+        <%= content_tag :div, class: 'form-group' do %>    
+            <%= f.check_box :_destroy %>
+            <%= f.label :_destroy, I18n.t(:remove) %>
+        <% end %>
+    <% end %>
+</div>

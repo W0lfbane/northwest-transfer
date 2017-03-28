@@ -1,5 +1,5 @@
 class DocumentsController < ApplicationController
-  include Resource::State::ResourceStateChange
+  include Concerns::Resource::State::ResourceStateChange
   
   before_action :authenticate_user!
   before_action :set_project
