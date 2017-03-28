@@ -23,5 +23,9 @@ class UsersController < ApplicationController
     def authorize_user
       authorize @user
     end
+    
+    def user_params
+      params.require(:user).permit(:first_name, :last_name, :email, :phone)
+    end
 
 end

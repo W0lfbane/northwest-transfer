@@ -1,4 +1,4 @@
-module Notes::Nested::SetAuthor
+module Concerns::Notes::Nested::SetAuthor
   
   private
   

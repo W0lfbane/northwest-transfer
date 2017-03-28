@@ -1,4 +1,6 @@
 class DocumentsController < ApplicationController
+  include Concerns::Resource::State::ResourceStateChange
+  
   before_action :authenticate_user!
   before_action :set_project
   before_action :set_document, except: [:create]
@@ -73,6 +75,6 @@ class DocumentsController < ApplicationController
     end
   
     def document_params
-      params.require(:document).permit(:title)
+      params.require(:document).permit(:title, :signature, :resource_state, :completion_date)
     end
 end

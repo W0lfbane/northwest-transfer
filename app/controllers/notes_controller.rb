@@ -1,5 +1,5 @@
 class NotesController < ApplicationController
-  include Notes::Nested::SetAuthor
+  include Concerns::Notes::Nested::SetAuthor
   include Resource::Nested::SetResource
 
   before_action :authenticate_user!

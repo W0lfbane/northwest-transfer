@@ -1,4 +1,4 @@
-module Resource::State::ResourceStateChange
+module Concerns::Resource::State::ResourceStateChange
   
   # Takes a parameter STATUS_METHOD, which is the name of the role method to be invoked. 
   def resource_state_change

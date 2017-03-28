@@ -20,6 +20,7 @@ end
 
 # https://github.com/plataformatec/devise
 gem 'devise'
+gem 'devise_invitable', '~> 1.7.0'
 
 # https://github.com/elabs/pundit
 gem 'pundit'
