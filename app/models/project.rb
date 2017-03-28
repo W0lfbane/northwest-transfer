@@ -37,20 +37,36 @@ class Project < ApplicationRecord
             transitions from: [:en_route, :problem], to: :in_progress
         end
 
-        event :request_review do
+        event :request_review, guards: [:no_pending_tasks?, :document_complete?] do
             transitions from: [:in_progress, :problem], to: :pending_review
         end
 
-        event :complete, success: :set_completion_date!, guards: lambda { @user.admin? } do
+        event :complete, success: :set_completion_date!, guards: [lambda { @user.admin? }, :no_pending_tasks?, :document_complete?] do
             transitions from: [:pending_review], to: :completed
         end
 
-        event :report_problem do
+        event :report_problem, guards: :note_added? do
             transitions to: :problem
         end
 
-        event :deactivate, guards: lambda { @user.admin? }  do
+        event :deactivate, guards: lambda { @user.admin? } do
             transitions to: :deactivated
+        end
+    end
+    
+    def tasks_pending?
+        0 != self.tasks.where(resource_state: "pending").count
+    end
+    
+    def no_pending_tasks?
+       !tasks_pending?
+    end
+    
+    def document_complete?
+        if self.document.nil?
+            return false
+        else
+            self.document.completed?
         end
     end
 

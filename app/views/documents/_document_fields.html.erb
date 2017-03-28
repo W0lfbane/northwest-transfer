@@ -3,6 +3,21 @@
         <%= f.label :title %>
         <%= f.text_field :title %>
     </div>
+    
+    <%= content_tag :div, class: 'form-group' do %>    
+        <%= f.label :resource_state, :status %>
+        <%= f.select :resource_state, resource_states(Document), { include_blank: true } %>
+    <% end %>
+    
+    <div class="field">
+        <%= f.label :signature %>
+        <%= f.text_field :signature %>
+    </div>
+    
+    <div class="field">
+        <%= f.label :completion_date %>
+        <%= f.datetime_local_field :completion_date %>
+    </div>
 
     <% if f.object.persisted? %>
         <%= f.check_box :_destroy %>

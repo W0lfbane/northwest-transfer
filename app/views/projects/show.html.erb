@@ -74,18 +74,16 @@
             </p>
           </div>
           <div class="col-xs-4 buffer-padding-20 border-left-grey-3">
-            <% if !@project.leaders.nil? %>
               <% @project.leaders.each_with_index do |user, index| %>
                 <p>
                   <% break unless index <= 2 %>
-                  <% if index == 2 && @project.leaders.size > 2%>
+                  <% if index == 2 && @project.leaders.size > 2 %>
                     <span class="text-grey text-italic">View More... </span>
                   <% else %>
                     <span class="text-grey text-italic">Leader: </span><%= user.name %>
                   <% end %>
                 </p>
               <% end %>
-            <% end %>
           </div>
         </div>
         <!-- ///////////////////////TASK LIST/////////////////////// -->
