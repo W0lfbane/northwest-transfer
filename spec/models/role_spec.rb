@@ -17,4 +17,9 @@ describe Role do
     assc = Role.reflect_on_association(:users)
     expect( assc.macro ).to eq :has_and_belongs_to_many
   end
+
+  it "have association with resources" do
+    assc = Role.reflect_on_association(:resource)
+    expect( assc.macro ).to eq :belongs_to
+  end
 end
