@@ -36,14 +36,14 @@ end
 resource_interval.times do |i|
     start_date = Faker::Date.between(Date.today, i.days.from_now)
     Project.create!( title: Faker::Company.name,
-                   description: Faker::Lorem.paragraph,
-                   address: Faker::Address.street_address,
-                   city: Faker::Address.city,
-                   state: Faker::Address.state,
-                   postal: Faker::Address.postcode,
-                   start_date: start_date,
-                   estimated_completion_date: Faker::Date.between(start_date, start_date + (i + i).days) )
-
+                    description: Faker::Lorem.paragraph,
+                    address: Faker::Address.street_address,
+                    city: Faker::Address.city,
+                    state: Faker::Address.state,
+                    postal: Faker::Address.postcode,
+                    start_date: start_date,
+                    estimated_completion_date: Faker::Date.between(start_date, start_date + (i + i).days) )
+                   
     Group.create!( name: Faker::Company.name,
                     description: Faker::Lorem.paragraph )
 end
