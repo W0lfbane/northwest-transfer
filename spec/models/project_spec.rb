@@ -85,7 +85,9 @@ describe Project, type: :model do
   end
 
   it "transition from pending review to completed" do
-    expect(subject).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
+    project = FactoryGirl.create(:project)
+    project.create_document(attributes_for(:document, resource_state: :completed))
+    expect(project).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
   end
 
   it "returns a project start_date as a date" do
@@ -138,11 +140,15 @@ describe Project, type: :model do
   end
 
   it "transition from progress to pending review" do
-    expect(subject).to transition_from(:in_progress).to(:pending_review).on_event(:request_review)
+    project = FactoryGirl.create(:project)
+    project.create_document(attributes_for(:document, resource_state: :completed))
+    expect(project).to transition_from(:in_progress).to(:pending_review).on_event(:request_review)
   end
 
   it "transition from pending review to completed" do
-    expect(subject).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
+    project = FactoryGirl.create(:project)
+    project.create_document(attributes_for(:document, resource_state: :completed))
+    expect(project).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
   end
 
   # it "transition from problem to complete" do
@@ -150,23 +156,33 @@ describe Project, type: :model do
   # end
 
   it "transition from deactivated to problem" do
-    expect(subject).to transition_from(:deactivated).to(:problem).on_event(:report_problem)
+    project = FactoryGirl.create(:project)
+    project.notes.build(attributes_for(:note))
+    expect(project).to transition_from(:deactivated).to(:problem).on_event(:report_problem)
   end
 
   it "transition from pending to problem" do
-    expect(subject).to transition_from(:pending).to(:problem).on_event(:report_problem)
+    project = FactoryGirl.create(:project)
+    project.notes.build(attributes_for(:note))
+    expect(project).to transition_from(:pending).to(:problem).on_event(:report_problem)
   end
 
   it "transition from en_route to problem" do
-    expect(subject).to transition_from(:en_route).to(:problem).on_event(:report_problem)
+    project = FactoryGirl.create(:project)
+    project.notes.build(attributes_for(:note))
+    expect(project).to transition_from(:en_route).to(:problem).on_event(:report_problem)
   end
 
   it "transition from in_progress to problem" do
-    expect(subject).to transition_from(:in_progress).to(:problem).on_event(:report_problem)
+    project = FactoryGirl.create(:project)
+    project.notes.build(attributes_for(:note))
+    expect(project).to transition_from(:in_progress).to(:problem).on_event(:report_problem)
   end
 
   it "transition from completed to problem" do
-    expect(subject).to transition_from(:completed).to(:problem).on_event(:report_problem)
+    project = FactoryGirl.create(:project)
+    project.notes.build(attributes_for(:note))
+    expect(project).to transition_from(:completed).to(:problem).on_event(:report_problem)
   end
 
   it "transition from pending to deactivated" do
