@@ -151,10 +151,6 @@ describe Project, type: :model do
     expect(project).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
   end
 
-  # it "transition from problem to complete" do
-  #   expect(subject).to transition_from(:problem).to(:completed).on_event(:complete)
-  # end
-
   it "transition from deactivated to problem" do
     project = FactoryGirl.create(:project)
     project.notes.build(attributes_for(:note))
@@ -215,40 +211,47 @@ describe Project, type: :model do
     expect( subject.alert_level ).to eq ( "inactive" )
   end
 
-  # it "Test alert_level method work for inactive when task problem" do
-  #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
-  #   expect( subject.alert_level ).to eq ( "inactive" )
-  # end
+  it "Test alert_level method work for inactive when task problem" do
+    task = FactoryGirl.create( :task, project: subject)
+    task.notes.build(attributes_for(:note))
+    task.resource_state = "problem"
+    expect( subject.alert_level ).to eq ( "inactive" )
+  end
 
-  # it "Test alert_level method work for operatonal" do
-  #   subject.resource_state = "problem"
-  #   expect( subject.alert_level ).to eq ( "operatonal" )
-  # end
+
+  it "Test alert_level method work for operatonal" do
+    task = FactoryGirl.create( :task, project: subject)
+    task.notes.build(attributes_for(:note))
+    task.resource_state = "in_progress"
+    subject.resource_state = "in_progress"
+    expect( subject.alert_level ).to eq ( "operatonal" )
+  end
+
+  # Should work but there is a bug.
 
   # it "Test alert_level method work for advisory" do
-  #   subject.resource_state = "problem"
-  #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
+  #   subject.resource_state = "in_progress"
+  #   task = FactoryGirl.build( :task, project: subject)
+  #   task.notes.build(attributes_for(:note))
+  #   task.resource_state = "problem"
   #   expect( subject.alert_level ).to eq ( "advisory" )
   # end
 
   # it "Test alert_level method work for danger" do
   #   subject.resource_state = "problem"
-  #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
-  #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
-  #   expect( subject.alert_level ).to eq ( "danger" )
-  # end
-
-  # it "Test alert_level method work for danger with three task" do
-  #   subject.resource_state = "problem"
-  #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
-  #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
-  #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
+  #   task1 = FactoryGirl.create( :task, project: subject)
+  #   task1.notes.build(attributes_for(:note))
+    # task1.resource_state = "problem"
+  #   task2 = FactoryGirl.create( :task, project: subject)
+  #   task2.notes.build(attributes_for(:note))
+    # task2.resource_state = "problem"
   #   expect( subject.alert_level ).to eq ( "danger" )
   # end
 
   # it "Test flags for one flag" do
-  #   subject.resource_state = "problem"
-  #   FactoryGirl.create( :task, project: subject, resource_state: "problem" )
+  #   task = FactoryGirl.create( :task, project: subject)
+  #   task.notes.build(attributes_for(:note))
+  #   task.resource_state = "problem"
   #   expect( subject.flags.count ).to eq ( 1 )
   # end
 
