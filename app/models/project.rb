@@ -73,6 +73,10 @@ class Project < ApplicationRecord
         end
     end
     
+    def record_state_change
+      self.aasm.from_state = previous_state
+    end
+    
     def tasks_pending?
         0 != self.tasks.where(resource_state: "pending").count
     end

@@ -7,7 +7,7 @@ module Helpers::ResourceRecordHelper
 
   def define_class_methods(source)
     # Evaluate class instance
-    source.class_eval do 
+    source.class_eval do
       # Iterate attribute_names 
       source.attribute_names.each do |attribute|
         # Define methods by attribute names, these methods will determine "next" and "previous" records by attribute relations
