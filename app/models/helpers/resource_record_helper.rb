@@ -6,9 +6,11 @@ module Helpers::ResourceRecordHelper
   end
 
   def define_class_methods(source)
+    # Evaluate class instance
     source.class_eval do 
-
+      # Iterate attribute_names 
       source.attribute_names.each do |attribute|
+        # Define methods by attribute names, these methods will determine "next" and "previous" records by attribute relations
         define_method("next_by_" + attribute) do |user = nil|
           if user
             source.joins(:users).where("#{source.table_name}.#{attribute} > ?", self.public_send(attribute)).where(users: {id: user.id}).first
