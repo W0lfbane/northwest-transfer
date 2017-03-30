@@ -1,28 +1,3 @@
-  <!-- seems like it should be part of the shared header-->
-  <!--<div class="row">-->
-  <!--    <div class="col-md-1">-->
-  <!--      <#%= image_tag "User_Silhouette_Placeholder" %>-->
-  <!--    </div>-->
-  <!--    <div class="col-md-7">-->
-  <!--      <h1 id="user-name"><#%= @project.customers.first.first_name + " " + @project.customers.first.last_name %></h1>-->
-  <!--      <h6 id="hours">-->
-  <!--        <script>-->
-  <!--          var div = document.getElementById('hours');-->
-  <!--          var datetime = document.createTextNode( -->
-  <!--              moment( new Date(<#%= @project.start_date.to_f * 1000 %>) ).format("MMM D, h:mm A") +-->
-  <!--              " - " +-->
-  <!--              moment( new Date(<#%= @project.estimated_completion_date.to_f * 1000 %>) ).format("MMM D, h:mm A")-->
-  <!--          );-->
-  <!--          div.appendChild(datetime);-->
-  <!--        </script>-->
-  <!--      </h6>-->
-  <!--    </div>-->
-  <!--    <div class="col-md-pull-0" id="header-right">-->
-  <!--      <h1 id="local-time"><#%= render "shared/clock" %></h1>-->
-  <!--      <h3 id="current-date"><#%= Date.today %></h3>-->
-  <!--    </div>-->
-  <!--  </div>-->
-  
 <%= button_to "test", resource_state_change_path('projects', @project), method: :patch, params: { status_method: 'complete' } %>
   
   
@@ -36,12 +11,12 @@
         <span>Previous Project</span>
       <% end unless @project.previous_by_start_date(current_user).nil? %>
     </div>
-      <div class="col-xs-6 text-right">
-        <%= link_to project_path(@project.next_by_start_date(current_user)) do %>
-          <span>Next Project</span>
-          <%= fa_icon "chevron-right", class: 'fa-2x text-darkest-grey' %>
-        <% end unless @project.next_by_start_date(current_user).nil? %>
-      </div> 
+    <div class="col-xs-6 text-right">
+      <%= link_to project_path(@project.next_by_start_date(current_user)) do %>
+        <span>Next Project</span>
+        <%= fa_icon "chevron-right", class: 'fa-2x text-darkest-grey' %>
+      <% end unless @project.next_by_start_date(current_user).nil? %>
+    </div> 
   </div>
 
   <!-- //////////////////JOB DETAILS SECTION/////////////////////// -->
