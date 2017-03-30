@@ -7,8 +7,8 @@ module Helpers::ResourceStateHelper
 
     def state_completed?(state)
         min = self.class::STATES.index(state.to_sym)
-        max = self.class::STATES.index(self.aasm.current_state)
-        max > min
+        max = self.aasm.current_state == 'problem' ? self.class::STATES.index(self.previous_state) : self.class::STATES.index(self.aasm.current_state)
+        max >= min
     end
 
     def current_state?(state)

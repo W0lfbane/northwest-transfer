@@ -49,22 +49,34 @@ class Project < ApplicationRecord
         before_all_events :set_state_user
 
         event :begin_route do
-            transitions from: [:pending, :problem], to: :en_route
+            transitions from: [:pending, :problem], to: :en_route do
+                guard do
+                  valid_problem_transition?(:en_route)
+                end
+              end
         end
 
         event :begin_working do
-            transitions from: [:en_route, :problem], to: :in_progress
+            transitions from: [:en_route, :problem], to: :in_progress do
+                guard do
+                  valid_problem_transition?(:begin_working)
+                end
+              end
         end
 
         event :request_review, guards: [:no_pending_tasks?, :document_complete?] do
-            transitions from: [:in_progress, :problem], to: :pending_review
+            transitions from: [:in_progress, :problem], to: :pending_review do
+                guard do
+                  valid_problem_transition?(:request_review)
+                end
+              end
         end
 
         event :complete, success: :set_completion_date!, guards: [lambda { @user.admin? }, :no_pending_tasks?, :document_complete?] do
             transitions from: [:pending_review], to: :completed
         end
 
-        event :report_problem, guards: :note_added? do
+        event :report_problem, before: :set_previous_state! do
             transitions to: :problem
         end
 
@@ -81,6 +93,10 @@ class Project < ApplicationRecord
        !tasks_pending?
     end
     
+    def valid_problem_transition?(transition)
+        transition == self.previous_state.to_sym
+    end
+    
     def document_complete?
         if self.document.nil?
             return false
@@ -95,6 +111,10 @@ class Project < ApplicationRecord
 
     def set_completion_date!(date = DateTime.now)
        self.update!(completion_date: date)
+    end
+    
+    def set_previous_state!
+        self.update!(previous_state: self.aasm.current_state)
     end
 
     def flags

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170327205159) do
+ActiveRecord::Schema.define(version: 20170329200000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,17 @@ ActiveRecord::Schema.define(version: 20170327205159) do
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
     t.string   "resource_state"
+    t.string   "previous_state"
+  end
+
+  create_table "resource_fields", force: :cascade do |t|
+    t.string   "data_key"
+    t.string   "data_value"
+    t.string   "fieldable_type"
+    t.integer  "fieldable_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["fieldable_type", "fieldable_id"], name: "index_resource_fields_on_fieldable_type_and_fieldable_id", using: :btree
   end
 
   create_table "roles", force: :cascade do |t|
