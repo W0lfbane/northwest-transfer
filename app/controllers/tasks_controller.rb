@@ -82,7 +82,7 @@ class TasksController < ApplicationController
       params.require(:task).permit(:name, 
                                     :description,
                                     :resource_state,
-                                    notes_attributes: [:text, :author, :_destroy])
+                                    notes_attributes: [:text, :user_id, :_destroy])
     end
 
 end

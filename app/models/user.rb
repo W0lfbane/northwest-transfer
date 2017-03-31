@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :projects, -> { distinct }, through: :project_users
   has_many :group_users, dependent: :destroy
   has_many :groups, -> { distinct }, through: :group_users
+  has_many :notes
 
   before_create :assign_default_role
 
