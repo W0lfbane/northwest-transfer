@@ -1,28 +1,3 @@
-  <!-- seems like it should be part of the shared header-->
-  <!--<div class="row">-->
-  <!--    <div class="col-md-1">-->
-  <!--      <#%= image_tag "User_Silhouette_Placeholder" %>-->
-  <!--    </div>-->
-  <!--    <div class="col-md-7">-->
-  <!--      <h1 id="user-name"><#%= @project.customers.first.first_name + " " + @project.customers.first.last_name %></h1>-->
-  <!--      <h6 id="hours">-->
-  <!--        <script>-->
-  <!--          var div = document.getElementById('hours');-->
-  <!--          var datetime = document.createTextNode( -->
-  <!--              moment( new Date(<#%= @project.start_date.to_f * 1000 %>) ).format("MMM D, h:mm A") +-->
-  <!--              " - " +-->
-  <!--              moment( new Date(<#%= @project.estimated_completion_date.to_f * 1000 %>) ).format("MMM D, h:mm A")-->
-  <!--          );-->
-  <!--          div.appendChild(datetime);-->
-  <!--        </script>-->
-  <!--      </h6>-->
-  <!--    </div>-->
-  <!--    <div class="col-md-pull-0" id="header-right">-->
-  <!--      <h1 id="local-time"><#%= render "shared/clock" %></h1>-->
-  <!--      <h3 id="current-date"><#%= Date.today %></h3>-->
-  <!--    </div>-->
-  <!--  </div>-->
-  
 <%= button_to "test", resource_state_change_path('projects', @project), method: :patch, params: { status_method: 'complete' } %>
   
   
@@ -31,17 +6,17 @@
   <!-- //////////////////TOGGLE JOBS BAR/////////////////////////// -->
   <div class="row vertical-align-middle">
     <div class="col-xs-6 text-left">
-      <%= link_to project_path(@project.previous) do %>
+      <%= link_to project_path(@project.previous_by_start_date(current_user)) do %>
         <%= fa_icon "chevron-left", class: 'fa-2x text-darkest-grey' %>
         <span>Previous Project</span>
-      <% end %>
+      <% end unless @project.previous_by_start_date(current_user).nil? %>
     </div>
-      <div class="col-xs-6 text-right">
-        <%= link_to @project.next.nil? ? '#' : project_path(@project.next) do %>
-          <span>Next Project</span>
-          <%= fa_icon "chevron-right", class: 'fa-2x text-darkest-grey' %>
-        <% end %>
-      </div> 
+    <div class="col-xs-6 text-right">
+      <%= link_to project_path(@project.next_by_start_date(current_user)) do %>
+        <span>Next Project</span>
+        <%= fa_icon "chevron-right", class: 'fa-2x text-darkest-grey' %>
+      <% end unless @project.next_by_start_date(current_user).nil? %>
+    </div> 
   </div>
 
   <!-- //////////////////JOB DETAILS SECTION/////////////////////// -->
@@ -61,7 +36,12 @@
         <!-- /////////////////////TIMELINE/////////////////////////// -->
         <div class="container-fluid text-bold text-center">
           <div class="col-xs-4 buffer-padding-20 border-right-grey-3">
-            <span class="text-grey text-italic">Address:</span> <%= @project.location %>
+            <span class="text-grey text-italic">Address:</span>
+            <% if @project.previous_by_start_date(current_user).nil? || @project.previous_by_start_date(current_user).completed? %>
+              <%= @project.location %>
+            <% else %>
+              You must complete the previous project before continuing            
+            <% end %>
           </div>
           <div class="col-xs-4 buffer-padding-20">
             <p> <span class="text-grey text-italic">Start:</span> <%= format_date_with_time(@project.start_date) %> </p>

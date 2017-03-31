@@ -81,7 +81,7 @@ class ProjectsController < ApplicationController
                                       :estimated_completion_date, 
                                       :total_time, 
                                       :resource_state,
-                                      notes_attributes: [:id, :text, :author, :_destroy],
+                                      notes_attributes: [:id, :text, :user_id, :_destroy],
                                       document_attributes: [:id, :title, :resource_state, :signature, :completion_date, :_destroy],
                                       tasks_attributes: [:id, :name, :description, :resource_state, :_destroy],
                                       users_attributes: [:id, :_destroy])
