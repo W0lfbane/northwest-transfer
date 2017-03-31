@@ -283,27 +283,25 @@ RSpec.describe ProjectsController, type: :controller do
     end
 
     shared_examples_for "has appropriate permissions" do
+      context "with valid_params" do
+        before(:each) do
+          put :update, params: {id: test_project, project: valid_params}
+          test_project.reload
+        end
 
-      # context "with valid_params" do
-      #   before(:each) do
-      #     put :update, params: {id: test_project, project: valid_params}
-      #     binding.pry
-      #     test_project.reload
-      #   end
+        it "should find the correct project" do
+          expect(assigns(:project)).to eql test_project
+        end
 
-      #   it "should find the correct project" do
-      #     expect(assigns(:project)).to eql test_project
-      #   end
+        it "should update object paramaters" do
+          expect(test_project.title).to eql valid_params[:title]
+          expect(test_project.created_at).to_not eql test_project.updated_at
+        end
 
-      #   it "should update object paramaters" do
-      #     expect(test_project.title).to eql valid_params[:title]
-      #     expect(test_project.created_at).to_not eql test_project.updated_at
-      #   end
-
-      #   it "should redirect to project page when successful" do
-      #     expect(response).to redirect_to test_project
-      #   end
-      # end
+        it "should redirect to project page when successful" do
+          expect(response).to redirect_to test_project
+        end
+      end
 
       context "with invalid parameters" do
         before(:each) do
@@ -342,7 +340,7 @@ RSpec.describe ProjectsController, type: :controller do
 
   describe "DELETE #destroy" do
     context "as user" do
-      login_admin
+      login_user
       before :each do
         @test_project = FactoryGirl.create(:project)
       end
@@ -370,13 +368,6 @@ RSpec.describe ProjectsController, type: :controller do
       it "redirects to the projects index" do
         delete :destroy, params: {id: test_project}
         expect(response).to redirect_to projects_url
-      end
-    end
-
-    context "logged in as project user" do
-      login_project_user
-      it_should_behave_like "has appropriate permissions" do
-        let(:test_project) {subject.current_user.projects.last}
       end
     end
 

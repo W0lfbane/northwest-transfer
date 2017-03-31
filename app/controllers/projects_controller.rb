@@ -50,7 +50,7 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project.deactivate!
+    @project.deactivate! current_user
     redirect_to projects_path, flash: { success: "Project successfully deactivated!" }
   end
   
