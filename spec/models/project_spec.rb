@@ -227,37 +227,33 @@ describe Project, type: :model do
     expect( subject.alert_level ).to eq ( "operatonal" )
   end
 
-  # Should work but there is a bug.
+  it "should return 'advisory' for alert_level when the number of flags is 1" do
+    subject.begin_route!
+    task = FactoryGirl.create( :task, project: subject )
+    task.notes.build( FactoryGirl.attributes_for(:note, user_id: admin.id) )
+    task.report_problem!
+    expect( subject.alert_level ).to eq ( "advisory" )
+  end
 
-  # it "Test alert_level method work for advisory" do
-  #   subject.resource_state = "in_progress"
-  #   task = FactoryGirl.build( :task, project: subject)
-  #   task.notes.build(attributes_for(:note))
-  #   task.resource_state = "problem"
-  #   expect( subject.alert_level ).to eq ( "advisory" )
-  # end
+  it "should return 'danger' for alert_level when the number of flags is 2 or greater" do
+    subject.begin_route!
+    task1 = FactoryGirl.create( :task, project: subject)
+    task1.notes.build( FactoryGirl.attributes_for(:note, user_id: admin.id) )
+    task1.report_problem!
+    task2 = FactoryGirl.create( :task, project: subject)
+    task2.notes.build( FactoryGirl.attributes_for(:note, user_id: admin.id) )
+    task2.report_problem!
+    expect( subject.alert_level ).to eq ( "danger" )
+  end
 
-  # it "Test alert_level method work for danger" do
-  #   subject.resource_state = "problem"
-  #   task1 = FactoryGirl.create( :task, project: subject)
-  #   task1.notes.build(attributes_for(:note))
-    # task1.resource_state = "problem"
-  #   task2 = FactoryGirl.create( :task, project: subject)
-  #   task2.notes.build(attributes_for(:note))
-    # task2.resource_state = "problem"
-  #   expect( subject.alert_level ).to eq ( "danger" )
-  # end
+  it "should return the number of tasks in a problem state as the flag count" do
+    task = FactoryGirl.create( :task, project: subject)
+    task.notes.build( FactoryGirl.attributes_for(:note, user_id: admin.id) )
+    task.report_problem!
+    expect( subject.flags.count ).to eq ( 1 )
+  end
 
-  # it "Test flags for one flag" do
-  #   task = FactoryGirl.create( :task, project: subject)
-  #   task.notes.build(attributes_for(:note))
-  #   task.resource_state = "problem"
-  #   expect( subject.flags.count ).to eq ( 1 )
-  # end
-
-
-  it "Test flags for zero flag" do
-    subject.resource_state = "problem"
+  it "should return 0 as the flag count when no tasks are in a problem state" do
     expect( subject.flags.count ).to eq ( 0 )
   end
 end
