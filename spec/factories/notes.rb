@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :note do
     text "MyText"
-    author "MyString"
+    association :user
   end
 end
