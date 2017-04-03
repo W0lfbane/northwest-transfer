@@ -22,64 +22,100 @@ RSpec.describe TasksController, type: :controller do
 
   before (:each) do
     @project = FactoryGirl.create(:project)
+    @task = Task.create! valid_attributes
   end
 
   # This should return the minimal set of attributes required to create a valid
   # Task. As you add validations to Task, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) {FactoryGirl.attributes_for(:task, :project_id => @project.id)}
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # TasksController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  let(:invalid_attributes) { FactoryGirl.attributes_for(:task, nil)}
 
   describe "GET #index" do
     context "user" do
       login_user
 
-    it "will display the taks associated with the project. " do
-      task = FactoryGirl.create(:task, :project_id => @project.id)
+    it " will have a succesful response" do
       get :index, params: {:resource_controller => "projects", :resource_id => @project.id }
       expect(response.status).to eq(200)
       end
 
-    it "will display the taks associated with the project. " do
-      task = FactoryGirl.create(:task, :project_id => @project.id)
+    it " will render the 'index' template " do
       get :index, params: {:resource_controller => "projects", :resource_id => @project.id }
       expect(response).to render_template("index")
       end
 
-    it "will display the taks associated with the project. " do
-      task = FactoryGirl.create(:task, :project_id => @project.id)
+    it "will assign the resource.tasks as @tasks " do
       get :index, params: {:resource_controller => "projects", :resource_id => @project.id }
-      expect(assigns(:tasks)).to eq([task])
+      expect(assigns(:tasks)).to eq([@task])
+      end
+    end
+
+    context "admin" do
+      login_admin
+
+    it " will have a successful response " do
+      get :index, params: {:resource_controller => "projects", :resource_id => @project.id }
+      expect(response.status).to eq(200)
       end
 
+    it " will render the 'index' template " do
+      get :index, params: {:resource_controller => "projects", :resource_id => @project.id }
+      expect(response).to render_template("index")
+      end
+
+    it "will assign the resource.tasks as @tasks " do
+      get :index, params: {:resource_controller => "projects", :resource_id => @project.id }
+      expect(assigns(:tasks)).to eq([@task])
+      end
     end
   end
 
-  # describe "GET #show" do
-  #   it "assigns the requested task as @task" do
-  #     task = Task.create! valid_attributes
-  #     get :show, params: {id: task.to_param}, session: valid_session
-  #     expect(assigns(:task)).to eq(task)
-  #   end
-  # end
+  describe "GET #show" do
+
+    context "admin" do
+      login_admin
+    it "will have a succesful response" do
+      task = Task.create! valid_attributes
+      get :show, params: {:resource_controller => "projects", :resource_id => @project.id, :id => task.to_param}
+      expect(response.status).to eq(200)
+      end
+
+    it "renders the :show template" do
+      task = Task.create! valid_attributes
+      get :show, params: {:resource_controller => "projects", :resource_id => @project.id, :id => task.to_param}
+      expect(response).to render_template("show")
+      end
+
+    it "assigns the requested task as @task" do
+      task = Task.create! valid_attributes
+      get :show, params: {:resource_controller => "projects", :resource_id => @project.id, :id => task.to_param}
+      expect(assigns(:task)).to eq(task)
+      end
+    end
+  end
   #
-  # # Currently there is no route for new tasks becuase :new tasks are initialized during the creation of a :new project.
-  # describe "GET #new" do
-  #   it "assigns a new task as @task" do
-  #     get :new, params: {}, session: valid_session
-  #     expect(assigns(:task)).to be_a_new(Task)
-  #   end
-  # end
+  describe "GET #new" do
+    context "admin" do
+      login_admin
+
+    it "have a succesful response" do
+      get :new, params: {:resource_controller => "projects", :resource_id => @project.id}
+        expect(response.status).to eq(200)
+      end
+      
+    it "assigns a new task as @task" do
+      get :new, params: {:resource_controller => "projects", :resource_id => @project.id}
+      expect(response).to render_template("new")
+      end
+
+    it "assigns a new task as @task" do
+      get :new, params: {:resource_controller => "projects", :resource_id => @project.id}
+      expect(assigns(:task)).to be_a_new(Task)
+      end
+    end
+  end
   #
   # describe "GET #edit" do
   #   it "assigns the requested task as @task" do
