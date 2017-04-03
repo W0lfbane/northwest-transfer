@@ -41,90 +41,84 @@ RSpec.describe NotesController, type: :controller do
       login_admin
       it "creates a new Note" do
         expect {
-          binding.pry
           post :create, params: {resource_controller: "projects", resource_id: @project.id, note: valid_attributes}
         }.to change(Note, :count).by(1)
       end
 
-      # it "assigns a newly created note as @note" do
-      #   post :create, params: {note: valid_attributes}, session: valid_session
-      #   expect(assigns(:note)).to be_a(Note)
-      #   expect(assigns(:note)).to be_persisted
-      # end
-
-      # it "redirects to the created note" do
-      #   post :create, params: {note: valid_attributes}, session: valid_session
-      #   expect(response).to redirect_to(Note.last)
-      # end
-    end
-
-    context "with invalid params" do
-      it "assigns a newly created but unsaved note as @note" do
-        post :create, params: {note: invalid_attributes}, session: valid_session
-        expect(assigns(:note)).to be_a_new(Note)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, params: {note: invalid_attributes}, session: valid_session
-        expect(response).to render_template("new")
-      end
-    end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested note" do
-        note = Note.create! valid_attributes
-        put :update, params: {id: note.to_param, note: new_attributes}, session: valid_session
-        note.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "assigns the requested note as @note" do
-        note = Note.create! valid_attributes
-        put :update, params: {id: note.to_param, note: valid_attributes}, session: valid_session
-        expect(assigns(:note)).to eq(note)
-      end
-
-      it "redirects to the note" do
-        note = Note.create! valid_attributes
-        put :update, params: {id: note.to_param, note: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(note)
+      it "assigns a newly created note as @note" do
+        post :create, params: {resource_controller: "projects", resource_id: @project.id, note: valid_attributes}
+        expect(assigns(:note)).to be_a(Note)
+        expect(assigns(:note)).to be_persisted
       end
     end
 
     context "with invalid params" do
-      it "assigns the note as @note" do
-        note = Note.create! valid_attributes
-        put :update, params: {id: note.to_param, note: invalid_attributes}, session: valid_session
-        expect(assigns(:note)).to eq(note)
+      it "if the user is not signed in will not save" do
+        expect{
+          post :create, params: {resource_controller: "projects", resource_id: @project.id, note: invalid_attributes}}.to change(Note, :count).by(0)
       end
 
-      it "re-renders the 'edit' template" do
-        note = Note.create! valid_attributes
-        put :update, params: {id: note.to_param, note: invalid_attributes}, session: valid_session
-        expect(response).to render_template("edit")
+      it "recieves a 302 response" do
+        post :create, params: {resource_controller: "projects", resource_id: @project.id, note: invalid_attributes}
+        expect(response.status).to eq(302)
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested note" do
-      note = Note.create! valid_attributes
-      expect {
-        delete :destroy, params: {id: note.to_param}, session: valid_session
-      }.to change(Note, :count).by(-1)
-    end
+  # describe "PUT #update" do
+  #   context "with valid params" do
+  #     let(:new_attributes) {
+  #       skip("Add a hash of attributes valid for your model")
+  #     }
 
-    it "redirects to the notes list" do
-      note = Note.create! valid_attributes
-      delete :destroy, params: {id: note.to_param}, session: valid_session
-      expect(response).to redirect_to(notes_url)
-    end
-  end
+  #     it "updates the requested note" do
+  #       note = Note.create! valid_attributes
+  #       put :update, params: {id: note.to_param, note: new_attributes}, session: valid_session
+  #       note.reload
+  #       skip("Add assertions for updated state")
+  #     end
+
+  #     it "assigns the requested note as @note" do
+  #       note = Note.create! valid_attributes
+  #       put :update, params: {id: note.to_param, note: valid_attributes}, session: valid_session
+  #       expect(assigns(:note)).to eq(note)
+  #     end
+
+  #     it "redirects to the note" do
+  #       note = Note.create! valid_attributes
+  #       put :update, params: {id: note.to_param, note: valid_attributes}, session: valid_session
+  #       expect(response).to redirect_to(note)
+  #     end
+  #   end
+
+  #   context "with invalid params" do
+  #     it "assigns the note as @note" do
+  #       note = Note.create! valid_attributes
+  #       put :update, params: {id: note.to_param, note: invalid_attributes}, session: valid_session
+  #       expect(assigns(:note)).to eq(note)
+  #     end
+
+  #     it "re-renders the 'edit' template" do
+  #       note = Note.create! valid_attributes
+  #       put :update, params: {id: note.to_param, note: invalid_attributes}, session: valid_session
+  #       expect(response).to render_template("edit")
+  #     end
+  #   end
+  # end
+
+  # describe "DELETE #destroy" do
+  #   it "destroys the requested note" do
+  #     note = Note.create! valid_attributes
+  #     expect {
+  #       delete :destroy, params: {id: note.to_param}, session: valid_session
+  #     }.to change(Note, :count).by(-1)
+  #   end
+
+  #   it "redirects to the notes list" do
+  #     note = Note.create! valid_attributes
+  #     delete :destroy, params: {id: note.to_param}, session: valid_session
+  #     expect(response).to redirect_to(notes_url)
+  #   end
+  # end
 
 end
