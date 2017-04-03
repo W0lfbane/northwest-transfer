@@ -51,25 +51,25 @@ gem 'time_difference'
 group :development, :test do
   # Use RSpec for testing
   gem 'rspec-rails', '~> 3.5'
-  
+
   # Added for assert_template helper
   gem 'rails-controller-testing'
-  
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
 
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
-  
+
   # Use factory girl to generate test resources
   gem 'factory_girl_rails'
 
   # Use Faker to generate test info for resources
   gem 'faker'
-  
+
   # Use Poltergeist to test responsive views using PhantomJS
   gem 'poltergeist'
-  
+
   # Use Pry to inspect dynamic and ghost methods which are created at runtime
   gem 'pry-rails'
 end
