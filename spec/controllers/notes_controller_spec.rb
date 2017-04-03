@@ -65,46 +65,53 @@ RSpec.describe NotesController, type: :controller do
     end
   end
 
-  # describe "PUT #update" do
-  #   context "with valid params" do
-  #     let(:new_attributes) {
-  #       skip("Add a hash of attributes valid for your model")
-  #     }
+  describe "PUT #update" do
+    before :each do
+      @project = FactoryGirl.create(:project)
+      @admin = FactoryGirl.create(:admin)
+      @note = @project.notes.create(valid_attributes)
+    end
 
-  #     it "updates the requested note" do
-  #       note = Note.create! valid_attributes
-  #       put :update, params: {id: note.to_param, note: new_attributes}, session: valid_session
-  #       note.reload
-  #       skip("Add assertions for updated state")
-  #     end
+    context "with admin" do
+      login_admin
+      let(:new_attributes) { FactoryGirl.attributes_for(:note, text: "new")}
 
-  #     it "assigns the requested note as @note" do
-  #       note = Note.create! valid_attributes
-  #       put :update, params: {id: note.to_param, note: valid_attributes}, session: valid_session
-  #       expect(assigns(:note)).to eq(note)
-  #     end
+      it "updates the requested note" do
+        put :update, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id, note: new_attributes}
+        @note.reload
+        expect(@note.text).to eq("new")
+      end
 
-  #     it "redirects to the note" do
-  #       note = Note.create! valid_attributes
-  #       put :update, params: {id: note.to_param, note: valid_attributes}, session: valid_session
-  #       expect(response).to redirect_to(note)
-  #     end
-  #   end
+      it "assigns the requested note as @note" do
+        put :update, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id, note: new_attributes}
+        expect(assigns(:note)).to eq(@note)
+      end
+    end
 
-  #   context "with invalid params" do
-  #     it "assigns the note as @note" do
-  #       note = Note.create! valid_attributes
-  #       put :update, params: {id: note.to_param, note: invalid_attributes}, session: valid_session
-  #       expect(assigns(:note)).to eq(note)
-  #     end
+    context "with user" do
+      login_user
+      let(:new_attributes) { FactoryGirl.attributes_for(:note, text: "new")}
+      it "assigns the note as @note" do
+        @note = @project.notes.create(valid_attributes)
+        put :update, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id, note: invalid_attributes}
+        expect(assigns(:note)).to eq(@note)
+      end
 
-  #     it "re-renders the 'edit' template" do
-  #       note = Note.create! valid_attributes
-  #       put :update, params: {id: note.to_param, note: invalid_attributes}, session: valid_session
-  #       expect(response).to render_template("edit")
-  #     end
-  #   end
-  # end
+      it "updates the requested note" do
+        put :update, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id, note: new_attributes}
+        @note.reload
+        expect(@note.text).to eq("new")
+      end
+    end
+
+    context "with no user signed in" do
+      it "re-renders the 'edit' template" do
+        @note = @project.notes.create(valid_attributes)
+        put :update, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id, note: invalid_attributes}
+        expect(response.status).to eq(302)
+      end
+    end
+  end
 
   # describe "DELETE #destroy" do
   #   it "destroys the requested note" do
