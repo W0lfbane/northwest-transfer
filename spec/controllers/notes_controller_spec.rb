@@ -105,7 +105,7 @@ RSpec.describe NotesController, type: :controller do
     end
 
     context "with no user signed in" do
-      it "re-renders the 'edit' template" do
+      it "recieves a 302 response" do
         @note = @project.notes.create(valid_attributes)
         put :update, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id, note: invalid_attributes}
         expect(response.status).to eq(302)
@@ -113,19 +113,35 @@ RSpec.describe NotesController, type: :controller do
     end
   end
 
-  # describe "DELETE #destroy" do
-  #   it "destroys the requested note" do
-  #     note = Note.create! valid_attributes
-  #     expect {
-  #       delete :destroy, params: {id: note.to_param}, session: valid_session
-  #     }.to change(Note, :count).by(-1)
-  #   end
+  describe "DELETE #destroy" do
+    before :each do
+      @project = FactoryGirl.create(:project)
+      @admin = FactoryGirl.create(:admin)
+      @note = @project.notes.create(valid_attributes)
+    end
 
-  #   it "redirects to the notes list" do
-  #     note = Note.create! valid_attributes
-  #     delete :destroy, params: {id: note.to_param}, session: valid_session
-  #     expect(response).to redirect_to(notes_url)
-  #   end
-  # end
+    context "with admin" do
+      login_admin
+      it "destroys the requested note" do
+        expect {
+          delete :destroy, params:  {resource_controller: "projects", resource_id: @project.id, id: @note.id}
+        }.to change(Note, :count).by(-1)
+      end
+
+      it "recieves a 302 response" do
+        delete :destroy, params:  {resource_controller: "projects", resource_id: @project.id, id: @note.id}
+        expect(response.status).to eq(302)
+      end
+    end
+
+    context "with user" do
+      login_user
+      it "recieves a 302 response" do
+        expect {
+        delete :destroy, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id}
+        }.to raise_error(Pundit::NotAuthorizedError)
+      end
+    end
+  end
 
 end
