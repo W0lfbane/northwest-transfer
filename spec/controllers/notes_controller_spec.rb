@@ -23,68 +23,39 @@ RSpec.describe NotesController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Note. As you add validations to Note, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:note, user_id: @admin.id) }
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) { FactoryGirl.attributes_for(:note, user_id: nil) }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # NotesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all notes as @notes" do
-      note = Note.create! valid_attributes
-      get :index, params: {}, session: valid_session
-      expect(assigns(:notes)).to eq([note])
-    end
-  end
-
-  describe "GET #show" do
-    it "assigns the requested note as @note" do
-      note = Note.create! valid_attributes
-      get :show, params: {id: note.to_param}, session: valid_session
-      expect(assigns(:note)).to eq(note)
-    end
-  end
-
-  describe "GET #new" do
-    it "assigns a new note as @note" do
-      get :new, params: {}, session: valid_session
-      expect(assigns(:note)).to be_a_new(Note)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested note as @note" do
-      note = Note.create! valid_attributes
-      get :edit, params: {id: note.to_param}, session: valid_session
-      expect(assigns(:note)).to eq(note)
-    end
-  end
-
   describe "POST #create" do
+    before :each do
+      @project = FactoryGirl.create(:project)
+      @admin = FactoryGirl.create(:admin)
+    end
     context "with valid params" do
+      login_admin
       it "creates a new Note" do
         expect {
-          post :create, params: {note: valid_attributes}, session: valid_session
+          binding.pry
+          post :create, params: {resource_controller: "projects", resource_id: @project.id, note: valid_attributes}
         }.to change(Note, :count).by(1)
       end
 
-      it "assigns a newly created note as @note" do
-        post :create, params: {note: valid_attributes}, session: valid_session
-        expect(assigns(:note)).to be_a(Note)
-        expect(assigns(:note)).to be_persisted
-      end
+      # it "assigns a newly created note as @note" do
+      #   post :create, params: {note: valid_attributes}, session: valid_session
+      #   expect(assigns(:note)).to be_a(Note)
+      #   expect(assigns(:note)).to be_persisted
+      # end
 
-      it "redirects to the created note" do
-        post :create, params: {note: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Note.last)
-      end
+      # it "redirects to the created note" do
+      #   post :create, params: {note: valid_attributes}, session: valid_session
+      #   expect(response).to redirect_to(Note.last)
+      # end
     end
 
     context "with invalid params" do
