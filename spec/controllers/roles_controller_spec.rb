@@ -51,10 +51,41 @@ RSpec.describe RolesController, type: :controller do
     end
 
     context "with non-user" do
-      it "recieve a 200 response" do
+      it "recieve a 302 response" do
         get :index, params: {resource_controller: 'users', resource_id: @user.id }
         expect(response.status).to eq(302)
       end
     end
   end
+
+  describe "GET #show" do
+    before :each do
+      @user = FactoryGirl.create(:user)
+      @role = @user.roles.create(attributes_for(:role))
+    end
+
+    context "with admin" do
+      login_admin
+      it "recieve a 200 response" do
+        get :show, params: {resource_controller: 'users', resource_id: @user.id, id: @role.id }
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context "with user" do
+      login_user
+      it "recieve a 200 response" do
+        get :show, params: {resource_controller: 'users', resource_id: @user.id, id: @role.id }
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context "with non-user" do
+      it "recieve a 302 response" do
+        get :show, params: {resource_controller: 'users', resource_id: @user.id, id: @role.id }
+        expect(response.status).to eq(302)
+      end
+    end
+  end
 end
+
