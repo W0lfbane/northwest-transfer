@@ -8,7 +8,6 @@ RSpec.describe DocumentsController, type: :controller do
     before :each do
       @project = FactoryGirl.create(:project)
       @doc = FactoryGirl.create(:document)
-        # /projects/:project_id/document
     end
 
     context "with admin" do
@@ -36,9 +35,32 @@ RSpec.describe DocumentsController, type: :controller do
   end
 
   describe "GET #new" do
-    it "assigns a new note as @note" do
-      get :new, params: {}, session: valid_session
-      expect(assigns(:note)).to be_a_new(Note)
+    before :each do
+      @project = FactoryGirl.create(:project)
+      @doc = FactoryGirl.create(:document)
+    end
+
+    context "with admin" do
+      login_admin
+      it "recieves a 200 response" do
+        get :new, params: {id: @doc.id, project_id: @project.id}
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context "with user" do
+      login_user
+      it "recievesa a 200 response" do
+        get :new, params: {id: @doc.id, project_id: @project.id}
+        expect(response.status).to eq(200)
+      end
+    end
+
+    context "with non-user" do
+      it "recievesa a 200 response" do
+        get :new, params: {id: @doc.id, project_id: @project.id}
+        expect(response.status).to eq(302)
+      end
     end
   end
 
