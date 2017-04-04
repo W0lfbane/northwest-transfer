@@ -5,12 +5,14 @@ RSpec.describe RolesController, type: :controller do
   let(:valid_attributes) { FactoryGirl.attributes_for(:role) }
 
   describe "GET #index" do
+
     before :each do
       @user = FactoryGirl.create(:user)
     end
 
     context "with admin" do
       login_admin
+
       it "recieve a 200 response" do
         get :index, params: {resource_controller: 'users', resource_id: @user.id }
         expect(response.status).to eq(200)
@@ -19,6 +21,7 @@ RSpec.describe RolesController, type: :controller do
 
     context "with user" do
       login_user
+
       it "recieve a 200 response" do
         get :index, params: {resource_controller: 'users', resource_id: @user.id }
         expect(response.status).to eq(200)
@@ -34,6 +37,7 @@ RSpec.describe RolesController, type: :controller do
   end
 
   describe "GET #show" do
+
     before :each do
       @user = FactoryGirl.create(:user)
       @role = @user.roles.create(attributes_for(:role))
@@ -41,6 +45,7 @@ RSpec.describe RolesController, type: :controller do
 
     context "with admin" do
       login_admin
+
       it "recieve a 200 response" do
         get :show, params: {resource_controller: 'users', resource_id: @user.id, id: @role.id }
         expect(response.status).to eq(200)
@@ -49,6 +54,7 @@ RSpec.describe RolesController, type: :controller do
 
     context "with user" do
       login_user
+
       it "recieve a 200 response" do
         get :show, params: {resource_controller: 'users', resource_id: @user.id, id: @role.id }
         expect(response.status).to eq(200)
@@ -64,11 +70,14 @@ RSpec.describe RolesController, type: :controller do
   end
 
   describe "GET #new" do
+
     before :each do
       @user = FactoryGirl.create(:user)
     end
+
     context "with admin" do
       login_admin
+
       it "assigns a new role as @role" do
         get :new, params: {resource_controller: 'users', resource_id: @user.id}
         expect(assigns(:role)).to be_a_new(Role)
@@ -77,6 +86,7 @@ RSpec.describe RolesController, type: :controller do
 
     context "with user" do
       login_user
+
       it "assigns a new role as @role" do
         get :new, params: {resource_controller: 'users', resource_id: @user.id}
         expect(assigns(:role)).to be_a_new(Role)
@@ -92,6 +102,7 @@ RSpec.describe RolesController, type: :controller do
   end
 
   describe "GET #edit" do
+
     before :each do
       @user = FactoryGirl.create(:user)
       @role = @user.roles.create(attributes_for(:role))
@@ -99,6 +110,7 @@ RSpec.describe RolesController, type: :controller do
 
     context "with admin" do
       login_admin
+
       it "assigns the requested role as @role" do
         get :edit, params: {resource_controller: 'users', resource_id: @user.id, id: @role.id}
         expect(assigns(:role)).to eq(@role)
@@ -107,6 +119,7 @@ RSpec.describe RolesController, type: :controller do
 
     context "with user" do
       login_user
+
       it "assigns the requested role as @role" do
         get :edit, params: {resource_controller: 'users', resource_id: @user.id, id: @role.id}
         expect(assigns(:role)).to eq(@role)
@@ -122,12 +135,14 @@ RSpec.describe RolesController, type: :controller do
   end
 
   describe "POST #create" do
+
     before :each do
       @user = FactoryGirl.create(:user)
     end
 
     context "with admin" do
       login_admin
+
       it "creates a new Role" do
         expect {
           post :create, params: {resource_controller: 'users', resource_id: @user.id, role: valid_attributes}
@@ -143,6 +158,7 @@ RSpec.describe RolesController, type: :controller do
 
     context "with user" do
       login_user
+
       it "creates a new Role" do
         expect {
           post :create, params: {resource_controller: 'users', resource_id: @user.id, role: valid_attributes}
@@ -150,7 +166,7 @@ RSpec.describe RolesController, type: :controller do
       end
 
       it "assigns a newly created role as @role" do
-          post :create, params: {resource_controller: 'users', resource_id: @user.id, role: valid_attributes}
+        post :create, params: {resource_controller: 'users', resource_id: @user.id, role: valid_attributes}
         expect(assigns(:role)).to be_a(Role)
         expect(assigns(:role)).to be_persisted
       end
@@ -158,6 +174,7 @@ RSpec.describe RolesController, type: :controller do
   end
 
   describe "PUT #update" do
+
     before :each do
       @user = FactoryGirl.create(:user)
       @role = @user.roles.create(attributes_for(:role))
@@ -197,6 +214,7 @@ RSpec.describe RolesController, type: :controller do
   end
 
   describe "DELETE #destroy" do
+
     before :each do
       @user = FactoryGirl.create(:user)
       @role = @user.roles.create(attributes_for(:role))
@@ -204,6 +222,7 @@ RSpec.describe RolesController, type: :controller do
 
     context "with admin" do
       login_admin
+
       it "destroys the requested role" do
         expect {
           delete :destroy, params: {id: @role.id, resource_id: @user.id, resource_controller: 'users'}
@@ -213,6 +232,7 @@ RSpec.describe RolesController, type: :controller do
 
     context "with user" do
       login_user
+
       it "destroys the requested role" do
         expect {
           delete :destroy, params: {id: @role.id, resource_id: @user.id, resource_controller: 'users'}
