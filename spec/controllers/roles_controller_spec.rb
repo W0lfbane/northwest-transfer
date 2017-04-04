@@ -197,18 +197,27 @@ RSpec.describe RolesController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested role" do
-      role = Role.create! valid_attributes
-      expect {
-        delete :destroy, params: {id: role.to_param}, session: valid_session
-      }.to change(Role, :count).by(-1)
+    before :each do
+      @user = FactoryGirl.create(:user)
+      @role = @user.roles.create(attributes_for(:role))
     end
 
-    it "redirects to the roles list" do
-      role = Role.create! valid_attributes
-      delete :destroy, params: {id: role.to_param}, session: valid_session
-      expect(response).to redirect_to(roles_url)
+    context "with admin" do
+      login_admin
+      it "destroys the requested role" do
+        expect {
+          delete :destroy, params: {id: @role.id, resource_id: @user.id, resource_controller: 'users'}
+        }.to change(Role, :count).by(-1)
+      end
+    end
+
+    context "with user" do
+      login_user
+      it "destroys the requested role" do
+        expect {
+          delete :destroy, params: {id: @role.id, resource_id: @user.id, resource_controller: 'users'}
+        }.to raise_error(Pundit::NotAuthorizedError)
+      end
     end
   end
-
 end
