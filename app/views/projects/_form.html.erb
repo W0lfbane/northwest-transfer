@@ -50,23 +50,31 @@
         <%= f.label :resource_state, :status %>
         <%= f.select :resource_state, resource_states(Project), { include_blank: true } %>
     <% end %>
-
+    
+    <h3>Tasks</h3>
     <%= f.fields_for :tasks do |builder| %>
         <%= render 'tasks/task_fields', f: builder %>
     <% end %>
 
     <%= link_to_add_fields 'Add Task', f, :tasks, { partial: 'tasks/task_fields' } %>
     
+    <h3>Notes</h3>
     <%= f.fields_for :notes do |builder| %>
         <%= render 'notes/note_fields', f: builder %>
     <% end %>
     
     <%= link_to_add_fields 'Add Note', f, :notes, { partial: 'notes/note_fields' } %>
 
+    <h3>Document</h3>
     <%= f.fields_for :document do |builder| %>
         <%= render 'documents/document_fields', f: builder %>
     <% end %>
+    
+    <% unless @project.document %>
+        <%= link_to_add_fields 'Add Document', f, :document, { partial: 'documents/document_fields' }, { onclick: '$(this).hide();' } %>
+    <% end %>
   
+    <h3>Users</h3>
     <%= f.fields_for :users do |builder| %>
         <%= render 'user_fields', f: builder %>
     <% end %>
