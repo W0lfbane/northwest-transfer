@@ -17,7 +17,7 @@ class GroupsController < ApplicationController
 
   def new
   end
-  
+
   def create
     @group = Group.new(group_params)
     authorize_group
@@ -40,20 +40,21 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    @group.deactivate!
+    binding.pry
+    @group.deactivate!(current_user)
     redirect_to groups_path, flash: { success: "Group successfully deactivated!" }
   end
-  
+
   private
-    
+
     def set_group
       @group = params[:id] ? Group.find(params[:id]) : Group.new
     end
-    
+
     def authorize_group
       authorize @group
     end
-  
+
     def group_params
       params.require(:group).permit(:name, :description)
     end
