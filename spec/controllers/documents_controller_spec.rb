@@ -15,7 +15,7 @@ RSpec.describe DocumentsController, type: :controller do
     context "with admin" do
       login_admin
 
-      it "recieves a 200 response" do
+      it "receives a 200 response" do
         get :show, params: {id: @doc.id, project_id: @project.id}
         expect(response.status).to eq(200)
       end
@@ -114,13 +114,13 @@ RSpec.describe DocumentsController, type: :controller do
 
       it "creates a new document" do
         expect {
-          post :create, params: {project_id: @project.id, document: valid_attributes }
+          post :create, params: { project_id: @project.id, document: valid_attributes }
         }.to change(Document, :count).by(1)
       end
 
       it "not create if title is nil" do
         expect {
-          post :create, params: {project_id: @project.id, document: invalid_attributes }
+          post :create, params: { project_id: @project.id, document: invalid_attributes }
         }.to change(Document, :count).by(0)
       end
 
