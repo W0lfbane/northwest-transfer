@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, except: [:index, :create]
   before_action :authorize_project, except: [:index, :create]
   before_action :set_author, only: [:create, :update]
-  before_action :set_form_resources, only: [:new, :edit, :update]
+  before_action :set_form_resources, only: [:new, :edit, :update, :create]
 
   def index
     @projects = policy_scope( Project ).order(:start_date).page(params[:page])

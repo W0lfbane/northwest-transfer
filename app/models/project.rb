@@ -17,7 +17,7 @@ class Project < ApplicationRecord
         users_attributes.each do |key, user_attributes|
             user_hash = users_attributes[key]
             
-            if user_hash[:id]
+            if user_hash[:id].present?
                 user = User.find(user_hash[:id])
                 if user_hash[:_destroy] == "1"
                     users.delete(user)
