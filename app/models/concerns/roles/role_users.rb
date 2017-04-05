@@ -22,8 +22,12 @@ module Roles::RoleUsers
                 role_user = "@#{role}_users"
 
                 # Fix this query, N+1 problem
-                instance_variable_defined?(role_user) ? instance_variable_get(role_user) : 
-                                                    instance_variable_set( role_user, self.roles.where(name: role).first.users )
+                if instance_variable_defined?(role_user)
+                    instance_variable_get(role_user)
+                else
+                    role_object = self.roles.find_by_name(role)
+                    instance_variable_set(role_user, role_object ? role_object.users : nil)
+                end
             end
         end
     end

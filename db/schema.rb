@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20170331052706) do
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
     t.string   "resource_state"
+    t.string   "previous_state"
   end
 
   create_table "resource_fields", force: :cascade do |t|

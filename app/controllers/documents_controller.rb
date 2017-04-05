@@ -67,6 +67,7 @@ class DocumentsController < ApplicationController
     end
 
     def set_document
+      # This will change upon document quantity semantics
       @document = @project.document.nil? ? @project.build_document : @project.document 
     end
     
