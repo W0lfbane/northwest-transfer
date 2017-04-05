@@ -351,18 +351,18 @@ RSpec.describe GroupsController, type: :controller do
         end
 
         it "deactivates the group in the database" do
-          binding.pry
           expect do
             delete :destroy, params: { id: @test_group.id }
           end.to change(Group.deactivated, :count).by(1)
         end
 
         it "redirects to the groups index" do
-          delete :destroy, params: {id: test_group}
+          delete :destroy, params: {id: @test_group}
           expect(response).to redirect_to groups_url
         end
       end
     end
+
     context "logged in as group user" do
       login_group_user
       it_should_behave_like "has appropriate permissions" do

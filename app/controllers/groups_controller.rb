@@ -40,7 +40,6 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    binding.pry
     @group.deactivate!(current_user)
     redirect_to groups_path, flash: { success: "Group successfully deactivated!" }
   end
