@@ -65,195 +65,162 @@ describe Project, type: :model do
     expect( subject ).not_to be_valid
   end
 
-  it "state of the project is initialized as 'pending' " do
+  it "state of the project is initialized as 'pending'" do
     subject.save!
     expect(subject.resource_state).to eq("pending")
   end
 
   it "returns a project title as a string" do
-    subject.title = "bob"
-    expect( subject.title ).to eq( "bob" )
+    expect( subject.title ).to be_a(String)
   end
 
   it "returns a project description as a string" do
-    subject.description = "bob"
-    expect( subject.description ).to eq( "bob" )
+    expect( subject.description ).to be_a(String)
   end
 
   it "returns a project location as a string" do
     expect( subject.location ).to be_a(String)
   end
 
-  it "transition from pending review to completed" do
-    project = FactoryGirl.create(:project)
-    project.create_document(attributes_for(:document, resource_state: :completed))
-    expect(project).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
-  end
-
   it "returns a project start_date as a date" do
-    subject.start_date = "2001-1-1"
-    expect( subject.start_date ).to eq( "2001-1-1".to_date )
+    expect( subject.start_date ).to be_a(ActiveSupport::TimeWithZone)
   end
 
   it "returns a project estimated_completion_date as a date" do
-    subject.estimated_completion_date = "2001-1-1"
-    expect( subject.estimated_completion_date ).to eq( "2001-1-1".to_date )
+    expect( subject.estimated_completion_date ).to be_a(ActiveSupport::TimeWithZone)
   end
 
   it "returns a project completion_date as a date" do
-    subject.completion_date = "2001-1-1"
-    expect( subject.completion_date ).to eq( "2001-1-1".to_date )
+    expect( subject.completion_date ).to be_a(ActiveSupport::TimeWithZone)
   end
 
-  it "error when task resource_state is not part of the list like 'pending'" do
+  it "error when task resource_state value is not defined in STATES" do
     expect{ FactoryGirl.create( :project, resource_state: "Bob" ) }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
-  it "change the pending to completed for project resource_state" do
-    subject.resource_state = "completed"
-    expect( subject.resource_state ).to eq( "completed" )
-  end
-
-  it "change the pending to problem for project resource_state" do
-    subject.resource_state = "problem"
-    expect( subject.resource_state ).to eq( "problem" )
-  end
-
-  it "check pending for project resource_state" do
-    expect( subject.resource_state ).to eq( "pending" )
-  end
-
-  it "transition from pending to route" do
-    expect(subject).to transition_from(:pending).to(:en_route).on_event(:begin_route)
-  end
-
-  it "transition from problem to route" do
-    expect(subject).to transition_from(:problem).to(:en_route).on_event(:begin_route)
-  end
-
-  it "transition from route to progress" do
-    expect(subject).to transition_from(:en_route).to(:in_progress).on_event(:begin_working)
-  end
-
-  it "transition from route to progress" do
-    expect(subject).to transition_from(:en_route).to(:in_progress).on_event(:begin_working)
-  end
-
-  it "transition from progress to pending review" do
-    project = FactoryGirl.create(:project)
-    project.create_document(attributes_for(:document, resource_state: :completed))
-    expect(project).to transition_from(:in_progress).to(:pending_review).on_event(:request_review)
-  end
-
-  it "transition from pending review to completed" do
-    project = FactoryGirl.create(:project)
-    project.create_document(attributes_for(:document, resource_state: :completed))
-    expect(project).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
-  end
-
-  it "transition from deactivated to problem" do
-    project = FactoryGirl.create(:project)
-    project.notes.build(attributes_for(:note))
-    expect(project).to transition_from(:deactivated).to(:problem).on_event(:report_problem)
-  end
-
-  it "transition from pending to problem" do
-    project = FactoryGirl.create(:project)
-    project.notes.build(attributes_for(:note))
-    expect(project).to transition_from(:pending).to(:problem).on_event(:report_problem)
-  end
-
-  it "transition from en_route to problem" do
-    project = FactoryGirl.create(:project)
-    project.notes.build(attributes_for(:note))
-    expect(project).to transition_from(:en_route).to(:problem).on_event(:report_problem)
-  end
-
-  it "transition from in_progress to problem" do
-    project = FactoryGirl.create(:project)
-    project.notes.build(attributes_for(:note))
-    expect(project).to transition_from(:in_progress).to(:problem).on_event(:report_problem)
-  end
-
-  it "transition from completed to problem" do
-    project = FactoryGirl.create(:project)
-    project.notes.build(attributes_for(:note))
-    expect(project).to transition_from(:completed).to(:problem).on_event(:report_problem)
-  end
-
-  it "transition from pending to deactivated" do
-    expect(subject).to transition_from(:pending).to(:deactivated).on_event(:deactivate, admin)
-  end
-
-  it "transition from en_route to deactivated" do
-    expect(subject).to transition_from(:en_route).to(:deactivated).on_event(:deactivate, admin)
-  end
-
-  it "transition from in_progress to deactivated" do
-    expect(subject).to transition_from(:in_progress).to(:deactivated).on_event(:deactivate, admin)
-  end
-
-  it "transition from completed to deactivated" do
-    expect(subject).to transition_from(:completed).to(:deactivated).on_event(:deactivate, admin)
-  end
-
-  it "total time for complete" do
-    subject.resource_state = "completed"
+  it "returns total time for project completion on total_time method" do
     expect( subject.total_time ).to eq( 2 )
   end
-
-  it "Test set_completion_date method works" do
-    subject.set_completion_date!
-    expect( subject.completion_date.strftime("%m/%d/%Y at %I:%M%p") ).to eq( DateTime.now.utc.strftime("%m/%d/%Y at %I:%M%p") )
-  end
-
+  
   it "has an alert_level method that returns inactive when the state is pending" do
+    expect( subject.resource_state ).to eq ( "pending" )
     expect( subject.alert_level ).to eq ( "inactive" )
   end
 
-  it "Test alert_level method work for inactive when task problem" do
-    task = FactoryGirl.create( :task, project: subject)
-    task.notes.build(attributes_for(:note))
-    task.resource_state = "problem"
-    expect( subject.alert_level ).to eq ( "inactive" )
+  it "sets the completion_date when set_completion_date! is invoked" do
+    datetime = DateTime.now
+    subject.set_completion_date! datetime
+    expect( subject.completion_date ).to eq( datetime )
   end
 
+  describe "with created project" do
+    before :each do
+      subject.save!
+    end
+    
+    context "when transition requires a completed document" do
+      before :each do
+        subject.create_document(attributes_for(:document, resource_state: :completed))
+      end
+      
+      it "transitions from pending review to completed" do
+        expect(subject).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
+      end
 
-  it "Test alert_level method work for operatonal" do
-    task = FactoryGirl.create( :task, project: subject)
-    task.notes.build(attributes_for(:note))
-    task.resource_state = "in_progress"
-    subject.resource_state = "in_progress"
-    expect( subject.alert_level ).to eq ( "operatonal" )
-  end
+      it "transitions from in_progress to pending review" do
+        expect(subject).to transition_from(:in_progress).to(:pending_review).on_event(:request_review)
+      end
+    end
+    
+    context "when transition requires a note to be saved with the transition" do
+      before :each do
+        subject.notes.build(attributes_for(:note, user_id: admin.id))
+      end
+      
+      it "transitions from deactivated to problem" do
+        expect(subject).to transition_from(:deactivated).to(:problem).on_event(:report_problem)
+      end
+    
+      it "transitions from pending to problem" do
+        expect(subject).to transition_from(:pending).to(:problem).on_event(:report_problem)
+      end
+    
+      it "transitions from en_route to problem" do
+        expect(subject).to transition_from(:en_route).to(:problem).on_event(:report_problem)
+      end
+    
+      it "transitions from in_progress to problem" do
+        expect(subject).to transition_from(:in_progress).to(:problem).on_event(:report_problem)
+      end
+    
+      it "transitions from completed to problem" do
+        expect(subject).to transition_from(:completed).to(:problem).on_event(:report_problem)
+      end
+    end
+  
+    it "transitions from pending to en_route" do
+      expect(subject).to transition_from(:pending).to(:en_route).on_event(:begin_route)
+    end
+  
+    it "transitions from en_route to progress" do
+      expect(subject).to transition_from(:en_route).to(:in_progress).on_event(:begin_working)
+    end
 
-  it "should return 'advisory' for alert_level when the number of flags is 1" do
-    subject.begin_route!
-    task = FactoryGirl.create( :task, project: subject )
-    task.notes.build( FactoryGirl.attributes_for(:note, user_id: admin.id) )
-    task.report_problem!
-    expect( subject.alert_level ).to eq ( "advisory" )
-  end
+    it "transitions from pending to deactivated" do
+      expect(subject).to transition_from(:pending).to(:deactivated).on_event(:deactivate, admin)
+    end
+  
+    it "transitions from en_route to deactivated" do
+      expect(subject).to transition_from(:en_route).to(:deactivated).on_event(:deactivate, admin)
+    end
+  
+    it "transitions from in_progress to deactivated" do
+      expect(subject).to transition_from(:in_progress).to(:deactivated).on_event(:deactivate, admin)
+    end
+  
+    it "transitions from completed to deactivated" do
+      expect(subject).to transition_from(:completed).to(:deactivated).on_event(:deactivate, admin)
+    end
 
-  it "should return 'danger' for alert_level when the number of flags is 2 or greater" do
-    subject.begin_route!
-    task1 = FactoryGirl.create( :task, project: subject)
-    task1.notes.build( FactoryGirl.attributes_for(:note, user_id: admin.id) )
-    task1.report_problem!
-    task2 = FactoryGirl.create( :task, project: subject)
-    task2.notes.build( FactoryGirl.attributes_for(:note, user_id: admin.id) )
-    task2.report_problem!
-    expect( subject.alert_level ).to eq ( "danger" )
-  end
+    context do
+      before :each do
+        subject.begin_route!
+      end
 
-  it "should return the number of tasks in a problem state as the flag count" do
-    task = FactoryGirl.create( :task, project: subject)
-    task.notes.build( FactoryGirl.attributes_for(:note, user_id: admin.id) )
-    task.report_problem!
-    expect( subject.flags.count ).to eq ( 1 )
-  end
+      it "should return 'advisory' as the alert_level when total flag count is 1" do
+        task = subject.tasks.create!( FactoryGirl.attributes_for(:task) )
+        task.notes.build(attributes_for(:note, user_id: admin.id))
+        task.report_problem!
+        expect( subject.alert_level ).to eq ( "advisory" )
+      end
+    
+      it "should return 'operational' as the alert_level when total flag count is 0" do
+        expect( subject.alert_level ).to eq ( "operational" )
+      end
+  
+      it "should return 'danger' for alert_level when the number of flags is 2 or greater" do
+        2.times do
+          task = subject.tasks.create!( FactoryGirl.attributes_for(:task) )
+          task.notes.build( FactoryGirl.attributes_for(:note, user_id: admin.id) )
+          task.report_problem!
+        end
 
-  it "should return 0 as the flag count when no tasks are in a problem state" do
-    expect( subject.flags.count ).to eq ( 0 )
+        expect( subject.alert_level ).to eq ( "danger" )
+      end
+    end
+  
+    it "should return the number of tasks in a problem state as the flag count" do
+      2.times do
+        task = subject.tasks.create!( FactoryGirl.attributes_for(:task) )
+        task.notes.build( FactoryGirl.attributes_for(:note, user_id: admin.id) )
+        task.report_problem!
+      end
+
+      expect( subject.flags.count ).to eq ( 2 )
+    end
+  
+    it "should return 0 as the flag count when no tasks are in a problem state" do
+      expect( subject.flags.count ).to eq ( 0 )
+    end
   end
 end

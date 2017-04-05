@@ -20,139 +20,118 @@ require 'rails_helper'
 
 RSpec.describe NotesController, type: :controller do
 
-  # This should return the minimal set of attributes required to create a valid
-  # Note. As you add validations to Note, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
-
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # NotesController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
-
-  describe "GET #index" do
-    it "assigns all notes as @notes" do
-      note = Note.create! valid_attributes
-      get :index, params: {}, session: valid_session
-      expect(assigns(:notes)).to eq([note])
-    end
-  end
-
-  describe "GET #show" do
-    it "assigns the requested note as @note" do
-      note = Note.create! valid_attributes
-      get :show, params: {id: note.to_param}, session: valid_session
-      expect(assigns(:note)).to eq(note)
-    end
-  end
-
-  describe "GET #new" do
-    it "assigns a new note as @note" do
-      get :new, params: {}, session: valid_session
-      expect(assigns(:note)).to be_a_new(Note)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested note as @note" do
-      note = Note.create! valid_attributes
-      get :edit, params: {id: note.to_param}, session: valid_session
-      expect(assigns(:note)).to eq(note)
-    end
-  end
+  let(:valid_attributes) { FactoryGirl.attributes_for(:note, user_id: @admin.id) }
+  let(:invalid_attributes) { FactoryGirl.attributes_for(:note, user_id: nil) }
 
   describe "POST #create" do
+    before :each do
+      @project = FactoryGirl.create(:project)
+      @admin = FactoryGirl.create(:admin)
+    end
     context "with valid params" do
+      login_admin
       it "creates a new Note" do
         expect {
-          post :create, params: {note: valid_attributes}, session: valid_session
+          post :create, params: {resource_controller: "projects", resource_id: @project.id, note: valid_attributes}
         }.to change(Note, :count).by(1)
       end
 
       it "assigns a newly created note as @note" do
-        post :create, params: {note: valid_attributes}, session: valid_session
+        post :create, params: {resource_controller: "projects", resource_id: @project.id, note: valid_attributes}
         expect(assigns(:note)).to be_a(Note)
         expect(assigns(:note)).to be_persisted
-      end
-
-      it "redirects to the created note" do
-        post :create, params: {note: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Note.last)
       end
     end
 
     context "with invalid params" do
-      it "assigns a newly created but unsaved note as @note" do
-        post :create, params: {note: invalid_attributes}, session: valid_session
-        expect(assigns(:note)).to be_a_new(Note)
+      it "if the user is not signed in will not save" do
+        expect{
+          post :create, params: {resource_controller: "projects", resource_id: @project.id, note: invalid_attributes}}.to change(Note, :count).by(0)
       end
 
-      it "re-renders the 'new' template" do
-        post :create, params: {note: invalid_attributes}, session: valid_session
-        expect(response).to render_template("new")
+      it "recieves a 302 response" do
+        post :create, params: {resource_controller: "projects", resource_id: @project.id, note: invalid_attributes}
+        expect(response.status).to eq(302)
       end
     end
   end
 
   describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+    before :each do
+      @project = FactoryGirl.create(:project)
+      @admin = FactoryGirl.create(:admin)
+      @note = @project.notes.create(valid_attributes)
+    end
+
+    context "with admin" do
+      login_admin
+      let(:new_attributes) { FactoryGirl.attributes_for(:note, text: "new")}
 
       it "updates the requested note" do
-        note = Note.create! valid_attributes
-        put :update, params: {id: note.to_param, note: new_attributes}, session: valid_session
-        note.reload
-        skip("Add assertions for updated state")
+        put :update, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id, note: new_attributes}
+        @note.reload
+        expect(@note.text).to eq("new")
       end
 
       it "assigns the requested note as @note" do
-        note = Note.create! valid_attributes
-        put :update, params: {id: note.to_param, note: valid_attributes}, session: valid_session
-        expect(assigns(:note)).to eq(note)
-      end
-
-      it "redirects to the note" do
-        note = Note.create! valid_attributes
-        put :update, params: {id: note.to_param, note: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(note)
+        put :update, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id, note: new_attributes}
+        expect(assigns(:note)).to eq(@note)
       end
     end
 
-    context "with invalid params" do
+    context "with user" do
+      login_user
+      let(:new_attributes) { FactoryGirl.attributes_for(:note, text: "new")}
       it "assigns the note as @note" do
-        note = Note.create! valid_attributes
-        put :update, params: {id: note.to_param, note: invalid_attributes}, session: valid_session
-        expect(assigns(:note)).to eq(note)
+        @note = @project.notes.create(valid_attributes)
+        put :update, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id, note: invalid_attributes}
+        expect(assigns(:note)).to eq(@note)
       end
 
-      it "re-renders the 'edit' template" do
-        note = Note.create! valid_attributes
-        put :update, params: {id: note.to_param, note: invalid_attributes}, session: valid_session
-        expect(response).to render_template("edit")
+      it "updates the requested note" do
+        put :update, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id, note: new_attributes}
+        @note.reload
+        expect(@note.text).to eq("new")
+      end
+    end
+
+    context "with no user signed in" do
+      it "recieves a 302 response" do
+        @note = @project.notes.create(valid_attributes)
+        put :update, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id, note: invalid_attributes}
+        expect(response.status).to eq(302)
       end
     end
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested note" do
-      note = Note.create! valid_attributes
-      expect {
-        delete :destroy, params: {id: note.to_param}, session: valid_session
-      }.to change(Note, :count).by(-1)
+    before :each do
+      @project = FactoryGirl.create(:project)
+      @admin = FactoryGirl.create(:admin)
+      @note = @project.notes.create(valid_attributes)
     end
 
-    it "redirects to the notes list" do
-      note = Note.create! valid_attributes
-      delete :destroy, params: {id: note.to_param}, session: valid_session
-      expect(response).to redirect_to(notes_url)
+    context "with admin" do
+      login_admin
+      it "destroys the requested note" do
+        expect {
+          delete :destroy, params:  {resource_controller: "projects", resource_id: @project.id, id: @note.id}
+        }.to change(Note, :count).by(-1)
+      end
+
+      it "recieves a 302 response" do
+        delete :destroy, params:  {resource_controller: "projects", resource_id: @project.id, id: @note.id}
+        expect(response.status).to eq(302)
+      end
+    end
+
+    context "with user" do
+      login_user
+      it "raises a Pundit::NotAuthorizedError" do
+        expect {
+        delete :destroy, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id}
+        }.to raise_error(Pundit::NotAuthorizedError)
+      end
     end
   end
 
