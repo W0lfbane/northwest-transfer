@@ -150,7 +150,7 @@ RSpec.describe RolesController, type: :controller do
       end
 
       it "assigns a newly created role as @role" do
-          post :create, params: {resource_controller: 'users', resource_id: @user.id, role: valid_attributes}
+        post :create, params: {resource_controller: 'users', resource_id: @user.id, role: valid_attributes}
         expect(assigns(:role)).to be_a(Role)
         expect(assigns(:role)).to be_persisted
       end
