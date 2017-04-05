@@ -20,17 +20,8 @@ require 'rails_helper'
 
 RSpec.describe NotesController, type: :controller do
 
-  # This should return the minimal set of attributes required to create a valid
-  # Note. As you add validations to Note, be sure to
-  # adjust the attributes here as well.
   let(:valid_attributes) { FactoryGirl.attributes_for(:note, user_id: @admin.id) }
-
   let(:invalid_attributes) { FactoryGirl.attributes_for(:note, user_id: nil) }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # NotesController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
 
   describe "POST #create" do
     before :each do
@@ -136,7 +127,7 @@ RSpec.describe NotesController, type: :controller do
 
     context "with user" do
       login_user
-      it "recieves a 302 response" do
+      it "raises a Pundit::NotAuthorizedError" do
         expect {
         delete :destroy, params: {resource_controller: "projects", resource_id: @project.id, id: @note.id}
         }.to raise_error(Pundit::NotAuthorizedError)

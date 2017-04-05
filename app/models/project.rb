@@ -90,7 +90,7 @@ class Project < ApplicationRecord
     end
 
     def total_time
-       if self.completed? then TimeDifference.between(self.start_date.to_datetime, self.completion_date.to_datetime).in_hours end
+       TimeDifference.between(self.start_date.to_datetime, self.completion_date.to_datetime).in_hours
     end
 
     def set_completion_date!(date = DateTime.now)
@@ -107,7 +107,7 @@ class Project < ApplicationRecord
         else
             case self.flags.count
             when 0
-              'operatonal'
+              'operational'
             when 1
               'advisory'
             else

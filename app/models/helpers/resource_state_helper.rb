@@ -33,13 +33,13 @@ module Helpers::ResourceStateHelper
     def transitioning_to_problem_state?
         resource_state == 'problem'
     end
-    
+
     # Returns a boolean specifying if both the current and previous states are eligible for a transition if a previous state exists
-    def valid_transition_with_previous_state?(state = self.aasm.current_state)
+    def valid_transition_with_previous_state?
         if previous_state?
-            self.interacting_with_state? state, previous_state
+            self.interacting_with_state? self.aasm.current_state, previous_state
         else
-           true
+            true
         end
     end
     

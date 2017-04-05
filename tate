@@ -1,0 +1,15 @@
+
+[1mFrom:[0m /home/ubuntu/workspace/nw-transfer/app/models/helpers/resource_state_helper.rb @ line 39 Helpers::ResourceStateHelper#valid_transition_with_previous_state?:
+
+    [1;34m34[0m:     [32mdef[0m [1;34mtransitioning_to_problem_state?[0m
+    [1;34m35[0m:         resource_state == [31m[1;31m'[0m[31mproblem[1;31m'[0m[31m[0m
+    [1;34m36[0m:     [32mend[0m
+    [1;34m37[0m:     
+    [1;34m38[0m:     [1;34m# Returns a boolean specifying if both the current and previous states are eligible for a transition if a previous state exists[0m
+ => [1;34m39[0m:     [32mdef[0m [1;34mvalid_transition_with_previous_state?[0m(state = [1;36mself[0m.aasm.current_state)
+    [1;34m40[0m:         [32mif[0m previous_state?
+    [1;34m41[0m:             [1;36mself[0m.interacting_with_state? state, previous_state
+    [1;34m42[0m:         [32melse[0m
+    [1;34m43[0m:            [1;36mtrue[0m
+    [1;34m44[0m:         [32mend[0m
+
