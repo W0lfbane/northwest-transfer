@@ -31,7 +31,7 @@ class Project < ApplicationRecord
         end
     end
 
-    validates_associated :tasks, :document
+    validates_associated :tasks, :document, :users
     validate :note_added, if: :transitioning_to_problem_state?
 
     resourcify
@@ -46,25 +46,25 @@ class Project < ApplicationRecord
             state(status, initial: STATES[0] == status)
         end
 
-        before_all_events :set_state_user
+        before_all_events :set_state_user, :set_previous_state!
 
         event :begin_route do
-            transitions from: [:pending, :problem], to: :en_route
+            transitions from: [:pending, :problem], to: :en_route, guard: :valid_transition_with_previous_state?
         end
 
         event :begin_working do
-            transitions from: [:en_route, :problem], to: :in_progress
+            transitions from: [:en_route, :problem], to: :in_progress, guard: :valid_transition_with_previous_state?
         end
 
         event :request_review, guards: [:no_pending_tasks?, :document_complete?] do
-            transitions from: [:in_progress, :problem], to: :pending_review
+            transitions from: [:in_progress, :problem], to: :pending_review, guard: :valid_transition_with_previous_state?
         end
 
         event :complete, success: :set_completion_date!, guards: [lambda { @user.admin? }, :no_pending_tasks?, :document_complete?] do
-            transitions from: [:pending_review], to: :completed
+            transitions from: [:pending_review], to: :completed, guard: :valid_transition_with_previous_state?
         end
 
-        event :report_problem, guards: :note_added? do
+        event :report_problem do
             transitions to: :problem
         end
 
@@ -72,11 +72,7 @@ class Project < ApplicationRecord
             transitions to: :deactivated
         end
     end
-    
-    def record_state_change
-      self.aasm.from_state = previous_state
-    end
-    
+
     def tasks_pending?
         0 != self.tasks.where(resource_state: "pending").count
     end
@@ -84,7 +80,7 @@ class Project < ApplicationRecord
     def no_pending_tasks?
        !tasks_pending?
     end
-    
+
     def document_complete?
         if self.document.nil?
             return false

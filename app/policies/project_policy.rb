@@ -26,7 +26,7 @@ class ProjectPolicy < ApplicationPolicy
     end
     
     def destroy?
-        is_admin? or resource_user?
+        is_admin?
     end
 
 

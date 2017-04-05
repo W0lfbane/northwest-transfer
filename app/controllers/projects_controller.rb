@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, except: [:index, :create]
   before_action :authorize_project, except: [:index, :create]
   before_action :set_author, only: [:create, :update]
-  before_action :build_document, :set_form_resources, only: [:new, :edit, :update]
+  before_action :set_form_resources, only: [:new, :edit, :update]
 
   def index
     @projects = policy_scope( Project ).order(:start_date).page(params[:page])
@@ -50,7 +50,7 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project.deactivate!
+    @project.deactivate! current_user
     redirect_to projects_path, flash: { success: "Project successfully deactivated!" }
   end
   
@@ -86,10 +86,5 @@ class ProjectsController < ApplicationController
                                       tasks_attributes: [:id, :name, :description, :resource_state, :_destroy],
                                       users_attributes: [:id, :_destroy])
     end
-    
-    def build_document
-      @project.build_document if @project.document.nil?
-    end
-
 
 end
