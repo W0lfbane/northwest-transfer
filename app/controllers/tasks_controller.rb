@@ -73,13 +73,13 @@ class TasksController < ApplicationController
     def set_task
       @task = params[:id] ? @resource.tasks.find(params[:id]) : @resource.tasks.build
     end
-    
+
     def authorize_task
       authorize @task
     end
-  
+
     def task_params
-      params.require(:task).permit(:name, 
+      params.require(:task).permit(:name,
                                     :description,
                                     :resource_state,
                                     notes_attributes: [:text, :user_id, :_destroy])
