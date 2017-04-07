@@ -1,13 +1,17 @@
 module Helpers::ResourceStateHelper
+  
+    def states_list(klass = self.class)
+      klass::STATES
+    end
 
     # Helper methods for managing resource states
     def valid_state?(state)
-        self.class::STATES.include?(state.to_sym)
+        states_list.include?(state.to_sym)
     end
 
     def state_completed?(min_state, max_state = self.aasm.current_state)
-        min = self.class::STATES.index(min_state.to_sym)
-        max = self.class::STATES.index(max_state.to_sym)
+        min = states_list.index(min_state.to_sym)
+        max = states_list.index(max_state.to_sym)
         max > min
     end
 
@@ -16,15 +20,13 @@ module Helpers::ResourceStateHelper
     end
 
     def interacting_with_state?(state, current_state = self.aasm.current_state)
-        if valid_state?(state) && valid_state?(current_state)
-            current_state?(state, current_state) || state_completed?(state, current_state)
-        else
-            raise ArgumentError, "The state passed is invalid"
-        end
+        raise ArgumentError, "The state passed is invalid" unless valid_state?(state) && valid_state?(current_state)
+        current_state?(state, current_state) || state_completed?(state, current_state)
     end
 
     def set_state_user(user = User.new)
-       @user = user
+        raise ArgumentError, "The user passed is invalid" unless user.class == User
+        @user = user
     end
 
     # Figure out a good way to test for state transitions
