@@ -32,7 +32,7 @@ class Project < ApplicationRecord
     end
 
     validates_associated :tasks, :document, :users
-    validate :note_added, if: :transitioning_to_problem_state?
+#    validate :note_added, if: :transitioning_to_problem_state?
 
     resourcify
 
@@ -43,33 +43,36 @@ class Project < ApplicationRecord
     STATES = [:pending, :en_route, :in_progress, :pending_review, :completed, :problem, :deactivated]
     aasm :column => 'resource_state' do
         STATES.each do |status|
-            state(status, initial: STATES[0] == status)
+            state(status, initial: STATES[0] == status, before_enter: :set_previous_state!)
+        end
+        event :reset do
+            transitions to: :pending
         end
 
-        before_all_events :set_state_user, :set_previous_state!
+        before_all_events :set_state_user
 
-        event :begin_route do
-            transitions from: [:pending, :problem], to: :en_route, guard: :valid_transition_with_previous_state?
+        event :begin_route, guards: :valid_transition_with_previous_state? do
+            transitions from: [:pending, :problem], to: :en_route
         end
 
-        event :begin_working do
-            transitions from: [:en_route, :problem], to: :in_progress, guard: :valid_transition_with_previous_state?
+        event :begin_working, guards: :valid_transition_with_previous_state? do
+            transitions from: [:en_route, :problem], to: :in_progress
         end
 
-        event :request_review, guards: [:no_pending_tasks?, :document_complete?] do
-            transitions from: [:in_progress, :problem], to: :pending_review, guard: :valid_transition_with_previous_state?
+        event :request_review, guards: [:no_pending_tasks?, :document_complete?, :valid_transition_with_previous_state?] do
+            transitions from: [:in_progress, :problem], to: :pending_review
         end
 
-        event :complete, success: :set_completion_date!, guards: [lambda { @user.admin? }, :no_pending_tasks?, :document_complete?] do
-            transitions from: [:pending_review], to: :completed, guard: :valid_transition_with_previous_state?
+        event :complete, guards: [lambda { @user.admin? }, :no_pending_tasks?, :document_complete?, :valid_transition_with_previous_state?] do
+            transitions from: [:pending_review], to: :completed, success: :set_completion_date!
         end
 
         event :report_problem do
-            transitions to: :problem
+            transitions from: STATES, to: :problem
         end
 
         event :deactivate, guards: lambda { @user.admin? } do
-            transitions to: :deactivated
+            transitions from: STATES, to: :deactivated
         end
     end
 

@@ -8,20 +8,18 @@ module Helpers::ResourceStateHelper
     def state_completed?(min_state, max_state = self.aasm.current_state)
         min = self.class::STATES.index(min_state.to_sym)
         max = self.class::STATES.index(max_state.to_sym)
-        max >= min
+        max > min
     end
 
-    def current_state?(state)
-        self.aasm.current_state == state.to_sym
+    def current_state?(state, current_state = self.aasm.current_state)
+        current_state == state.to_sym
     end
 
-    def interacting_with_state?(state, max_state = self.aasm.current_state)
-        @state = state.to_sym
-
-        if valid_state?(@state)
-            current_state?(@state) || state_completed?(@state, max_state)
+    def interacting_with_state?(state, current_state = self.aasm.current_state)
+        if valid_state?(state) && valid_state?(current_state)
+            current_state?(state, current_state) || state_completed?(state, current_state)
         else
-            false
+            raise ArgumentError, "The state passed is invalid"
         end
     end
 
@@ -34,18 +32,27 @@ module Helpers::ResourceStateHelper
         resource_state == 'problem'
     end
 
-    # Returns a boolean specifying if both the current and previous states are eligible for a transition if a previous state exists
+    # Returns a boolean specifying if the previous state is eligible for the requested transition if a previous_state exists
     def valid_transition_with_previous_state?
         if previous_state?
-            self.interacting_with_state? self.aasm.current_state, previous_state
+            obj_copy = self.dup
+            obj_copy.resource_state = previous_state
+            obj_copy.previous_state = nil
+            event = aasm.current_event.to_s.tr('!', '').to_sym
+
+            if interacting_with_state?(aasm.to_state, previous_state)
+                true
+            else
+                obj_copy.aasm.may_fire_event?(event)
+            end unless previous_state == aasm.to_state
         else
             true
         end
     end
     
     # Set previous_state attribute on resource
-    def set_previous_state!(state = self.aasm.current_state)
-        self.update!(previous_state: state)
+    def set_previous_state!(state = self.aasm.from_state)
+        self.update!(previous_state: state) unless state.nil?
     end
 
 end

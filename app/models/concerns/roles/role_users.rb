@@ -21,7 +21,6 @@ module Roles::RoleUsers
             object.send(:define_method, role.to_s.pluralize) do
                 role_user = "@#{role}_users"
 
-                # Fix this query, N+1 problem
                 if instance_variable_defined?(role_user)
                     instance_variable_get(role_user)
                 else

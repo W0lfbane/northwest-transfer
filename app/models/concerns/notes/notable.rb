@@ -16,7 +16,6 @@ module Notes::Notable
             def note_added?
                 persisted_count = self.notes.count
                 ram_count = self.notes.to_a.count
-                
                 ram_count > persisted_count
             end
             
