@@ -1,8 +1,10 @@
+
+
 <%= button_to "test", resource_state_change_path('projects', @project), method: :patch, params: { status_method: 'complete' } %>
-  
-  
+
+
 <div class="container-fluid">
-  
+
   <!-- //////////////////TOGGLE JOBS BAR/////////////////////////// -->
   <div class="row vertical-align-middle">
     <div class="col-xs-6 text-left">
@@ -16,7 +18,7 @@
         <span>Next Project</span>
         <%= fa_icon "chevron-right", class: 'fa-2x text-darkest-grey' %>
       <% end unless @project.next_by_start_date(current_user).nil? %>
-    </div> 
+    </div>
   </div>
 
   <!-- //////////////////JOB DETAILS SECTION/////////////////////// -->
@@ -32,7 +34,7 @@
             <p><%= @project.description %></p>
           </div>
         </div>
-    
+
         <!-- /////////////////////TIMELINE/////////////////////////// -->
         <div class="container-fluid text-bold text-center">
           <div class="col-xs-4 buffer-padding-20 border-right-grey-3">
@@ -40,7 +42,7 @@
             <% if @project.previous_by_start_date(current_user).nil? || @project.previous_by_start_date(current_user).completed? %>
               <%= @project.location %>
             <% else %>
-              You must complete the previous project before continuing            
+              You must complete the previous project before continuing
             <% end %>
           </div>
           <div class="col-xs-4 buffer-padding-20">
