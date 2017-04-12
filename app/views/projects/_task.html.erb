@@ -1,9 +1,10 @@
+
 <div class="container-fluid border-top-grey-3 border-bottom-grey-3 background-lightest-grey text-darkest-grey buffer-margin-10 no-margin-top">
   <div class="col-md-3 col-xs-3">
     <h3 class="border-right-grey-3 buffer-padding-10 buffer-padding-10-horizontal text-right text-bold">Task <%= task_counter + 1 %></h3>
   </div>
   <div class="col-md-6 col-xs-5">
-    <h3><%= task.name %></h3>
+    <h3><%= link_to task.name, projects_path %></h3>
     <p class="text-italic">assigned to Darryl Philbin</p>
   </div>
   <div class="col-md-3 col-xs-4 buffer-margin-25 text-right">

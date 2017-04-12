@@ -1,7 +1,6 @@
-
-
-<%= button_to "test", resource_state_change_path('projects', @project), method: :patch, params: { status_method: 'complete' } %>
-
+<!-- Test button -->
+<!-- <%= button_to "test", resource_state_change_path('projects', @project), method: :patch, params: { status_method: 'complete' } %>
+ -->
 
 <div class="container-fluid">
 
@@ -68,13 +67,16 @@
               <% end %>
           </div>
         </div>
-        <!-- ///////////////////////TASK LIST/////////////////////// -->
-        <div id="project_tasks">
-          <%= render partial: "task", collection: @project.tasks %>
-        </div>
       </div>
     </div>
 
+    <!-- ////////////////////////Carousel///////////////////////// -->
+    <%= render "shared/carousel" %>
+    <!-- ///////////////////////TASK LIST/////////////////////// -->
+    <div id="project_tasks">
+      <%= render partial: "task", collection: @project.tasks %>
+    </div>
+    <tr class="notification-item">
     <!-- //////////////////NOTIFICATIONS/////////////////////// -->
     <div id="project_notifications" class="container-fluid">
       <div class="border-grey-3 buffer-margin-10">
@@ -93,7 +95,6 @@
               </td>
               <td><%= fa_icon "chevron-down", class: 'fa-2x' %></td>
             </tr>
-            <tr class="notification-item">
               <td>
                 <h4>Something is wrong with air hockey table.</h4>
                 <p>posted by Jefro Kurt | March 12, 2017 | 11:01am</p>
