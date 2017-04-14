@@ -5,7 +5,7 @@ module Helpers::ResourceStateHelper
     end
 
     # Helper methods for managing resource states
-    def valid_state?(state)
+    def valid_state?(state = :'')
         states_list.include?(state.to_sym)
     end
 

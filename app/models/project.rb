@@ -59,7 +59,7 @@ class Project < ApplicationRecord
             transitions from: [:en_route, :problem], to: :in_progress
         end
 
-        event :request_review, guards: [:no_pending_tasks?, :document_complete?, :valid_transition_with_previous_state?] do
+        event :request_review, guards: [:valid_transition_with_previous_state?] do
             transitions from: [:in_progress, :problem], to: :pending_review
         end
 
