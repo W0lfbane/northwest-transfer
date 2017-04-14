@@ -19,7 +19,7 @@
   <div class="item active">
     <div id="project_tasks">
        <h1 class ="text-center">Tasks</h1>
-       <p class="text-center">There are many things to be done!</p>
+       <%= link_to "There are many tasks to be done!", tasks_path("projects",params[:resource_id] ? params[:resource_id] : params[:id]) %>
     </div>
   </div>
   <div class="item">
