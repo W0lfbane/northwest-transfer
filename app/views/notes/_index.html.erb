@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Notes</h1>
+<%= link_to new_note_path(:resource_controller => 'projects', :resource_id => @project.id) do %>
+<% fa_icon "plus", class: "btn btn-info" %>
+<% end %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Text</th>
+      <th>Author</th>
+       <th>Create At</th>
+      <th>Info</th>
+      <th>Edit</th>
+      <th>Delete</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @project.notes.each do |note| %>
+    <%= render "shared/display_models", object: note %>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

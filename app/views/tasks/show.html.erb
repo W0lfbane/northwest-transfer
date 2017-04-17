@@ -27,4 +27,4 @@
 </p>
 
 <%= link_to 'Edit', edit_task_path(id: @task) %> |
-<%= link_to 'Back', tasks_path %>
+<%= link_to 'Back', project_path(id: @task.project.id) %>

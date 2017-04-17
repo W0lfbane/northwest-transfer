@@ -20,13 +20,15 @@
 <div class="carousel-inner" role="listbox">
   <div class="item">
       <h1 class="text-center">Contacts</h1>
+      <%= render partial: "users/index" %>
   </div>
   <div class="item">
-      <h1 class="text-center">Notification</h1>
+      <h1 class="text-center">Notifications</h1>
+      <%= render partial: "notes/index" %>
   </div>
   <div class="item active">
     <div id="project_tasks">
-      <%= render partial: "tasks/index", collection: @project.tasks %>
+      <%= render partial: "tasks/index" %>
     </div>
   </div>
   <div class="item">
