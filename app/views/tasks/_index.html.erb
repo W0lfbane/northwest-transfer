@@ -1,12 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-
-<%= render "shared/carousel", tasks: @tasks  %>
-
 <div class="row">
   <div class="col-md-12">
     <h1 class="text-align-left" >Tasks</h1>
-    <%= link_to new_task_path, class: "text-align-" do %>
+    <%= link_to new_task_path("projects", :id)  do %>
     <%= fa_icon "plus", class: "btn btn-info" %>
     <% end %>
   </div>
@@ -24,7 +21,7 @@
   </thead>
 
   <tbody>
-    <% @tasks.each do |task| %>
+    <% @project.tasks.each do |task| %>
       <%= render "shared/display_models", object: task %>
     <% end %>
   </tbody>

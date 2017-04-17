@@ -7,7 +7,15 @@
   <li data-target="carousel" data-slide-to="3"></li>
   <li data-target="carousel" data-slide-to="4"></li>
 </ol> -->
-
+<div id="carousel tabs">
+  <ul class="nav nav-pills nav-justified">
+    <li data-target="#carousel" data-slide-to="0"><a href="#">Contacts</a></li>
+    <li data-target="#carousel" data-slide-to="1"><a href="#">Notifacations</a></li>
+    <li data-target="#carousel" data-slide-to="2"><a href="#">Tasks</a></li>
+    <li data-target="#carousel" data-slide-to="3"><a href="#">Actions</a></li>
+    <li data-target="#carousel" data-slide-to="4"><a href="#">Documents</a></li>
+  </ul>
+</div>
 <!-- Wrapper for slides -->
 <div class="carousel-inner" role="listbox">
   <div class="item">
@@ -18,8 +26,7 @@
   </div>
   <div class="item active">
     <div id="project_tasks">
-       <h1 class ="text-center">Tasks</h1>
-       <%= link_to "There are many tasks to be done!", tasks_path("projects",params[:resource_id] ? params[:resource_id] : params[:id]) %>
+      <%= render partial: "tasks/index", collection: @project.tasks %>
     </div>
   </div>
   <div class="item">
@@ -41,13 +48,5 @@
   <!-- end of carousel-inner -->
 </div>
 
-<div id="carousel tabs">
-  <ul class="nav nav-pills nav-justified">
-    <li data-target="#carousel" data-slide-to="0"><a href="#">Contacts</a></li>
-    <li data-target="#carousel" data-slide-to="1"><a href="#">Notifacations</a></li>
-    <li data-target="#carousel" data-slide-to="2">  <%= link_to "Tasks", controller: "projects", action: "index", id: @project %> </li>
-    <li data-target="#carousel" data-slide-to="3"><a href="#">Actions</a></li>
-    <li data-target="#carousel" data-slide-to="4"><a href="#">Documents</a></li>
-  </ul>
-</div>
+
 </div>
