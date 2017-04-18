@@ -10,7 +10,7 @@ class Project < ApplicationRecord
     has_many :groups, -> { distinct }, through: :group_projects
     has_many :tasks, dependent: :destroy, inverse_of: :project
     has_many :documents, dependent: :destroy
-    accepts_nested_attributes_for :document, :tasks, :users, reject_if: :all_blank, allow_destroy: true
+    accepts_nested_attributes_for :documents, :tasks, :users, reject_if: :all_blank, allow_destroy: true
 
     # This is temporary, waiting to think of a better solution. Do not test.
     def users_attributes=(users_attributes)

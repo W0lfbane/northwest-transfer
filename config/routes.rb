@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   resources :groups
   resources :projects do
-      resource :document
+      resource :documents
   end
 
   # Nested routes with multiple or unknown parents

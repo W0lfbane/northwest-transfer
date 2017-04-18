@@ -22,7 +22,7 @@
   </thead>
 
   <tbody>
-    <% if @project.document != nil %>
+    <% @project.documents.each do |document| %>
       <%= render "shared/display_models", object: document %>
     <% end %>
   </tbody>
