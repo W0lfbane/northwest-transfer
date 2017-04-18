@@ -9,14 +9,14 @@ class Project < ApplicationRecord
     has_many :group_projects, dependent: :destroy
     has_many :groups, -> { distinct }, through: :group_projects
     has_many :tasks, dependent: :destroy, inverse_of: :project
-    has_one :document, dependent: :destroy
+    has_many :documents, dependent: :destroy
     accepts_nested_attributes_for :document, :tasks, :users, reject_if: :all_blank, allow_destroy: true
 
     # This is temporary, waiting to think of a better solution. Do not test.
     def users_attributes=(users_attributes)
         users_attributes.each do |key, user_attributes|
             user_hash = users_attributes[key]
-            
+
             if user_hash[:id].present?
                 user = User.find(user_hash[:id])
                 if user_hash[:_destroy] == "1"
@@ -79,7 +79,7 @@ class Project < ApplicationRecord
     def tasks_pending?
         0 != self.tasks.where(resource_state: "pending").count
     end
-    
+
     def no_pending_tasks?
        !tasks_pending?
     end
