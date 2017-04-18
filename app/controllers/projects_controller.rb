@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   include Concerns::Notes::Nested::SetAuthor
   include Concerns::Resource::State::ResourceStateChange
-  
+
   before_action :authenticate_user!
   before_action :set_project, except: [:index, :create]
   before_action :authorize_project, except: [:index, :create]
@@ -32,6 +32,7 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
     authorize_project
     if @project.save
+      binding.pry
       redirect_to @project, flash: { success: "Project successfully created!" }
     else
       render :new
@@ -53,33 +54,33 @@ class ProjectsController < ApplicationController
     @project.deactivate! current_user
     redirect_to projects_path, flash: { success: "Project successfully deactivated!" }
   end
-  
+
   private
-    
+
     def set_project
       @project = params[:id] ? Project.find(params[:id]) : Project.new
     end
-    
+
     def set_form_resources
       @users = User.all
     end
-    
+
     def authorize_project
       authorize @project
     end
-  
+
     def project_params
-      params.require(:project).permit(:title, 
-                                      :description, 
+      params.require(:project).permit(:title,
+                                      :description,
                                       :address,
                                       :city,
                                       :state,
                                       :postal,
                                       :country,
-                                      :start_date, 
-                                      :completion_date, 
-                                      :estimated_completion_date, 
-                                      :total_time, 
+                                      :start_date,
+                                      :completion_date,
+                                      :estimated_completion_date,
+                                      :total_time,
                                       :resource_state,
                                       notes_attributes: [:id, :text, :user_id, :_destroy],
                                       document_attributes: [:id, :title, :resource_state, :signature, :completion_date, :_destroy],
