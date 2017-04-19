@@ -1,11 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<%= button_to "test", resource_state_change_path("document", @document), method: :patch, params: { status_method: 'complete' } %>
+<%= button_to "test", resource_state_change_path("document",@project, @document), method: :patch, params: { status_method: 'complete' } %>
 
 <p>
   <strong>Title:</strong>
   <%= @document.title %>
 </p>
 
-<%= link_to 'Edit', edit_project_document_path(@project, @document) %> |
+<%= link_to 'Edit', edit_project_documents_path(@project, @document) %> |
 <%= link_to 'Back', project_path(@project) %>

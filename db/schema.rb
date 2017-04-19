@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170331052706) do
+ActiveRecord::Schema.define(version: 20170418215712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,11 +18,25 @@ ActiveRecord::Schema.define(version: 20170331052706) do
   create_table "documents", force: :cascade do |t|
     t.string   "title"
     t.integer  "project_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "signature"
     t.datetime "completion_date"
     t.string   "resource_state"
+    t.string   "customer_firstname"
+    t.string   "customer_lastname"
+    t.integer  "ems_order_no"
+    t.string   "technician"
+    t.string   "shipper"
+    t.string   "make"
+    t.string   "brand"
+    t.string   "item_model"
+    t.string   "age"
+    t.string   "itm_length"
+    t.string   "itm_height"
+    t.string   "itm_width"
+    t.string   "itm_name"
+    t.string   "itm_condition"
     t.index ["project_id"], name: "index_documents_on_project_id", using: :btree
   end
 

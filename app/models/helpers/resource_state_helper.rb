@@ -1,7 +1,11 @@
 module Helpers::ResourceStateHelper
-  
+
     def states_list(klass = self.class)
       klass::STATES
+    end
+    
+    def fetch_events(object = self)
+      object.assm.events.map(&:name)
     end
 
     # Helper methods for managing resource states
@@ -51,7 +55,7 @@ module Helpers::ResourceStateHelper
             true
         end
     end
-    
+
     # Set previous_state attribute on resource
     def set_previous_state!(state = self.aasm.from_state)
         self.update!(previous_state: state) unless state.nil?

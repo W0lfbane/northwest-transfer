@@ -55,6 +55,7 @@
             </p>
           </div>
           <div class="col-xs-4 buffer-padding-20 border-left-grey-3">
+            <% if @project.leaders != nil %>
               <% @project.leaders.each_with_index do |user, index| %>
                 <p>
                   <% break unless index <= 2 %>
@@ -65,6 +66,7 @@
                   <% end %>
                 </p>
               <% end %>
+            <% end  %>
           </div>
         </div>
       </div>
@@ -145,13 +147,7 @@
           </thead>
           <tbody>
             <tr>
-              <% if @project.document.present? %>
-                <td><h4><%= @project.document.title %></h4></td>
-                <td>last updated by</td>
-                <td><%= format_date_with_time(@project.document.updated_at) %></td>
-              <% else %>
                 <td>No Document Yet</td>
-              <% end %>
             </tr>
           </tbody>
         </table>

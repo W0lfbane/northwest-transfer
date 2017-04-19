@@ -22,7 +22,7 @@
     <td><%= link_to edit_account_path(object.id) do %>
           <%= fa_icon "pencil", class:"btn btn-success" %>
           <% end %></td>
-    <td><%= link_to account_path(object.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
+    <td><%= link_to cancel_user_registration_path(object.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
       <%= fa_icon "trash", class:"btn btn-danger" %>
       <% end %></td>
   </tr>
@@ -32,27 +32,29 @@
     <td> <%= object.text %> </td>
     <td><%= object.author %></td>
     <td><%= object.created_at %> </td>
-    <td><%= link_to note_path("projects",@project, object.id) do %>
+    <td><%= link_to note_path("projects", @project, object.id) do %>
     <%= fa_icon "info-circle", class: "btn btn-default" %>
     <% end %></td>
-    <td><%= link_to edit_note_path("projects",@project, object.id) do %>
+    <td><%= link_to edit_note_path("projects", @project, object.id) do %>
           <%= fa_icon "pencil", class:"btn btn-success" %>
           <% end %></td>
-    <td><%= link_to note_path("projects",@project, object.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
+    <td><%= link_to note_path("projects", @project, object.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
       <%= fa_icon "trash", class:"btn btn-danger" %>
       <% end %></td>
   </tr>
 <% elsif object.class == Document %>
   <tr>
     <td><%= object.title %></td>
+    <td><%= object.signature %></td>
     <td><%= object.created_at %> </td>
-    <td><%= link_to ("#{object}_path(id: #{object}") do %>
+    <td><%= object.resource_state %> </td>
+    <td><%= link_to document_path("projects", @project, object.id) do %>
           <%= fa_icon "info-circle", class: "btn btn-default" %>
           <% end %></td>
-    <td><%= link_to ("edit_#{object}_path(id: #{object})") do %>
+    <td><%= link_to edit_document_path("projects", @project, object.id) do %>
           <%= fa_icon "pencil", class:"btn btn-success" %>
           <% end %></td>
-    <td><%= link_to "#{object}_path(id: #{object}), method: :delete, data: { confirm: 'Are you sure?' }" do %>
+    <td><%= link_to document_path("projects", @project, object.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
       <%= fa_icon "trash", class:"btn btn-danger" %>
       <% end %></td>
   </tr>

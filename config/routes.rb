@@ -16,10 +16,8 @@ Rails.application.routes.draw do
 
   get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, resources: { projects: Project }
 
-  resources :groups
-  resources :projects do
-      resource :documents
-  end
+  resources :groups, :projects
+
 
   # Nested routes with multiple or unknown parents
   scope '/:resource_controller' do
@@ -27,6 +25,7 @@ Rails.application.routes.draw do
       resources :tasks
       resources :notes
       resources :roles
+      resources :documents
 
       patch '/status', controller: :resource_controller, action: :resource_state_change, as: :resource_state_change
       patch '/role', controller: :resource_controller, action: :resource_role_change, as: :resource_role_change

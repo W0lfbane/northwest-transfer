@@ -1,10 +1,10 @@
 class DocumentsController < ApplicationController
   include Concerns::Resource::State::ResourceStateChange
-  
+
   before_action :authenticate_user!
   before_action :set_project
-  before_action :set_document, except: [:create]
-  before_action :authorize_document, except: [:create]
+  before_action :set_document, except: [:create, :new]
+  before_action :authorize_document, except: [:create, :new]
 
   # GET /documents/1
   # GET /documents/1.json
@@ -13,6 +13,9 @@ class DocumentsController < ApplicationController
 
   # GET /documents/new
   def new
+    @document = @project.documents.new
+    authorize_document
+
   end
 
   # GET /documents/1/edit
@@ -22,12 +25,12 @@ class DocumentsController < ApplicationController
   # POST /documents
   # POST /documents.json
   def create
-    @document = @project.build_document(document_params)
+    @document = @project.documents.new(document_params)
     authorize_document
 
     respond_to do |format|
       if @document.save
-        format.html { redirect_to project_document_url(@project), notice: 'document was successfully created.' }
+        format.html { redirect_to project_path(@project), notice: 'document was successfully created.' }
         format.json { render :show, status: :created, location: [@project, @document] }
       else
         format.html { render :new }
@@ -63,19 +66,19 @@ class DocumentsController < ApplicationController
   private
 
     def set_project
-      @project = Project.find(params[:project_id])
+      @project = Project.find(params[:resource_id])
     end
 
     def set_document
       # This will change upon document quantity semantics
-      @document = @project.document.nil? ? @project.build_document : @project.document 
+      @document = params[:id] ? @resource.documents.find(params[:id]) : @resource.documents.build
     end
-    
+
     def authorize_document
       authorize @document
     end
-  
+
     def document_params
-      params.require(:document).permit(:title, :signature, :resource_state, :completion_date)
+      params.require(:document).permit(:title,:signature, :resource_state, :completion_date, :customer_firstname, :customer_lastname, :ems_order_no, :technician, :shipper, :make, :brand, :item_model, :age, :itm_length, :itm_width, :itm_height, :itm_name, :itm_condition)
     end
 end

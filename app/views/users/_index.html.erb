@@ -15,8 +15,12 @@
   </thead>
 
   <tbody>
+    <% if @project.customers != nil %>
     <% @project.customers.each do |customer| %>
       <%= render "shared/display_models", object: customer %>
+    <% end %>
+    <%else %>
+    <p>There are no customers associated with the project.</p>
     <% end %>
   </tbody>
 </table>
