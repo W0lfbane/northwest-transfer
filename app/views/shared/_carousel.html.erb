@@ -7,49 +7,48 @@
   <li data-target="carousel" data-slide-to="3"></li>
   <li data-target="carousel" data-slide-to="4"></li>
 </ol> -->
-<div id="carousel tabs">
-  <ul class="nav nav-pills nav-justified">
-    <li data-target="#carousel" data-slide-to="0"><a href="#">Contacts</a></li>
-    <li data-target="#carousel" data-slide-to="1"><a href="#">Notifacations</a></li>
-    <li data-target="#carousel" data-slide-to="2"><a href="#">Tasks</a></li>
-    <li data-target="#carousel" data-slide-to="3"><a href="#">Actions</a></li>
-    <li data-target="#carousel" data-slide-to="4"><a href="#">Documents</a></li>
-  </ul>
-</div>
-<!-- Wrapper for slides -->
-<div class="carousel-inner" role="listbox">
-  <div class="item">
-      <h1 class="text-center">Contacts</h1>
-      <%= render partial: "users/index" %>
+  <div id="carousel tabs">
+    <ul class="nav nav-pills nav-justified">
+      <!-- Make data-slide-to="0" into this data-slide-to="contacts" -->
+      <li data-target="#carousel" data-slide-to="0"><a href="#">Contacts</a></li>
+      <li data-target="#carousel" data-slide-to="1"><a href="#">Notifacations</a></li>
+      <li data-target="#carousel" data-slide-to="2"><a href="#">Tasks</a></li>
+      <li data-target="#carousel" data-slide-to="3"><a href="#">Actions</a></li>
+      <li data-target="#carousel" data-slide-to="4"><a href="#">Documents</a></li>
+    </ul>
   </div>
-  <div class="item">
-      <h1 class="text-center">Notifications</h1>
-      <%= render partial: "notes/index" %>
-  </div>
-  <div class="item active">
-    <div id="project_tasks">
-      <%= render partial: "tasks/index" %>
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div class="item">
+        <h1 class="text-center">Contacts</h1>
+        <%= render partial: "users/index" %>
     </div>
+    <div class="item">
+        <h1 class="text-center">Notifications</h1>
+        <%= render partial: "notes/index" %>
+    </div>
+    <div class="item active">
+      <div id="project_tasks">
+        <%= render partial: "tasks/index" %>
+      </div>
+    </div>
+    <div class="item">
+        <h1 class="text-center">Actions</h1>
+    </div>
+    <div class="item">
+        <h1 class="text-center">Documents</h1>
+        <%= render partial: "documents/index" %>
+    </div>
+    <div class="carousel-side-navs">
+      <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <!-- end of carousel-inner -->
   </div>
-  <div class="item">
-      <h1 class="text-center">Actions</h1>
-  </div>
-  <div class="item">
-      <h1 class="text-center">Documents</h1>
-      <%= render partial: "documents/index" %>
-  </div>
-  <div class="carousel-side-navs">
-    <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-  </div>
-  <!-- end of carousel-inner -->
-</div>
-
-
 </div>

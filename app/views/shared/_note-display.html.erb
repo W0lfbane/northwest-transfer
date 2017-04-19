@@ -1,0 +1,24 @@
+<tr>
+  <td><%= object.loggable_type %></td>
+  <td> <%= object.text %></td>
+  <td><%= object.author %></td>
+  <td><%= object.created_at %></td>
+
+  <td>
+    <%= link_to note_path("projects", @project, object.id) do %>
+      <%= fa_icon "info-circle", class: "btn btn-default" %>
+    <% end %>
+  </td>
+
+  <td>
+    <%= link_to edit_note_path("projects", @project, object.id) do %>
+      <%= fa_icon "pencil", class:"btn btn-success" %>
+    <% end %>
+  </td>
+
+  <td>
+    <%= link_to note_path("projects", @project, object.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
+      <%= fa_icon "trash", class:"btn btn-danger" %>
+    <% end %>
+  </td>
+</tr>

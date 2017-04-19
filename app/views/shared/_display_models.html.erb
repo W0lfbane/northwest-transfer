@@ -1,61 +1,17 @@
 <%if object.class == Task %>
-<tr>
-  <td><%= object.name %></td>
-  <td><%= object.description %></td>
-  <td><%= object.aasm.current_state %></td>
-  <td><%= link_to task_path("projects", @project, object) do %>
-        <%= fa_icon "info-circle", class: "btn btn-default" %>
-        <% end %></td>
-  <td><%= link_to edit_task_path("projects", @project, object) do %>
-        <%= fa_icon "pencil", class:"btn btn-success" %>
-        <% end %></td>
-  <td><%= link_to task_path("projects", @project, object), method: :delete, data: { confirm: 'Are you sure?' } do %>
-    <%= fa_icon "trash", class:"btn btn-danger" %>
-  <% end %></td>
-</tr>
+
+  <%= render "shared/task-display", object: object %>
+
 <% elsif object.class == User %>
-  <tr>
-    <td><%= object.first_name %></td>
-    <td><%= object.last_name %></td>
-    <td><%= object.phone %></td>
-    <td><%= object.email  %></td>
-    <td><%= link_to edit_account_path(object.id) do %>
-          <%= fa_icon "pencil", class:"btn btn-success" %>
-          <% end %></td>
-    <td><%= link_to cancel_user_registration_path(object.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
-      <%= fa_icon "trash", class:"btn btn-danger" %>
-      <% end %></td>
-  </tr>
+
+  <%= render "shared/user-display", object: object %>
+
 <% elsif object.class == Note %>
-  <tr>
-    <td><%= object.loggable_type %></td>
-    <td> <%= object.text %> </td>
-    <td><%= object.author %></td>
-    <td><%= object.created_at %> </td>
-    <td><%= link_to note_path("projects", @project, object.id) do %>
-    <%= fa_icon "info-circle", class: "btn btn-default" %>
-    <% end %></td>
-    <td><%= link_to edit_note_path("projects", @project, object.id) do %>
-          <%= fa_icon "pencil", class:"btn btn-success" %>
-          <% end %></td>
-    <td><%= link_to note_path("projects", @project, object.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
-      <%= fa_icon "trash", class:"btn btn-danger" %>
-      <% end %></td>
-  </tr>
+
+  <%= render "shared/note-display", object: object %>
+
 <% elsif object.class == Document %>
-  <tr>
-    <td><%= object.title %></td>
-    <td><%= object.signature %></td>
-    <td><%= object.created_at %> </td>
-    <td><%= object.resource_state %> </td>
-    <td><%= link_to document_path("projects", @project, object.id) do %>
-          <%= fa_icon "info-circle", class: "btn btn-default" %>
-          <% end %></td>
-    <td><%= link_to edit_document_path("projects", @project, object.id) do %>
-          <%= fa_icon "pencil", class:"btn btn-success" %>
-          <% end %></td>
-    <td><%= link_to document_path("projects", @project, object.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
-      <%= fa_icon "trash", class:"btn btn-danger" %>
-      <% end %></td>
-  </tr>
+
+  <%= render "shared/document-display", object: object %>
+
 <% end %>
