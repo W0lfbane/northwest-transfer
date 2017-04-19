@@ -73,7 +73,7 @@
     </div>
 
     <!-- ////////////////////////Carousel///////////////////////// -->
-    <%= render "shared/carousel" %>
+    <%= render "shared/carousel", project: @project %>
     <!-- ///////////////////////TASK LIST/////////////////////// -->
     <div id="project_tasks">
       <%= render partial: "task", collection: @project.tasks %>

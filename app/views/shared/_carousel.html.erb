@@ -10,7 +10,7 @@
   <div id="carousel tabs">
     <ul class="nav nav-pills nav-justified">
       <!-- Make data-slide-to="0" into this data-slide-to="contacts" -->
-      <li data-target="#carousel" data-slide-to="0"><a href="#">Contacts</a></li>
+      <li data-target="#carousel" data-slide-to="0" ><a href="#">Contacts</a></li>
       <li data-target="#carousel" data-slide-to="1"><a href="#">Notifacations</a></li>
       <li data-target="#carousel" data-slide-to="2"><a href="#">Tasks</a></li>
       <li data-target="#carousel" data-slide-to="3"><a href="#">Actions</a></li>
@@ -19,22 +19,28 @@
   </div>
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
-    <div class="item">
+    <!--Slide 0, Contacts  -->
+    <div class="item" >
         <h1 class="text-center">Contacts</h1>
         <%= render partial: "users/index" %>
     </div>
+    <!--Slide 1, Notifactions  -->
     <div class="item">
         <h1 class="text-center">Notifications</h1>
         <%= render partial: "notes/index" %>
     </div>
+    <!-- Slide 2, Tasks  -->
     <div class="item active">
       <div id="project_tasks">
         <%= render partial: "tasks/index" %>
       </div>
     </div>
+    <!-- Slide 3, Actions -->
     <div class="item">
         <h1 class="text-center">Actions</h1>
+        <%= render "shared/project_actions" %>
     </div>
+    <!-- Slide 4, Documents -->
     <div class="item">
         <h1 class="text-center">Documents</h1>
         <%= render partial: "documents/index" %>

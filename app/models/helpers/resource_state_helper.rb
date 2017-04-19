@@ -3,7 +3,7 @@ module Helpers::ResourceStateHelper
     def states_list(klass = self.class)
       klass::STATES
     end
-    
+
     def fetch_events(object = self)
       object.assm.events.map(&:name)
     end
