@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170418215712) do
+ActiveRecord::Schema.define(version: 20170419190156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,13 +30,13 @@ ActiveRecord::Schema.define(version: 20170418215712) do
     t.string   "shipper"
     t.string   "make"
     t.string   "brand"
-    t.string   "item_model"
     t.string   "age"
     t.string   "itm_length"
     t.string   "itm_height"
     t.string   "itm_width"
     t.string   "itm_name"
     t.string   "itm_condition"
+    t.string   "itm_model"
     t.index ["project_id"], name: "index_documents_on_project_id", using: :btree
   end
 

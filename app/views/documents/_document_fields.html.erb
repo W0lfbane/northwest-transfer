@@ -3,17 +3,73 @@
         <%= f.label :title %>
         <%= f.text_field :title %>
     </div>
-    
-    <%= content_tag :div, class: 'form-group' do %>    
+
+    <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :resource_state, :status %>
         <%= f.select :resource_state, resource_states(Document), { include_blank: true } %>
     <% end %>
-    
+
     <div class="field">
         <%= f.label :signature %>
         <%= f.text_field :signature %>
     </div>
-    
+
+    <div class="field">
+        <%= f.label :customer_firstname %>
+        <%= f.text_field :customer_firstname %>
+    </div>
+    <div class="field">
+        <%= f.label :customer_lastname %>
+        <%= f.text_field :customer_lastname %>
+    </div>
+    <div class="field">
+        <%= f.label :ems_order_no %>
+        <%= f.number_field :ems_order_no %>
+    </div>
+    <div class="field">
+        <%= f.label :technician %>
+        <%= f.text_field :technician %>
+    </div>
+    <div class="field">
+        <%= f.label :shipper %>
+        <%= f.text_field :shipper %>
+    </div>
+    <div class="field">
+        <%= f.label :make %>
+        <%= f.text_field :make %>
+    </div>
+    <div class="field">
+        <%= f.label :brand %>
+        <%= f.text_field :brand %>
+    </div>
+    <div class="field">
+        <%= f.label :itm_model %>
+        <%= f.text_field :itm_model %>
+    </div>
+    <div class="field">
+        <%= f.label :age %>
+        <%= f.text_field :age %>
+    </div>
+    <div class="field">
+        <%= f.label :itm_name %>
+        <%= f.text_field :itm_name %>
+    </div>
+    <div class="field">
+        <%= f.label :itm_condition %>
+        <%= f.text_field :itm_condition %>
+    </div>
+    <div class="field">
+        <%= f.label :itm_length %>
+        <%= f.text_field :itm_length %>
+    </div>
+    <div class="field">
+        <%= f.label :itm_width %>
+        <%= f.text_field :itm_width %>
+    </div>
+    <div class="field">
+        <%= f.label :itm_height %>
+        <%= f.text_field :itm_height %>
+    </div>
     <div class="field">
         <%= f.label :completion_date %>
         <%= f.datetime_local_field :completion_date %>
