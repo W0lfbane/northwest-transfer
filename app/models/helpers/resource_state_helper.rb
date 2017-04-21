@@ -1,4 +1,8 @@
 module Helpers::ResourceStateHelper
+    
+    def fetch_events(object = self)
+       object.aasm.events.map(&:name)
+    end
   
     def states_list(klass = self.class)
       klass::STATES

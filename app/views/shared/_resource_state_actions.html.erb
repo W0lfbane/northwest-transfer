@@ -1,0 +1,3 @@
+<% .aasm.events.map &:name do |event| %>
+    <%= button_to resource_state_change(state_name: event) %>
+<% end %>
