@@ -147,7 +147,15 @@
           </thead>
           <tbody>
             <tr>
+              <% if @project.documents.present? %>
+                <% @project.documents.each do |document| %>
+                <td><h4><%= document.title %></h4></td>
+                <td>last updated by</td>
+                <td><%= format_date_with_time(document.updated_at) %></td>
+                <% end %>
+              <% else %>
                 <td>No Document Yet</td>
+              <% end %>
             </tr>
           </tbody>
         </table>

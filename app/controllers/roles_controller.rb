@@ -1,5 +1,5 @@
 class RolesController < ApplicationController
-  include Resource::Nested::SetResource
+  include Concerns::Resource::Nested::SetResource
 
   before_action :authenticate_user!
   before_action :set_resource

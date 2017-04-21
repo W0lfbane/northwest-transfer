@@ -1,4 +1,4 @@
-module Resource::Nested::SetResource
+module Concerns::Resource::Nested::SetResource
     
     private
 

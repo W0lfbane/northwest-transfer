@@ -31,8 +31,8 @@ class Project < ApplicationRecord
         end
     end
 
-    validates_associated :tasks, :document, :users
-#    validate :note_added, if: :transitioning_to_problem_state?
+    validates_associated :tasks, :documents, :users
+    validate :note_added, if: :transitioning_to_problem_state?
 
     resourcify
 
@@ -59,15 +59,15 @@ class Project < ApplicationRecord
             transitions from: [:en_route, :problem], to: :in_progress
         end
 
-        event :request_review, guards: [:no_pending_tasks?, :document_complete?, :valid_transition_with_previous_state?] do
+        event :request_review, guards: [:no_pending_tasks?, :documents_complete?, :valid_transition_with_previous_state?] do
             transitions from: [:in_progress, :problem], to: :pending_review
         end
 
-        event :complete, guards: [lambda { @user.admin? }, :no_pending_tasks?, :document_complete?, :valid_transition_with_previous_state?] do
+        event :complete, guards: [lambda { @user.admin? }, :no_pending_tasks?, :documents_complete?, :valid_transition_with_previous_state?] do
             transitions from: [:pending_review], to: :completed, success: :set_completion_date!
         end
 
-        event :report_problem do
+        event :report_problem, guards: :note_added? do
             transitions from: STATES, to: :problem
         end
 
@@ -84,11 +84,11 @@ class Project < ApplicationRecord
        !tasks_pending?
     end
 
-    def document_complete?
-        if self.document.nil?
-            return false
+    def documents_complete?(object = self)
+        if object.respond_to? :documents
+            return object.documents.all? { |doc| doc.completed? }
         else
-            self.document.completed?
+            raise ArgumentError.new("Argument does not have documents!")
         end
     end
 

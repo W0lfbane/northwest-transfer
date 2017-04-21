@@ -18,7 +18,6 @@ Rails.application.routes.draw do
 
   resources :groups, :projects
 
-
   # Nested routes with multiple or unknown parents
   scope '/:resource_controller' do
     scope '/:resource_id' do

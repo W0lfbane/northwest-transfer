@@ -1,10 +1,14 @@
 class DocumentsController < ApplicationController
   include Concerns::Resource::State::ResourceStateChange
+  include Concerns::Resource::Nested::SetResource
 
   before_action :authenticate_user!
-  before_action :set_project
-  before_action :set_document, except: [:create, :new]
-  before_action :authorize_document, except: [:create, :new]
+  before_action :set_document, except: [:index, :create]
+  before_action :authorize_document, except: [:index, :create]
+
+  def index
+    @documents = policy_scope(@resource.documents)
+  end
 
   # GET /documents/1
   # GET /documents/1.json
@@ -13,9 +17,6 @@ class DocumentsController < ApplicationController
 
   # GET /documents/new
   def new
-    @document = @project.documents.new
-    authorize_document
-
   end
 
   # GET /documents/1/edit
@@ -25,13 +26,14 @@ class DocumentsController < ApplicationController
   # POST /documents
   # POST /documents.json
   def create
-    @document = @project.documents.new(document_params)
+
+    @document = @resource.documents.build(document_params)
     authorize_document
 
     respond_to do |format|
       if @document.save
-        format.html { redirect_to project_path(@project), notice: 'document was successfully created.' }
-        format.json { render :show, status: :created, location: [@project, @document] }
+        format.html { redirect_to document_path(id: @document), notice: 'Document was successfully created.' }
+        format.json { render :show, status: :created, location: document_path(id: @document) }
       else
         format.html { render :new }
         format.json { render json: @document.errors, status: :unprocessable_entity }
@@ -44,8 +46,8 @@ class DocumentsController < ApplicationController
   def update
     respond_to do |format|
       if @document.update(document_params)
-        format.html { redirect_to document_url(@document), notice: 'document was successfully updated.' }
-        format.json { render :show, status: :ok, location: [@project, @document] }
+        format.html { redirect_to document_path(id: @document), notice: 'document was successfully updated.' }
+        format.json { render :show, status: :ok, location: document_path(id: @document) }
       else
         format.html { render :edit }
         format.json { render json: @document.errors, status: :unprocessable_entity }
@@ -58,20 +60,16 @@ class DocumentsController < ApplicationController
   def destroy
     @document.destroy
     respond_to do |format|
-      format.html { redirect_to project_url(@project), notice: 'document was successfully destroyed.' }
+      format.html { redirect_to documents_url, notice: 'Document was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
 
-    def set_project
-      @project = Project.find(params[:resource_id])
-    end
 
     def set_document
-      # This will change upon document quantity semantics
-      @document = params[:id] ? @project.documents.find(params[:id]) : @project.documents.build
+      @document = params[:id] ? @resource.documents.find(params[:id]) : @resource.documents.build
     end
 
     def authorize_document
