@@ -142,7 +142,7 @@
           </thead>
           <tbody>
             <tr>
-              <% if @project.document.present? %>
+              <% if @project.documents.present? %>
                 <td><h4><%= @project.document.title %></h4></td>
                 <td>last updated by</td>
                 <td><%= format_date_with_time(@project.document.updated_at) %></td>

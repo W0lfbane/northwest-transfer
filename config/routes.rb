@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       resources :tasks
       resources :notes
       resources :roles
-      resources :document
+      resources :documents
 
       patch '/status', controller: :resource_controller, action: :resource_state_change, as: :resource_state_change
       patch '/role', controller: :resource_controller, action: :resource_role_change, as: :resource_role_change
