@@ -23,7 +23,9 @@
 
     <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :state %>
-        <%= f.select :state, options_for_select(['1','2','3']) %>
+        <%= f.select :state, options_for_select(['Alabama
+Alaska,Arizona,Arkansas,California,Colorado,Connecticut,Delaware, Florida, Georgia, Hawaii, Idaho, Illinois Indiana, Iowa, Kansas, Kentucky, Louisiana, Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Missouri, Montana Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina, North Dakota, Ohio, Oklahoma,
+Oregon, Pennsylvania Rhode Island, South Carolina, South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West Virginia, Wisconsin, Wyoming']) %>
     <% end %>
 
     <%= content_tag :div, class: 'form-group' do %>
@@ -33,7 +35,7 @@
 
     <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :country %>
-        <%= f.select :country, options_for_select(['1','2','3']) %>
+        <%= f.select :country, options_for_select(['United States']) %>
     <% end %>
 
     <%= content_tag :div, class: 'form-group' do %>
