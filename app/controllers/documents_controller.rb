@@ -3,6 +3,8 @@ class DocumentsController < ApplicationController
   include Concerns::Resource::Nested::SetResource
 
   before_action :authenticate_user!
+  before_action :set_resource
+  before_action :set_project
   before_action :set_document, except: [:index, :create]
   before_action :authorize_document, except: [:index, :create]
 
@@ -46,7 +48,7 @@ class DocumentsController < ApplicationController
   def update
     respond_to do |format|
       if @document.update(document_params)
-        format.html { redirect_to document_path(id: @document), notice: 'document was successfully updated.' }
+        format.html { redirect_to projects_document_path(resource: @project, id: @document), notice: 'document was successfully updated.' }
         format.json { render :show, status: :ok, location: document_path(id: @document) }
       else
         format.html { render :edit }
@@ -60,18 +62,19 @@ class DocumentsController < ApplicationController
   def destroy
     @document.destroy
     respond_to do |format|
-      format.html { redirect_to documents_url, notice: 'Document was successfully destroyed.' }
+      format.html { redirect_to project_path(@project), notice: 'Document was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
 
-
     def set_document
       @document = params[:id] ? @resource.documents.find(params[:id]) : @resource.documents.build
     end
-
+    def set_project
+      @project = @resource
+    end
     def authorize_document
       authorize @document
     end

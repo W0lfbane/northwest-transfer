@@ -1,5 +1,5 @@
 module Concerns::Resource::Nested::SetResource
-    
+
     private
 
         # This method is used to infer an object's class and it's ID by using common patterns among routes

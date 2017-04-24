@@ -23,9 +23,8 @@
 
     <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :state %>
-        <%= f.select :state, options_for_select(['Alabama
-Alaska,Arizona,Arkansas,California,Colorado,Connecticut,Delaware, Florida, Georgia, Hawaii, Idaho, Illinois Indiana, Iowa, Kansas, Kentucky, Louisiana, Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Missouri, Montana Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina, North Dakota, Ohio, Oklahoma,
-Oregon, Pennsylvania Rhode Island, South Carolina, South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West Virginia, Wisconsin, Wyoming']) %>
+        <%= f.select :state, options_for_select(['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma',
+'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']) %>
     <% end %>
 
     <%= content_tag :div, class: 'form-group' do %>
@@ -66,15 +65,6 @@ Oregon, Pennsylvania Rhode Island, South Carolina, South Dakota, Tennessee, Texa
     <% end %>
 
     <%= link_to_add_fields 'Add Note', f, :notes, { partial: 'notes/note_fields' } %>
-    <!-- ///////////////////////// Documents cannot be created at the same time as projects, as of 4/18/17\\\\\\\\\\\\\\\\\\\\ -->
-    <!-- <h3>Document</h3>
-    <%= f.fields_for :document do |builder| %>
-        <%= render 'documents/document_fields', f: builder %>
-    <% end %>
-
-    <% unless @project.document %>
-        <%= link_to_add_fields 'Add Document', f, :document, { partial: 'documents/document_fields' }, { onclick: '$(this).hide();' } %>
-    <% end %> -->
 
     <h3>Users</h3>
     <%= f.fields_for :users do |builder| %>
