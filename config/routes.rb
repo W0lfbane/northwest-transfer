@@ -14,10 +14,6 @@ Rails.application.routes.draw do
     match 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session, via: Devise.mappings[:user].sign_out_via
   end
 
-  get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, resources: { projects: Project }
-
-  resources :groups, :projects
-
   # Nested routes with multiple or unknown parents
   scope '/:resource_controller' do
     scope '/:resource_id' do
@@ -30,6 +26,9 @@ Rails.application.routes.draw do
       patch '/role', controller: :resource_controller, action: :resource_role_change, as: :resource_role_change
     end
   end
+
+  get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, resources: { projects: 'Project' }
+  resources :groups, :projects
 
   as :project do
     get '/account/schedule', to: 'projects#schedule_index', as: :schedule
