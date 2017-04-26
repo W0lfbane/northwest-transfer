@@ -6,9 +6,12 @@ module Concerns::Resource::Nested::SetResource
         def set_resource
             route_array = request.fullpath.split('/')
             resource_route = route_array[1]
+            
+            if resource_route.to_f.class == Float
+              resource_route = "projects"
+            end
             klass = resource_route.singularize.capitalize.constantize
             object_id = route_array[2]
             @resource = object_id ? klass.find(object_id) : klass.new
         end
-
 end

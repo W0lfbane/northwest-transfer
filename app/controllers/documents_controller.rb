@@ -48,7 +48,7 @@ class DocumentsController < ApplicationController
   def update
     respond_to do |format|
       if @document.update(document_params)
-        format.html { redirect_to projects_document_path(resource: @project, id: @document), notice: 'document was successfully updated.' }
+        format.html { redirect_to document_path(id: @document), notice: 'document was successfully updated.' }
         format.json { render :show, status: :ok, location: document_path(id: @document) }
       else
         format.html { render :edit }
@@ -72,9 +72,11 @@ class DocumentsController < ApplicationController
     def set_document
       @document = params[:id] ? @resource.documents.find(params[:id]) : @resource.documents.build
     end
+
     def set_project
       @project = @resource
     end
+
     def authorize_document
       authorize @document
     end

@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   include Concerns::Notes::Nested::SetAuthor
   include Concerns::Resource::Nested::SetResource
+  include Concerns::Resource::State::ResourceStateChange
 
   before_action :authenticate_user!
   before_action :set_resource
@@ -47,6 +48,7 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/1
   # PATCH/PUT /tasks/1.json
   def update
+    binding.pry
     respond_to do |format|
       if @task.update(task_params)
         format.html { redirect_to project_path(id: @task.project.id), notice: 'Task was successfully updated.' }
