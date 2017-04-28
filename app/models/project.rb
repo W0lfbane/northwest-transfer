@@ -51,7 +51,7 @@ class Project < ApplicationRecord
 
         before_all_events :set_state_user
 
-        event :begin_route, guards: :valid_transition_with_previous_state? do
+        event :begin_route  do
             transitions from: [:pending, :problem], to: :en_route
         end
 

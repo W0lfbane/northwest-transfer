@@ -40,19 +40,19 @@ module Helpers::ResourceStateHelper
 
     # Returns a boolean specifying if the previous state is eligible for the requested transition if a previous_state exists
     def valid_transition_with_previous_state?
-      binding.pry
+       
         if previous_state?
             obj_copy = self.dup
             obj_copy.resource_state = previous_state
             obj_copy.previous_state = nil
             event = aasm.current_event.to_s.tr('!', '').to_sym
-            binding.pry
+             
 
             if interacting_with_state?(aasm.to_state, previous_state)
                 true
-                binding.pry
+                 
             else
-              binding.pry
+               
                 obj_copy.aasm.may_fire_event?(event)
             end unless previous_state == aasm.to_state
         else
