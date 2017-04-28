@@ -12,12 +12,21 @@ RSpec.describe Helpers::ResourceStateHelper, type: :helper do
     let(:including_module) do
       Container.new
     end
-    
+
     let(:valid_states) { including_module.class::STATES }
     let(:invalid_states) { [:this, :is, :not, :valid] }
 
+    context "states_list method" do
+      it "should return an array of states" do
 
-    context "valid_state? method" do
+        admin = FactoryGirl.create(:admin)
+          project = FactoryGirl.build(:project)
+        expect(project.states_list).to eq(valid_states)
+      end
+    end
+
+
+    context "valid_state?('state') method" do
       it "should return true if the passed state exists in the STATES array constant" do
         valid_states.map do |state|
           expect( including_module.valid_state?(state) ).to be_truthy
@@ -66,21 +75,35 @@ RSpec.describe Helpers::ResourceStateHelper, type: :helper do
         @admin = FactoryGirl.create(:admin)
         including_module.set_state_user(@admin)
       end
-      
+
       it "should set an instance variable with the type User" do
         expect( including_module.instance_variable_get('@user') ).to be_a(User)
         expect{ including_module.set_state_user(:invalid) }.to raise_error(ArgumentError)
       end
-      
+
       it "should assign the instance variable to the user passed in" do
         expect( including_module.instance_variable_get('@user') ).to eq(@admin)
       end
     end
 
-    # context "transitioning_to_problem_state method" do
-    #   specify {
-    #     expect( including_module.transitioning_to_problem_state?).to be_truthy
-    #   }
-    # end
+    context "transitioning_to_problem_state method" do
+      it "will return true if resource_state is 'problem' " do
+      project = FactoryGirl.build(:project, resource_state: "problem")
+      expect(project.transitioning_to_problem_state?).to be_truthy
+    end
+      it "WILL return false if resource_state is not 'problem'" do
+        project = FactoryGirl.build(:project)
+        expect(project.transitioning_to_problem_state?).to be_falsy
+      end
+    end
+
+    context "valid_transition_with_previous_state method" do
+      it "will return true if previous state is eligible for the requested transition" do
+          project = FactoryGirl.build(:project)
+      end
+    end
+
+
   end
+
 end

@@ -55,7 +55,7 @@ class Project < ApplicationRecord
             transitions from: [:pending, :problem], to: :en_route
         end
 
-        event :begin_working, guards: :valid_transition_with_previous_state? do
+        event :begin_working do
             transitions from: [:en_route, :problem], to: :in_progress
         end
 

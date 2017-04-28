@@ -1,8 +1,8 @@
 <%= form_for @project do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
 
-    <%= content_tag :div, class: 'form-group' do %>
-        <%= f.label :title %>
+    <%= content_tag :div do %>
+        <%= f.label :title%>
         <%= f.text_field :title %>
     <% end %>
 

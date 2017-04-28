@@ -1,12 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <div class="row">
-  <div class="col-md-12">
-    <h1 class="text-align-left" >Tasks</h1>
-    <%= link_to new_task_path("projects", @project)  do %>
-    <%= fa_icon "plus", class: "btn btn-info" %>
-    <% end %>
+  <div class="col-md-10">
+    <p class="text-align-left font-size-200 text-bold" >Tasks</p>
   </div>
+
+    <%= link_to new_task_path("projects", @project)  do %>
+    <%= fa_icon "plus", class: "btn btn-info buffer-margin-10" %>
+    <% end %>
 </div>
 <table class="table table-striped">
   <thead>

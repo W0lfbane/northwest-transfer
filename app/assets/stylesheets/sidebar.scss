@@ -15,12 +15,12 @@
       color: #e1ffff;
       @extend .buffer-padding-15;
     }
-    
+
     &.active {
       border-left: 3px solid #d19b3d;
       background-color: #4f5b69;
     }
-    
+
     &:hover {
       border-left: 3px solid #d19b3d;
       background-color: #4f5b69;
@@ -38,7 +38,7 @@
     @extend .buffer-padding-25;
     @extend .text-center;
   }
-  
+
   ul .sub-menu li.active,
   li .sub-menu li.active {
     color: #d19b3d;

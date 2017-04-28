@@ -20,9 +20,9 @@ describe Project, type: :model do
   end
 
   # This will change
-  it "will have one document" do
+  it "will have many documents" do
     assc = described_class.reflect_on_association(:document)
-    expect(assc.macro).to eq(:has_one)
+    expect(assc.macro).to eq(:has_many)
   end
 
   it "is invalid without a title" do
@@ -101,7 +101,7 @@ describe Project, type: :model do
   it "returns total time for project completion on total_time method" do
     expect( subject.total_time ).to eq( 2 )
   end
-  
+
   it "has an alert_level method that returns inactive when the state is pending" do
     expect( subject.resource_state ).to eq ( "pending" )
     expect( subject.alert_level ).to eq ( "inactive" )
@@ -117,12 +117,12 @@ describe Project, type: :model do
     before :each do
       subject.save!
     end
-    
+
     context "when transition requires a completed document" do
       before :each do
         subject.create_document(attributes_for(:document, resource_state: :completed))
       end
-      
+
       it "transitions from pending review to completed" do
         expect(subject).to transition_from(:pending_review).to(:completed).on_event(:complete, admin)
       end
@@ -131,37 +131,37 @@ describe Project, type: :model do
         expect(subject).to transition_from(:in_progress).to(:pending_review).on_event(:request_review)
       end
     end
-    
+
     context "when transition requires a note to be saved with the transition" do
       before :each do
         subject.notes.build(attributes_for(:note, user_id: admin.id))
       end
-      
+
       it "transitions from deactivated to problem" do
         expect(subject).to transition_from(:deactivated).to(:problem).on_event(:report_problem)
       end
-    
+
       it "transitions from pending to problem" do
         expect(subject).to transition_from(:pending).to(:problem).on_event(:report_problem)
       end
-    
+
       it "transitions from en_route to problem" do
         expect(subject).to transition_from(:en_route).to(:problem).on_event(:report_problem)
       end
-    
+
       it "transitions from in_progress to problem" do
         expect(subject).to transition_from(:in_progress).to(:problem).on_event(:report_problem)
       end
-    
+
       it "transitions from completed to problem" do
         expect(subject).to transition_from(:completed).to(:problem).on_event(:report_problem)
       end
     end
-  
+
     it "transitions from pending to en_route" do
       expect(subject).to transition_from(:pending).to(:en_route).on_event(:begin_route)
     end
-  
+
     it "transitions from en_route to progress" do
       expect(subject).to transition_from(:en_route).to(:in_progress).on_event(:begin_working)
     end
@@ -169,15 +169,15 @@ describe Project, type: :model do
     it "transitions from pending to deactivated" do
       expect(subject).to transition_from(:pending).to(:deactivated).on_event(:deactivate, admin)
     end
-  
+
     it "transitions from en_route to deactivated" do
       expect(subject).to transition_from(:en_route).to(:deactivated).on_event(:deactivate, admin)
     end
-  
+
     it "transitions from in_progress to deactivated" do
       expect(subject).to transition_from(:in_progress).to(:deactivated).on_event(:deactivate, admin)
     end
-  
+
     it "transitions from completed to deactivated" do
       expect(subject).to transition_from(:completed).to(:deactivated).on_event(:deactivate, admin)
     end
@@ -193,11 +193,11 @@ describe Project, type: :model do
         task.report_problem!
         expect( subject.alert_level ).to eq ( "advisory" )
       end
-    
+
       it "should return 'operational' as the alert_level when total flag count is 0" do
         expect( subject.alert_level ).to eq ( "operational" )
       end
-  
+
       it "should return 'danger' for alert_level when the number of flags is 2 or greater" do
         2.times do
           task = subject.tasks.create!( FactoryGirl.attributes_for(:task) )
@@ -208,7 +208,7 @@ describe Project, type: :model do
         expect( subject.alert_level ).to eq ( "danger" )
       end
     end
-  
+
     it "should return the number of tasks in a problem state as the flag count" do
       2.times do
         task = subject.tasks.create!( FactoryGirl.attributes_for(:task) )
@@ -218,7 +218,7 @@ describe Project, type: :model do
 
       expect( subject.flags.count ).to eq ( 2 )
     end
-  
+
     it "should return 0 as the flag count when no tasks are in a problem state" do
       expect( subject.flags.count ).to eq ( 0 )
     end

@@ -32,7 +32,6 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
     authorize_project
     if @project.save
-      binding.pry
       redirect_to @project, flash: { success: "Project successfully created!" }
     else
       render :new
