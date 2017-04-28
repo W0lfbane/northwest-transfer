@@ -38,13 +38,13 @@
 }
 
 
-@mixin bordered-triangle($size, $border-width, $color, $border-color, $direction, $alt: false) { 
+@mixin bordered-triangle($size, $border-width, $color, $border-color, $direction, $alt: false) {
   $back-size: $size + ($border-width * 2);
   position: relative;
-  
+
   min-width: $size;
   min-height: $size;
-  
+
   &:after,
   &:before {
     content: '';
@@ -52,33 +52,33 @@
     top: 0;
     left: 0;
   }
-  
+
   &:after {
      @include triangle($size, $color, $direction);
   }
-  
+
   &:before {
     @include triangle($back-size, $border-color, $direction);
     $mid-border-width: ($border-width / 2);
-    $border-width-and-mid: $border-width + $mid-border-width; 
-    
+    $border-width-and-mid: $border-width + $mid-border-width;
+
     @if ($alt == true) {
       $mid-border-width: 0;
       $border-width-and-mid: $border-width * 2;
     }
-    
+
     @if ($direction == up) or ($direction == down) {
       margin-left: - $border-width;
-      
+
       @if ($direction == down) {
         margin-top: -$mid-border-width;
       } @else {
         margin-top: - $border-width-and-mid;
-      }  
-    
+      }
+
     } @else if ($direction == right) or ($direction == left) {
       margin-top: - $border-width;
-      
+
       @if ($direction == right) {
         margin-left: - $mid-border-width;
       } @else {
@@ -226,8 +226,8 @@
 
 .text-vertical-center-height-60 { @include text-vertical-align-middle(60px); }
 
-.vertical-align-middle, 
-  .vertical-align-middle *, 
+.vertical-align-middle,
+  .vertical-align-middle *,
   .vertical-align-middle > tbody > tr > td { vertical-align: middle; }
 
 
@@ -235,16 +235,16 @@
 
 .list-style-dashed {
 	list-style-type: none;
-	
+
 	&> li:before {
 		content: "-";
 		margin: 0 5px 0 -20px;
 	}
 }
 
-.list-circle-o {    
+.list-circle-o {
 	list-style-type: none;
-	
+
 	&> li:before {
 		font-family: 'FontAwesome';
 		content: '\f10c';
@@ -254,10 +254,20 @@
 
 .list-style-pipe-after {
 	list-style-type: none;
-	
+
 	&> li:after {
 		content: "|";
 		margin: 0 0 0 20px;
 	}
 }
 
+/* Form CSS */
+.form-control {
+  width: 80%;
+  border-radius: 0px;
+
+}
+
+.form-label {
+  margin-left: 25px;
+}

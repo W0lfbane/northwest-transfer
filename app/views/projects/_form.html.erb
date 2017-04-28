@@ -3,38 +3,38 @@
 
     <%= content_tag :div, class:'form-group row' do %>
         <%= f.label :title, class:'form-label col-xs-2'%>
-          <%= f.text_field :title%>
+          <%= f.text_field :title, class:'form-control'%>
     <% end %>
 
     <%= content_tag :div, class: 'form-group row' do %>
         <%= f.label :description, class:'form-label col-xs-2' %>
-        <%= f.text_area :description %>
+        <%= f.text_area :description, class:'form-control' %>
     <% end %>
 
     <%= content_tag :div, class: 'form-group row' do %>
         <%= f.label :address, class:'form-label col-xs-2' %>
-        <%= f.text_field :address %>
+        <%= f.text_field :address, class:'form-control' %>
     <% end %>
 
     <%= content_tag :div, class: 'form-group row' do %>
         <%= f.label :city, class:'form-label col-xs-2' %>
-        <%= f.text_field :city %>
+        <%= f.text_field :city, class:'form-control' %>
     <% end %>
 
     <%= content_tag :div, class: 'form-group row' do %>
         <%= f.label :state, class:'form-label col-xs-2' %>
         <%= f.select :state, options_for_select(['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma',
-'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']) %>
+'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']), class:'form-control' %>
     <% end %>
 
     <%= content_tag :div, class: 'form-group row' do %>
         <%= f.label :postal, I18n.t(:postal_code).capitalize ,class:'form-label col-xs-2' %>
-        <%= f.text_field :postal %>
+        <%= f.text_field :postal, class:'form-control' %>
     <% end %>
 
     <%= content_tag :div, class: 'form-group row' do %>
         <%= f.label :country, class:'form-label col-xs-2' %>
-        <%= f.select :country, options_for_select(['United States']) %>
+        <%= f.select :country, options_for_select(['United States'])  %>
     <% end %>
 
     <%= content_tag :div, class: 'form-group row' do %>
@@ -49,7 +49,7 @@
 
     <%= content_tag :div, class: 'form-group row' do %>
         <%= f.label :resource_state, :status, class:'form-label col-xs-2' %>
-        <%= f.select :resource_state, resource_states(Project), { include_blank: true } %>
+        <%= f.select :resource_state, resource_states(Project), { include_blank: true, class:'form-control' } %>
     <% end %>
 
     <h3>Tasks</h3>

@@ -1,9 +1,9 @@
-<div class="field">
-    <%= f.label :text %>
-    <%= f.text_area :text %>
+<div class="field form-horizontal">
+    <%= f.label :text, class:"form-label col-xs-2" %>
+    <%= f.text_area :text, class:"form-control" %>
 </div>
 
 <% if f.object.persisted? %>
-    <%= f.check_box :_destroy %>
+    <%= f.check_box :_destroy, class:"form-label col-xs-2" %>
     <%= f.label :_destroy, I18n.t(:remove) %>
 <% end %>
