@@ -32,7 +32,7 @@ class Project < ApplicationRecord
     end
 
     validates_associated :tasks, :documents, :users
-    validate :note_added, if: :transitioning_to_problem_state?
+#    validate :note_added, if: lambda { transitioning_to_state?(:problem) }
 
     resourcify
 
@@ -41,12 +41,12 @@ class Project < ApplicationRecord
 
     include AASM
     STATES = [:pending, :en_route, :in_progress, :pending_review, :completed, :problem, :deactivated]
-    aasm :column => 'resource_state' do
+    aasm :column => 'resource_state', :with_klass => NorthwestTransferAASMBase do
+        require_state_methods!
+        require_state_events!
+
         STATES.each do |status|
             state(status, initial: STATES[0] == status, before_enter: :set_previous_state!)
-        end
-        event :reset do
-            transitions to: :pending
         end
 
         before_all_events :set_state_user
@@ -59,15 +59,15 @@ class Project < ApplicationRecord
             transitions from: [:en_route, :problem], to: :in_progress
         end
 
-        event :request_review, guards: [:no_pending_tasks?, :documents_complete?, :valid_transition_with_previous_state?] do
+        event :request_review, guards: [:valid_transition_with_previous_state?] do
             transitions from: [:in_progress, :problem], to: :pending_review
         end
 
-        event :complete, guards: [lambda { @user.admin? }, :no_pending_tasks?, :documents_complete?, :valid_transition_with_previous_state?] do
+        event :complete, guards: [:valid_transition_with_previous_state?] do
             transitions from: [:pending_review], to: :completed, success: :set_completion_date!
         end
-
-        event :report_problem, guards: :note_added? do
+# guards: :note_added?
+        event :report_problem do
             transitions from: STATES, to: :problem
         end
 

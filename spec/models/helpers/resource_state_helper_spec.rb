@@ -76,6 +76,24 @@ RSpec.describe Helpers::ResourceStateHelper, type: :helper do
         expect( including_module.instance_variable_get('@user') ).to eq(@admin)
       end
     end
+    
+    context "valid_transition_with_previous_state? method" do
+      it "should return true if the passed state exists in the STATES array constant" do
+        valid_states.map do |state|
+          state_index = valid_states.find_index(state)
+          next_state = valid_states(state_index + 1)
+          previous_state = valid_states(state_index - 1)
+          previous_state_by_2 = valid_states(state_index - 2)
+
+          expect( including_module.valid_transition_with_previous_state?(next_state, state) ).to be_truthy
+          expect( including_module.valid_transition_with_previous_state?(next_state, previous_state) ).to be_truthy
+          expect( including_module.valid_transition_with_previous_state?(previous_state, state) ).to be_truthy
+
+          expect( including_module.valid_transition_with_previous_state?(next_state, previous_state_by_2) ).to be_falsy
+        end
+      end
+      
+    end
 
     # context "transitioning_to_problem_state method" do
     #   specify {
