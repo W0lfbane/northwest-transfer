@@ -32,7 +32,7 @@ class Project < ApplicationRecord
     end
 
     validates_associated :tasks, :documents, :users
-#    validate :note_added, if: lambda { transitioning_to_state?(:problem) }
+    validate :note_added, if: lambda { transitioning_to_state?(:problem) }
 
     resourcify
 
@@ -59,15 +59,15 @@ class Project < ApplicationRecord
             transitions from: [:en_route, :problem], to: :in_progress
         end
 
-        event :request_review, guards: [:valid_transition_with_previous_state?] do
+        event :request_review, guards: [:no_pending_tasks?, :documents_complete?, :valid_transition_with_previous_state?] do
             transitions from: [:in_progress, :problem], to: :pending_review
         end
 
-        event :complete, guards: [:valid_transition_with_previous_state?] do
+        event :complete, guards: [lambda { @user.admin? }, :no_pending_tasks?, :documents_complete?, :valid_transition_with_previous_state?] do
             transitions from: [:pending_review], to: :completed, success: :set_completion_date!
         end
-# guards: :note_added?
-        event :report_problem do
+
+        event :report_problem, guards: :note_added? do
             transitions from: STATES, to: :problem
         end
 
