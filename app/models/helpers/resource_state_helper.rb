@@ -39,6 +39,7 @@ module Helpers::ResourceStateHelper
     
 
     # Returns a boolean specifying if the previous state is eligible for the requested transition if a previous_state exists
+    # Broken but usable
     def valid_transition_with_previous_state?(to_state = nil, previous_state = nil)
         to_state ||= self.aasm.to_state
         previous_state ||= self.previous_state
