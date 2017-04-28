@@ -17,8 +17,9 @@
 
   <tbody>
     <% if @project.customers != nil %>
-    <% @project.customers.each do |customer| %>
-      <%= render "shared/display_models", object: customer %>
+    <!--Currently set to list all users associated with the project as contacts.  The following partials will need to be reworked once the ability to assign roles to users associated with the project is implented.  -->
+    <% @project.users.each do |user| %>
+      <%= render "shared/display_models", object: user %>
     <% end %>
     <%else %>
     <p>There are no customers associated with the project.</p>

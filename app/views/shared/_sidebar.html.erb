@@ -4,7 +4,7 @@
     <h2 class="brand no-margin">
         <span class="text-bold text-uppercase">NW</span> Transfer
     </h2>
-    
+
     <div class="menu-list container-fluid">
         <ul id="menu-content" class="menu-content list-unstyled">
             <li data-toggle="collapse" data-target="#account" class="collapsed row cursor-pointer">
@@ -40,7 +40,7 @@
                 <%= content_tag(:li, link_to('View All (Admin)', projects_path) ) if current_user.has_role?(:admin) %>
                 <%= content_tag(:li, link_to('New Project (Admin)', new_project_path) ) if current_user.has_role?(:admin) %>
             </ul>
-            
+
             <%= yield(:sidebar) %>
 
             <%= content_tag(:li, link_to(fa_icon("tag", text: "Users (Admin)", class: "fa-lg"), users_path, class: "col-xs-12" ), class: "row") if current_user.has_role?(:admin) %>

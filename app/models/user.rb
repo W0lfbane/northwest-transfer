@@ -10,7 +10,7 @@ class User < ApplicationRecord
   before_create :assign_default_role
 
   rolify strict: true
-  
+
   # Devise has default validations for it's attributes, only validate ones specific to this application
   validates :first_name, :last_name, :phone, presence: true
 
@@ -18,17 +18,17 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-         
+
   def name
     self.first_name.to_s.capitalize + ' ' + self.last_name.to_s.capitalize
   end
-  
+
   def admin?
     self.has_role?(:admin)
   end
 
   protected
-  
+
     def assign_default_role
       self.add_role(:customer) if self.roles.blank?
     end
