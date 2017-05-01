@@ -32,7 +32,7 @@ class Project < ApplicationRecord
     end
 
     validates_associated :tasks, :documents, :users
-    validate :note_added, if: :transitioning_to_problem_state?
+    validate :note_added, if: lambda { transitioning_to_state?(:problem) }
 
     resourcify
 
@@ -41,12 +41,12 @@ class Project < ApplicationRecord
 
     include AASM
     STATES = [:pending, :en_route, :in_progress, :pending_review, :completed, :problem, :deactivated]
-    aasm :column => 'resource_state' do
+    aasm :column => 'resource_state', :with_klass => NorthwestTransferAASMBase do
+        require_state_methods!
+        require_state_events!
+
         STATES.each do |status|
             state(status, initial: STATES[0] == status, before_enter: :set_previous_state!)
-        end
-        event :reset do
-            transitions to: :pending
         end
 
         before_all_events :set_state_user

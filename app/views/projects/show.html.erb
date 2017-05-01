@@ -1,9 +1,6 @@
-<!-- Test button -->
-<!-- <%= button_to "test", resource_state_change_path('projects', @project), method: :patch, params: { status_method: 'complete' } %>
- -->
+<%= render 'shared/resource_state_actions', object: @project %>
 
 <div class="container-fluid">
-
   <!-- //////////////////TOGGLE JOBS BAR/////////////////////////// -->
   <div class="row vertical-align-middle">
     <div class="col-xs-6 text-left">

@@ -13,7 +13,9 @@ class Group < ApplicationRecord
     
     include AASM
     STATES = [:activated, :deactivated]
-    aasm :column => 'resource_state' do
+    aasm :column => 'resource_state', :with_klass => NorthwestTransferAASMBase do
+      require_state_methods!
+
       STATES.each do |status|
         state(status, initial: STATES[0] == status)
       end
