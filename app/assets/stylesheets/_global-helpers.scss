@@ -13,7 +13,8 @@
 
 .dev-border { border: 1px solid gray !important; }
 
-/* Class Helpers */
+
+/* ==================== Class Helpers =================== */
 
 @mixin padding($top-padding, $right-padding, $bottom-padding, $left-padding) {
   padding-top: $top-padding; 
