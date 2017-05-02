@@ -3,4 +3,4 @@
 <%= render 'form', task: @task %>
 
 <%= link_to 'Show', task_path(id: @task) %> |
-<%= link_to 'Back', project_path(id: @task.project.id) %>
+<%= link_to 'Back', @resource %>

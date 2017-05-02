@@ -9,7 +9,7 @@ class CreateDocuments < ActiveRecord::Migration[5.0]
       t.string :shipper
       t.string :make
       t.string :brand
-      t.string :item_model
+      t.string :itm_model
       t.string :age
       t.string :itm_length
       t.string :itm_height

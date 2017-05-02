@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<%= content_tag :h1, @task.name %>
 
 <p>
   <strong>Name:</strong>
@@ -25,6 +25,7 @@
     <% end %>
   </ol>
 </p>
-<%= button_to "Complete This Task", resource_state_change_path(@task), method: :patch, params: { status_method: 'complete' }, class: "btn btn-default"%>
+
+<%= button_to "Complete This Task", resource_state_change_path(@task), method: :patch, params: { status_method: 'complete' }, class: "btn btn-default" %>
 <%= link_to 'Edit', edit_task_path(id: @task) %> |
-<%= link_to 'Back', project_path(id: @task.project.id) %>
+<%= link_to 'Back', @resource %>

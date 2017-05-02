@@ -1,6 +1,7 @@
 class Document < ApplicationRecord
+    include Concerns::Polymorphic::Helpers
     include Helpers::ResourceStateHelper
-    belongs_to :project
+    belongs_to :documentable, polymorphic: true
 
     validates :title, presence: true
     

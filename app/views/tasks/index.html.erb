@@ -5,7 +5,7 @@
     </div>
 
     <div class="col-md-2 text-center">
-      <%= link_to '/tasks/new' do %>
+      <%= link_to new_task_path(controller_name, params[:id]) do %>
         <%= fa_icon "plus", class: "btn btn-info" %>
       <% end %>
     </div>

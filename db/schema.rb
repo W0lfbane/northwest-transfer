@@ -10,34 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419190156) do
+ActiveRecord::Schema.define(version: 20170331052706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "documents", force: :cascade do |t|
     t.string   "title"
-    t.integer  "project_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.string   "signature"
-    t.datetime "completion_date"
-    t.string   "resource_state"
     t.string   "customer_firstname"
     t.string   "customer_lastname"
-    t.integer  "ems_order_no"
+    t.string   "ems_order_no"
     t.string   "technician"
     t.string   "shipper"
     t.string   "make"
     t.string   "brand"
+    t.string   "itm_model"
     t.string   "age"
     t.string   "itm_length"
     t.string   "itm_height"
     t.string   "itm_width"
     t.string   "itm_name"
     t.string   "itm_condition"
-    t.string   "itm_model"
-    t.index ["project_id"], name: "index_documents_on_project_id", using: :btree
+    t.string   "documentable_type"
+    t.integer  "documentable_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "signature"
+    t.datetime "completion_date"
+    t.string   "resource_state"
+    t.index ["documentable_type", "documentable_id"], name: "index_documents_on_documentable_type_and_documentable_id", using: :btree
   end
 
   create_table "group_projects", force: :cascade do |t|
@@ -117,11 +118,12 @@ ActiveRecord::Schema.define(version: 20170419190156) do
   create_table "tasks", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "project_id"
+    t.string   "taskable_type"
+    t.integer  "taskable_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.string   "resource_state"
-    t.index ["project_id"], name: "index_tasks_on_project_id", using: :btree
+    t.index ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -161,7 +163,6 @@ ActiveRecord::Schema.define(version: 20170419190156) do
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
   end
 
-  add_foreign_key "documents", "projects"
   add_foreign_key "group_projects", "groups"
   add_foreign_key "group_projects", "projects"
   add_foreign_key "group_users", "groups"
@@ -169,5 +170,4 @@ ActiveRecord::Schema.define(version: 20170419190156) do
   add_foreign_key "logs", "users"
   add_foreign_key "project_users", "projects"
   add_foreign_key "project_users", "users"
-  add_foreign_key "tasks", "projects"
 end

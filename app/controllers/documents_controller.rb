@@ -93,7 +93,6 @@ class DocumentsController < ApplicationController
                                         :itm_width, 
                                         :itm_height, 
                                         :itm_name, 
-                                        :itm_condition,
-                                        :_destroy)
+                                        :itm_condition)
     end
 end
