@@ -20,7 +20,6 @@ Rails.application.routes.draw do
       resources :tasks
       resources :notes
       resources :roles
-      resources :documents
 
       patch '/status', controller: :resource_controller, action: :resource_state_change, as: :resource_state_change
       patch '/role', controller: :resource_controller, action: :resource_role_change, as: :resource_role_change
@@ -29,6 +28,9 @@ Rails.application.routes.draw do
 
   get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, resources: { projects: 'Project' }
   resources :groups, :projects
+  resources :projects, as: '' do
+      resources :documents, path: 'documents'
+end
 
   as :project do
     get '/account/schedule', to: 'projects#schedule_index', as: :schedule

@@ -4,7 +4,6 @@ class DocumentsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :set_resource
-  before_action :set_project
   before_action :set_document, except: [:index, :create]
   before_action :authorize_document, except: [:index, :create]
 
@@ -28,7 +27,6 @@ class DocumentsController < ApplicationController
   # POST /documents
   # POST /documents.json
   def create
-
     @document = @resource.documents.build(document_params)
     authorize_document
 
@@ -62,7 +60,7 @@ class DocumentsController < ApplicationController
   def destroy
     @document.destroy
     respond_to do |format|
-      format.html { redirect_to project_path(@project), notice: 'Document was successfully destroyed.' }
+      format.html { redirect_to @resource, notice: 'Document was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -73,15 +71,29 @@ class DocumentsController < ApplicationController
       @document = params[:id] ? @resource.documents.find(params[:id]) : @resource.documents.build
     end
 
-    def set_project
-      @project = @resource
-    end
-
     def authorize_document
       authorize @document
     end
 
     def document_params
-      params.require(:document).permit(:title,:signature, :resource_state, :completion_date, :customer_firstname, :customer_lastname, :ems_order_no, :technician, :shipper, :make, :brand, :item_model, :age, :itm_length, :itm_width, :itm_height, :itm_name, :itm_condition)
+      params.require(:document).permit(:title,
+                                        :signature, 
+                                        :resource_state, 
+                                        :completion_date, 
+                                        :customer_firstname, 
+                                        :customer_lastname, 
+                                        :ems_order_no, 
+                                        :technician, 
+                                        :shipper, 
+                                        :make, 
+                                        :brand, 
+                                        :item_model, 
+                                        :age, 
+                                        :itm_length, 
+                                        :itm_width, 
+                                        :itm_height, 
+                                        :itm_name, 
+                                        :itm_condition,
+                                        :_destroy)
     end
 end

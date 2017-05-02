@@ -23,6 +23,8 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    @users = @project.users
+    @notes = @project.notes
   end
 
   def new
