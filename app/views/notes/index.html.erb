@@ -27,8 +27,6 @@
   </thead>
 
   <tbody>
-    <% @notes.each do |note| %>
-      <%= render "notes/note_display", object: note %>
-    <% end %>
+    <%= render @notes %>
   </tbody>
 </table>

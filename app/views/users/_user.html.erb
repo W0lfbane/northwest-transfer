@@ -1,0 +1,18 @@
+<tr>
+  <td><%= user.first_name %></td>
+  <td><%= user.last_name %></td>
+  <td><%= user.phone %></td>
+  <td><%= user.email  %></td>
+
+  <td>
+    <%= link_to edit_account_path(user.id) do %>
+      <%= fa_icon "pencil", class:"btn btn-success" %>
+    <% end %>
+  </td>
+
+  <td>
+    <%= link_to cancel_user_registration_path(user.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
+      <%= fa_icon "trash", class:"btn btn-danger" %>
+    <% end %>
+  </td>
+</tr>

@@ -1,0 +1,24 @@
+<tr>
+  <td><%= document.title %></td>
+  <td><%= document.signature %></td>
+  <td><%= document.created_at %></td>
+  <td><%= document.resource_state %></td>
+
+  <td>
+    <%= link_to document_path(document.find_resource.class.name.downcase.pluralize, document.find_resource, id: document) do %>
+      <%= fa_icon "info-circle", class: "btn btn-default" %>
+    <% end %>
+  </td>
+
+  <td>
+    <%= link_to edit_document_path(document.find_resource.class.name.downcase.pluralize, document.find_resource, id: document) do %>
+      <%= fa_icon "pencil", class:"btn btn-success" %>
+    <% end %>
+  </td>
+
+  <td>
+    <%= link_to document_path(document.find_resource.class.name.downcase.pluralize, document.find_resource, id: document), method: :delete, data: { confirm: 'Are you sure?' } do %>
+      <%= fa_icon "trash", class:"btn btn-danger" %>
+    <% end %>
+  </td>
+</tr>

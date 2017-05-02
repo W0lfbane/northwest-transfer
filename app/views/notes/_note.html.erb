@@ -1,0 +1,24 @@
+<tr>
+  <td><%= note.loggable_type %></td>
+  <td><%= note.text %></td>
+  <td><%= note.author %></td>
+  <td><%= note.created_at %></td>
+
+  <td>
+    <%= link_to note_path(note.find_resource.class.name.downcase.pluralize, note.find_resource, note.id) do %>
+      <%= fa_icon "info-circle", class: "btn btn-default" %>
+    <% end %>
+  </td>
+
+  <td>
+    <%= link_to edit_note_path(note.find_resource.class.name.downcase.pluralize, note.find_resource, note.id) do %>
+      <%= fa_icon "pencil", class:"btn btn-success" %>
+    <% end %>
+  </td>
+
+  <td>
+    <%= link_to note_path(note.find_resource.class.name.downcase.pluralize, note.find_resource, note.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
+      <%= fa_icon "trash", class:"btn btn-danger" %>
+    <% end %>
+  </td>
+</tr>

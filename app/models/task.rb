@@ -1,8 +1,9 @@
 class Task < ApplicationRecord
+    include Concerns::Polymorphic::Helpers
+    include Concerns::Notes::Notable
     include Helpers::ResourceStateHelper
-    include Notes::Notable
-
-    belongs_to :project, inverse_of: :tasks
+    
+    belongs_to :taskable, polymorphic: true
 
     validates :name, presence: true
     validate :note_added, if: lambda { transitioning_to_state?(:problem) }

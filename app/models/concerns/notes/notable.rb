@@ -1,4 +1,4 @@
-module Notes::Notable
+module Concerns::Notes::Notable
     # Remove this and call upon the module's methods to include instead to fix performance hit
     def self.included(source)
         source.class_eval do

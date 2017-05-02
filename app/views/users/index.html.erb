@@ -26,8 +26,6 @@
   </thead>
 
   <tbody>
-    <% @users.each do |user| %>
-      <%= render "users/user_display", object: user %>
-    <% end %>
+    <%= render @users %>
   </tbody>
 </table>

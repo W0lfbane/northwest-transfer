@@ -1,6 +1,7 @@
 class Project < ApplicationRecord
     include Roles::RoleUsers
-    include Notes::Notable
+    include Concerns::Notes::Notable
+    include Concerns::Tasks::Taskable
     include Helpers::ResourceStateHelper
     include Helpers::ResourceRecordHelper
 
@@ -8,9 +9,8 @@ class Project < ApplicationRecord
     has_many :users, -> { distinct }, through: :project_users
     has_many :group_projects, dependent: :destroy
     has_many :groups, -> { distinct }, through: :group_projects
-    has_many :tasks, dependent: :destroy, inverse_of: :project
     has_many :documents, dependent: :destroy
-    accepts_nested_attributes_for :documents, :tasks, :users, reject_if: :all_blank, allow_destroy: true
+    accepts_nested_attributes_for :documents, :users, reject_if: :all_blank, allow_destroy: true
 
     # This is temporary, waiting to think of a better solution. Do not test.
     def users_attributes=(users_attributes)

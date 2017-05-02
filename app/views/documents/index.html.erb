@@ -5,7 +5,7 @@
     </div>
   
     <div class="col-md-2 text-center">
-      <%= link_to '/documents/new' do %>
+      <%= link_to new_document_path(controller_name, params[:id]) do %>
         <%= fa_icon "plus", class: "btn btn-info" %>
       <% end %>
     </div>
@@ -26,8 +26,6 @@
   </thead>
 
   <tbody>
-    <% @documents.each do |document| %>
-      <%= render "document_display", object: document %>
-    <% end %>
+    <%= render @documents %>
   </tbody>
 </table>

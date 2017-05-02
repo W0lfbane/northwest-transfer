@@ -1,5 +1,5 @@
 <div class="well background-lighter-grey">
-  <%= form_for @document, url: document_path(id: @document) do |f| %>
+  <%= form_for @document, url: @document.persisted? ? document_path : documents_path do |f| %>
     <%= render 'shared/error_messages', object: @document %>
 
     <%= render 'document_fields', f: f %>
