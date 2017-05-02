@@ -87,7 +87,7 @@ class DocumentsController < ApplicationController
                                         :shipper, 
                                         :make, 
                                         :brand, 
-                                        :item_model, 
+                                        :itm_model, 
                                         :age, 
                                         :itm_length, 
                                         :itm_width, 

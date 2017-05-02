@@ -1,79 +1,32 @@
 <div class="well background-lighter-grey">
-<%= form_for @project, class:"form-horizontal" do |f| %>
-    <%= render 'shared/error_messages', object: f.object %>
-
-    <%= content_tag :div, class:'form-group row' do %>
-        <%= f.label :title, class:'form-label col-xs-2'%>
-          <%= f.text_field :title, class:'form-control'%>
+    <%= form_for @project do |f| %>
+        <%= render 'shared/error_messages', object: @project %>
+    
+        <%= render 'project_fields', f: f %>
+        
+        <h3>Tasks</h3>
+        <%= f.fields_for :tasks do |builder| %>
+            <%= render 'tasks/task_fields', f: builder %>
+        <% end %>
+    
+        <%= link_to_add_fields 'Add Task', f, :tasks, { partial: 'tasks/task_fields' } %>
+    
+        <h3>Notes</h3>
+        <%= f.fields_for :notes do |builder| %>
+            <%= render 'notes/note_fields', f: builder %>
+        <% end %>
+    
+        <%= link_to_add_fields 'Add Note', f, :notes, { partial: 'notes/note_fields' } %>
+    
+        <h3>Users</h3>
+        <%= f.fields_for :users do |builder| %>
+            <%= render 'user_fields', f: builder %>
+        <% end %>
+    
+        <%= link_to_add_fields 'Add User', f, :users %>
+    
+        <div class="actions">
+          <%= f.submit %>
+        </div>
     <% end %>
-
-    <%= content_tag :div, class: 'form-group row' do %>
-        <%= f.label :description, class:'form-label col-xs-2' %>
-        <%= f.text_area :description, class:'form-control' %>
-    <% end %>
-
-    <%= content_tag :div, class: 'form-group row' do %>
-        <%= f.label :address, class:'form-label col-xs-2' %>
-        <%= f.text_field :address, class:'form-control' %>
-    <% end %>
-
-    <%= content_tag :div, class: 'form-group row' do %>
-        <%= f.label :city, class:'form-label col-xs-2' %>
-        <%= f.text_field :city, class:'form-control' %>
-    <% end %>
-
-    <%= content_tag :div, class: 'form-group row' do %>
-        <%= f.label :state, class:'form-label col-xs-2' %>
-        <%= f.select :state, options_for_select(['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma',
-'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']), class:'form-control' %>
-    <% end %>
-
-    <%= content_tag :div, class: 'form-group row' do %>
-        <%= f.label :postal, I18n.t(:postal_code).capitalize ,class:'form-label col-xs-2' %>
-        <%= f.text_field :postal, class:'form-control' %>
-    <% end %>
-
-    <%= content_tag :div, class: 'form-group row' do %>
-        <%= f.label :country, class:'form-label col-xs-2' %>
-        <%= f.select :country, options_for_select(['United States'])  %>
-    <% end %>
-
-    <%= content_tag :div, class: 'form-group row' do %>
-        <%= f.label :start_date, class:'form-label col-xs-2' %>
-        <%= f.datetime_local_field :start_date %>
-    <% end %>
-
-    <%= content_tag :div, class: 'form-group row' do %>
-        <%= f.label :estimated_completion_date, class:'form-label col-xs-2' %>
-        <%= f.datetime_local_field :estimated_completion_date %>
-    <% end %>
-
-    <%= content_tag :div, class: 'form-group row' do %>
-        <%= f.label :resource_state, :status, class:'form-label col-xs-2' %>
-        <%= f.select :resource_state, resource_states(Project), { include_blank: true, class:'form-control' } %>
-    <% end %>
-
-    <h3>Tasks</h3>
-    <%= f.fields_for :tasks do |builder| %>
-        <%= render 'tasks/task_fields', f: builder %>
-    <% end %>
-
-    <%= link_to_add_fields 'Add Task', f, :tasks, { partial: 'tasks/task_fields' } %>
-
-    <h3>Notes</h3>
-    <%= f.fields_for :notes do |builder| %>
-        <%= render 'notes/note_fields', f: builder %>
-    <% end %>
-
-    <%= link_to_add_fields 'Add Note', f, :notes, { partial: 'notes/note_fields' } %>
-
-    <h3>Users</h3>
-    <%= f.fields_for :users do |builder| %>
-        <%= render 'user_fields', f: builder %>
-    <% end %>
-
-    <%= link_to_add_fields 'Add User', f, :users %>
-
-    <p><%= f.submit %></p>
-<% end %>
 </div>

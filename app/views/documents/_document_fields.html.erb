@@ -105,7 +105,7 @@
     </div>
 
     <div class="form-group">
-        <%= f.label :resource_state, :status, class: "form-label control-label col-md-2" %>
+        <%= f.label :resource_state, I18n.t(:status).titleize, class: "form-label control-label col-md-2" %>
         <div class="col-md-10 no-padding">
             <%= f.select :resource_state, resource_states(Document), { include_blank: true }, class: "form-control no-border-radius" %>
         </div>

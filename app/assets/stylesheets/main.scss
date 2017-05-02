@@ -29,7 +29,6 @@ a {
   border-style: solid;
   border-width: 1px;
 
-  @include padding-vertical(4px !important);
   @extend .text-center;
 }
 
