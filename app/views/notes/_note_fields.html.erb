@@ -1,9 +1,18 @@
-<div class="field form-horizontal">
-    <%= f.label :text, class:"form-label col-xs-2" %>
-    <%= f.text_area :text, class:"form-control" %>
-</div>
+<div class="container-fluid">
+    <div class="form-group">
+        <%= f.label :text, class: "form-label control-label col-md-2" %>
+        <%= f.text_area :text, class: "form-control no-border-radius" %>
+    </div>
 
-<% if f.object.persisted? %>
-    <%= f.check_box :_destroy, class:"form-label col-xs-2" %>
-    <%= f.label :_destroy, I18n.t(:remove) %>
-<% end %>
+    <% if f.object.persisted? && controller_name != f.object.class.to_s.pluralize.downcase %>
+        <div class="form-group"> 
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <%= f.label :_destroy, I18n.t(:remove) do %>
+                        <%= f.check_box :_destroy %> <%= I18n.t(:remove).titleize %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    <% end %>
+</div>

@@ -26,6 +26,11 @@
   </ol>
 </p>
 
-<%= button_to "Complete This Task", resource_state_change_path(@task), method: :patch, params: { status_method: 'complete' }, class: "btn btn-default" %>
+<div class="container">
+  <%= render "shared/resource_state_actions", 
+              object: @task, 
+              object_class: "btn btn-default col-md-offset-4 col-md-4 buffer-margin-10" %>
+</div>
+
 <%= link_to 'Edit', edit_task_path(id: @task) %> |
 <%= link_to 'Back', @resource %>
