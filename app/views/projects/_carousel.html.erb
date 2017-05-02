@@ -8,10 +8,10 @@
   <li data-target="carousel" data-slide-to="4"></li>
 </ol> -->
   <div id="carousel tabs">
-    <ul class="nav nav-pills nav-justified">
+    <ul class="nav nav-pills nav-justified buffer-margin-10">
       <!-- Make data-slide-to="0" into this data-slide-to="contacts" -->
-      <li data-target="#carousel" data-slide-to="0" ><a href="#">Contacts</a></li>
-      <li data-target="#carousel" data-slide-to="1"><a href="#">Notifacations</a></li>
+      <li data-target="#carousel" data-slide-to="0"><a href="#">Users</a></li>
+      <li data-target="#carousel" data-slide-to="1"><a href="#">Notifications</a></li>
       <li data-target="#carousel" data-slide-to="2"><a href="#">Tasks</a></li>
       <li data-target="#carousel" data-slide-to="3"><a href="#">Actions</a></li>
       <li data-target="#carousel" data-slide-to="4"><a href="#">Documents</a></li>
@@ -29,13 +29,14 @@
     </div>
     <!-- Slide 2, Tasks  -->
     <div class="item active">
-      <div id="project_tasks">
         <%= render template: "tasks/index" %>
-      </div>
     </div>
     <!-- Slide 3, Actions -->
     <div class="item">
-        <%= render "shared/project_actions", object:project %>
+        <p class="text-center font-size-200"> Project Status: <%= @project.resource_state.titleize %> </p>
+        <%= render "shared/resource_state_actions", 
+                    object: @project, 
+                    object_class: "btn btn-default col-md-offset-4 col-md-4 buffer-margin-10" %>
     </div>
     <!-- Slide 4, Documents -->
     <div class="item">

@@ -1,16 +1,17 @@
-<p id="notice"><%= notice %></p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-10">
+      <h1 class="no-margin">Tasks</h1>
+    </div>
 
-
-<%= render "shared/carousel", tasks: @tasks  %>
-
-<div class="row">
-  <div class="col-md-12">
-    <h1 class="" >Tasks</h1>
-    <%= link_to new_task_path, class: "text-align-" do %>
-    <%= fa_icon "plus", class: "btn btn-info" %>
-    <% end %>
+    <div class="col-md-2 text-center">
+      <%= link_to '/tasks/new' do %>
+        <%= fa_icon "plus", class: "btn btn-info" %>
+      <% end %>
+    </div>
   </div>
 </div>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -24,10 +25,8 @@
   </thead>
 
   <tbody>
-    <% @tasks.each do |task| %>
-      <%= render "shared/display_models", object: task %>
+    <% @project.tasks.each do |task| %>
+      <%= render "tasks/task_display", object: task %>
     <% end %>
   </tbody>
 </table>
-
-<br>

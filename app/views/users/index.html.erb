@@ -1,8 +1,18 @@
-<div class="row">
-  <div class="col-md-12">
-    <h1>Users</h1>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-10">
+      <h1 class="no-margin">Users</h1>
+    </div>
+  
+    <%= content_tag :div, class: "col-md-2 text-center" do %>
+      <%= link_to new_user_registration_path do %>
+        <%= fa_icon "plus", class: "btn btn-info" %>
+      <% end %>
+    <% end if current_user.admin? %>
   </div>
 </div>
+
+
 <table class="table table-striped">
   <thead>
     <tr>
