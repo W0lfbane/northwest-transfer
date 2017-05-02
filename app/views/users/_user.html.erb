@@ -2,7 +2,8 @@
   <td><%= user.first_name %></td>
   <td><%= user.last_name %></td>
   <td><%= user.phone %></td>
-  <td><%= user.email  %></td>
+  <td><%= user.email %></td>
+  <%= content_tag :td, user_role %>
 
   <td>
     <%= link_to edit_account_path(user.id) do %>

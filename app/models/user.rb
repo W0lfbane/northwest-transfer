@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  Roles::Helper.invoke(self)
+
   ROLES = [:customer, :employee, :admin]
 
   has_many :project_users, dependent: :destroy

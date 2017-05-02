@@ -17,14 +17,17 @@
     <tr>
       <th>First Name</th>
       <th>Last Name</th>
-      <th>Status</th>
+      <th>Phone Number</th>
       <th>Email</th>
+      <%= content_tag :th, 'Role'  %>
       <th>Edit</th>
       <th>Delete</th>
     </tr>
   </thead>
 
   <tbody>
-    <%= render @users %>
+      <% @users.each do |user| %>
+        <%= render user, user_role: user.find_roles(@project.class.name, @project.id).map(&:name) %>
+      <% end %>
   </tbody>
 </table>
