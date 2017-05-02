@@ -1,82 +1,134 @@
-<div>
-    <div class="field form-group row">
-        <%= f.label :title, class:"form-label col-xs-2" %>
-        <%= f.text_field :title, class:"form-control" %>
-    </div>
-    <div class="field form-group row">
-        <%= f.label :customer_firstname, "First Name", class:"form-label col-xs-2"%>
-        <%= f.text_field :customer_firstname, class:"form-control" %>
-    </div>
-    <div class="field form-group row">
-        <%= f.label :customer_lastname,"Last Name", class:"form-label col-xs-2" %>
-        <%= f.text_field :customer_lastname, class:"form-control" %>
-    </div>
-    <div class="field form-group row">
-        <%= f.label :ems_order_no, "EMS Order No.", class:"form-label col-xs-2" %>
-        <%= f.number_field :ems_order_no, class:"form-control" %>
-    </div>
-    <div class="field form-group row">
-        <%= f.label :technician, "Technician", class:"form-label col-xs-2" %>
-        <%= f.text_field :technician, class:"form-control" %>
-    </div>
-    <div class="field form-group row">
-        <%= f.label :shipper, "Shipper", class:"form-label col-xs-2" %>
-        <%= f.text_field :shipper, class:"form-control" %>
-    </div>
-    <div class="field form-group row">
-        <%= f.label :itm_name, "Name of Item", class:"form-label col-xs-2"%>
-        <%= f.text_field :itm_name, class:"form-control" %>
-    </div>
-    <div class="field form-group row">
-        <%= f.label :itm_condition, "Condition", class:"form-label col-xs-2" %>
-        <%= f.text_field :itm_condition, class:"form-control" %>
-    </div>
-    <div class="field form-group row">
-        <%= f.label :make, "Make", class:"form-label col-xs-2" %>
-        <%= f.text_field :make, class:"form-control" %>
-    </div>
-    <div class="field form-group row">
-        <%= f.label :brand, "Brand", class:"form-label col-xs-2" %>
-        <%= f.text_field :brand, class:"form-control" %>
-    </div>
-    <div class="field form-group row">
-        <%= f.label :itm_model, "Model", class:"form-label col-xs-2" %>
-        <%= f.text_field :itm_model, class:"form-control" %>
-    </div>
-    <div class="field form-group row">
-        <%= f.label :age,"Age of Item", class:"form-label col-xs-2" %>
-        <%= f.text_field :age, class:"form-control" %>
+<div class="container-fluid form-horizontal">
+    <div class="form-group">
+        <%= f.label :title, class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :title, class: "form-control no-border-radius" %>
+        </div>
     </div>
 
-    <div class="field form-group row">
-        <%= f.label :itm_length, "Length", class:"form-label col-xs-2" %>
-        <%= f.text_field :itm_length, class:"form-control" %>
-    </div>
-    <div class="field form-group row">
-        <%= f.label :itm_width, "Width", class:"form-label col-xs-2" %>
-        <%= f.text_field :itm_width, class:"form-control" %>
-    </div>
-    <div class="field form-group row">
-        <%= f.label :itm_height, "Height", class:"form-label col-xs-2" %>
-        <%= f.text_field :itm_height, class:"form-control" %>
+    <div class="form-group">
+        <%= f.label :customer_firstname, "First Name", class: "form-label control-label col-md-2"%>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :customer_firstname, class: "form-control no-border-radius" %>
+        </div>
     </div>
 
-            <%= content_tag :div, class: 'form-group row' do %>
-                <%= f.label :resource_state, :status, class:"form-label col-xs-2" %>
-                <%= f.select :resource_state, resource_states(Document), { include_blank: true } %>
-            <% end %>
-
-
-    <div class="field form-group row">
-        <%= f.label :completion_date, "Completion Date", class:"form-label col-xs-2" %>
-        <%= f.datetime_local_field :completion_date %>
+    <div class="form-group">
+        <%= f.label :customer_lastname, "Last Name", class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :customer_lastname, class: "form-control no-border-radius" %>
+        </div>
     </div>
-    <div class="field form-group row">
-        <%= f.label :signature, class:"form-label col-xs-2" %>
-        <%= f.text_field :signature, class:"form-control" %>
+
+    <div class="form-group">
+        <%= f.label :ems_order_no, "EMS Order No.", class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.number_field :ems_order_no, class: "form-control no-border-radius" %>
+        </div>
     </div>
+
+    <div class="form-group">
+        <%= f.label :technician, "Technician", class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :technician, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :shipper, "Shipper", class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :shipper, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :itm_name, "Name of Item", class: "form-label control-label col-md-2"%>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :itm_name, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :itm_condition, "Condition", class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :itm_condition, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :make, "Make", class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :make, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :brand, "Brand", class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :brand, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :itm_model, "Model", class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :itm_model, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :age, "Age of Item", class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :age, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :itm_length, "Length", class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :itm_length, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :itm_width, "Width", class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :itm_width, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :itm_height, "Height", class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :itm_height, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :resource_state, :status, class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.select :resource_state, resource_states(Document), { include_blank: true }, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <%= f.label :completion_date, "Completion Date", class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.datetime_local_field :completion_date, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <%= f.label :signature, class: "form-label control-label col-md-2" %>
+        <div class="col-md-10 no-padding">
+            <%= f.text_field :signature, class: "form-control no-border-radius" %>
+        </div>
+    </div>
+
     <% if f.object.persisted? %>
         <%= f.check_box :_destroy %>
-        <%= f.label :_destroy, I18n.t(:remove) %>
+        <div class="col-md-10 no-padding">
+            <%= f.label :_destroy, I18n.t(:remove) %>
+        </div>
     <% end %>
 </div>

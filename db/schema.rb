@@ -104,16 +104,6 @@ ActiveRecord::Schema.define(version: 20170419190156) do
     t.string   "previous_state"
   end
 
-  create_table "resource_fields", force: :cascade do |t|
-    t.string   "data_key"
-    t.string   "data_value"
-    t.string   "fieldable_type"
-    t.integer  "fieldable_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.index ["fieldable_type", "fieldable_id"], name: "index_resource_fields_on_fieldable_type_and_fieldable_id", using: :btree
-  end
-
   create_table "roles", force: :cascade do |t|
     t.string   "name"
     t.string   "resource_type"

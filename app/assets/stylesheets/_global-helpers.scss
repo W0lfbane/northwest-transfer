@@ -4,9 +4,27 @@
 @import "font-awesome";
 
 
+/* 
+  This stylesheet is an intended collection of useful classes based on common patterns between projects.
+  Any code added to this file should be code that can be used outside of a domain specific context.
+*/
+
 /* ==================== Development Only =================== */
 
 .dev-border { border: 1px solid gray !important; }
+
+/* Class Helpers */
+
+@mixin padding($top-padding, $right-padding, $bottom-padding, $left-padding) {
+  padding-top: $top-padding; 
+  padding-bottom: $bottom-padding;
+  padding-right: $right-padding;
+  padding-left: $left-padding;
+}
+
+@mixin padding-vertical($height) {
+  @include padding($height, auto, $height, auto)
+}
 
 
 /* ==================== SASS Mixins =================== */
@@ -174,24 +192,24 @@
 	min-height: 100vh;
 }
 
-.buffer-padding-200 { padding-top: 200px; padding-bottom: 200px; }
-.buffer-padding-100 { padding-top: 100px; padding-bottom: 100px; }
+.buffer-padding-200 { @include padding-vertical(200px); }
+.buffer-padding-100 { @include padding-vertical(100px); }
 .buffer-padding-70-horizontal { padding-left: 70px; padding-right: 70px; }
 .buffer-padding-60-horizontal { padding-left: 60px; padding-right: 60px; }
-.buffer-padding-70 { padding-top: 70px; padding-bottom: 70px; }
-.buffer-padding-60 { padding-top: 60px; padding-bottom: 60px; }
-.buffer-padding-50 { padding-top: 50px; padding-bottom: 50px; }
+.buffer-padding-70 { @include padding-vertical(70px); }
+.buffer-padding-60 { @include padding-vertical(60px); }
+.buffer-padding-50 { @include padding-vertical(50px); }
 .buffer-padding-50-horizontal { padding-left: 50px; padding-right: 50px; }
-.buffer-padding-45 { padding-top: 45px; padding-bottom: 45px; }
-.buffer-padding-40 { padding-top: 40px; padding-bottom: 40px; }
-.buffer-padding-30 { padding-top: 30px; padding-bottom: 30px; }
-.buffer-padding-25 { padding-top: 25px; padding-bottom: 25px; }
-.buffer-padding-20 { padding-top: 20px; padding-bottom: 20px !important; }
+.buffer-padding-45 { @include padding-vertical(45px); }
+.buffer-padding-40 { @include padding-vertical(40px); }
+.buffer-padding-30 { @include padding-vertical(30px); }
+.buffer-padding-25 { @include padding-vertical(25px); }
+.buffer-padding-20 { @include padding-vertical(20px); }
 .buffer-padding-20-horizontal { padding-left: 20px; padding-right: 20px; }
-.buffer-padding-15 { padding-top: 15px; padding-bottom: 15px; }
-.buffer-padding-10 { padding-top: 10px; padding-bottom: 10px; }
+.buffer-padding-15 { @include padding-vertical(15px); }
+.buffer-padding-10 { @include padding-vertical(10px); }
 .buffer-padding-10-horizontal { padding-left: 10px; padding-right: 10px; }
-.buffer-padding-5 { padding-top: 5px; padding-bottom: 5px; }
+.buffer-padding-5 { @include padding-vertical(5px); }
 
 .buffer-margin-200 { margin-top: 200px; margin-bottom: 200px; }
 .buffer-margin-150 { margin-top: 150px; margin-bottom: 150px; }
@@ -259,20 +277,4 @@
 		content: "|";
 		margin: 0 0 0 20px;
 	}
-}
-
-/* Form CSS */
-.form-control {
-  width: 80%;
-  border-radius: 0px;
-
-}
-
-.form-label {
-  margin-left: 25px;
-  text-align: center;
-  font-size: 140%;
-  background: grey;
-  border-style: solid;
-  border-width: 1px;
 }

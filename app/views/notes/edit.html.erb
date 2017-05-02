@@ -3,4 +3,4 @@
 <%= render 'form', note: @note %>
 
 <%= link_to 'Show', note_path(id: @note) %> |
-<%= link_to 'Back', project_path(id: @note.loggable_id) %>
+<%= link_to 'Back', @resource %>
