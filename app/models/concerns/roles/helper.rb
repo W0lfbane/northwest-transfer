@@ -11,9 +11,9 @@ module Roles::Helper
             # Returns an array of strings that are existing roles on an object
             def role_names(object = self)
                 if object.respond_to?(:roles)
-                    @roles ||= object.roles.distinct.pluck(:name)
+                    @roles ||= object.roles.distinct.pluck(:name).uniq
                 elsif object.respond_to?(:find_roles)
-                    @roles ||= object.find_roles.distinct.pluck(:name)
+                    @roles ||= object.find_roles.distinct.pluck(:name).uniq
                 end
             end
         end
@@ -23,7 +23,7 @@ module Roles::Helper
         source.class_eval do
             # Returns an array of strings that are existing roles on an object
             def role_names
-                @roles ||= self.roles.distinct.pluck(:name) if self.respond_to?(:roles)
+                @roles ||= self.roles.distinct.pluck(:name).uniq if self.respond_to?(:roles)
             end
             
             def find_roles(resource_type, resource_id)

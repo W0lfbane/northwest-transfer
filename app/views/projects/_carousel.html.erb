@@ -21,7 +21,8 @@
   <div class="carousel-inner" role="listbox">
     <!--Slide 0, Contacts  -->
     <div class="item" >
-        <%= render template: "users/index" %>
+        <%= render template: "users/index", locals: { role_type: @project.class.name, 
+                                                              role_id: @project.id } %>
     </div>
     <!--Slide 1, Notifactions  -->
     <div class="item">
