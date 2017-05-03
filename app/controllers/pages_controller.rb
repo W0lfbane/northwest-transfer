@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-    include Concerns::String::SqlFilters
+    include Concerns::SQL::SqlFilters
     
     before_action :authorize_page
 

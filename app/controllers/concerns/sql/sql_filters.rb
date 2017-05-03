@@ -1,4 +1,4 @@
-module Concerns::String::SqlFilters
+module Concerns::SQL::SqlFilters
 
     private
     

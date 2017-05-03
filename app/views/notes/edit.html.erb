@@ -1,4 +1,5 @@
-<h1>Editing Note</h1>
+<% title('Editing Note by ' @note.author) %>
+<%= content_tag :h1, 'Editing Note by ' @note.author %>
 
 <%= render 'form', note: @note %>
 

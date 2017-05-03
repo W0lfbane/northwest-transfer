@@ -1,4 +1,5 @@
-<p id="notice"><%= notice %></p>
+<% title('Note by ' + @note.author) %>
+<%= content_tag :h1, 'Note by ' + @note.author %>
 
 <%= render 'note_attributes', note: @note %>
 

@@ -1,5 +1,5 @@
 class CalendarController < ApplicationController
-  include Concerns::String::SqlFilters
+  include Concerns::SQL::SqlFilters
 
   before_action :authenticate_user!
   

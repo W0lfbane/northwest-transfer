@@ -1,5 +1,5 @@
-<%= button_to "test", resource_state_change_path("projects", @document), method: :patch, params: { status_method: 'complete' } %>
-
+<% title('Document titled ' + @document.title) %>
+<%= content_tag :h1, 'Document titled ' + @document.title %>
 
 <p>
   <strong>Title:</strong>

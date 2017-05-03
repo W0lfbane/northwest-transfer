@@ -1,4 +1,5 @@
-<h1>Projects#edit</h1>
-<p>Find me in app/views/projects/edit.html.erb</p>
+<% title('Editing Project titled ' + @project.title) %>
+<% content_for :header_badge, render('customer') %>
+<%= content_tag(:h1, 'Editing Project titled ' + @project.title) %>
 
 <%= render partial: "form" %>

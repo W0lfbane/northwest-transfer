@@ -13,11 +13,13 @@
       </div>
     
       <% if devise_mapping.rememberable? -%>
+      <div class="form-group col-xs-10 col-xs-offset-1">
         <div class="checkbox">
           <%= f.label :remember_me do %>
             <%= f.check_box :remember_me %> Remember me
           <% end %>
         </div>
+      </div>
       <% end -%>
     
       <div class="actions">

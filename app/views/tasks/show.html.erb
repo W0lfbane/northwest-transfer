@@ -1,4 +1,6 @@
-<%= content_tag :h1, @task.name %>
+<% title('Task titled ' + @task.name) %>
+<%= content_tag(:h1, 'Task titled ' + @task.name) %>
+
 
 <p>
   <strong>Name:</strong>
@@ -29,7 +31,7 @@
 <div class="container">
   <%= render "shared/resource_state_actions", 
               object: @task, 
-              object_class: "btn btn-default col-md-offset-4 col-md-4 buffer-margin-10" %>
+              button_class: "btn btn-default col-md-offset-4 col-md-4 buffer-margin-10" %>
 </div>
 
 <%= link_to 'Edit', edit_task_path(id: @task) %> |
