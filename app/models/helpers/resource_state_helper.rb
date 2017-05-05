@@ -1,5 +1,9 @@
 module Helpers::ResourceStateHelper
     # Helper methods for managing resource states
+    
+    def state_user_admin?
+       @user.admin?
+    end
 
     def fetch_events(object = self)
        object.aasm.events.map(&:name)

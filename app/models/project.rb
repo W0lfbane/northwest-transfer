@@ -68,7 +68,7 @@ class Project < ApplicationRecord
             transitions from: [:in_progress, :problem], to: :pending_review
         end
 
-        event :complete, guards: [lambda { @user.admin? }, :no_pending_tasks?, :documents_complete?, :valid_transition_with_previous_state?] do
+        event :complete, guards: [:state_user_admin?, :no_pending_tasks?, :documents_complete?, :valid_transition_with_previous_state?] do
             transitions from: [:pending_review], to: :completed, success: :set_completion_date!
         end
 
@@ -76,7 +76,7 @@ class Project < ApplicationRecord
             transitions from: STATES, to: :problem
         end
 
-        event :deactivate, guards: lambda { @user.admin? } do
+        event :deactivate, guards: :state_user_admin? do
             transitions from: STATES, to: :deactivated
         end
     end
