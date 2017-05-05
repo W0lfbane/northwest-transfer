@@ -36,7 +36,10 @@
   </div>
 <% end %>
 
-<%= render 'roles/shared/role_form', resource: resource %>
+<%= form_tag resource_role_change_path(resource.class.name.downcase.pluralize, resource.id), method: :patch do %>
+  <%= role_fields(resource) %>
+  <%= submit_tag %>
+<% end if current_user.admin? %>
 
 <h3>Cancel my account</h3>
 

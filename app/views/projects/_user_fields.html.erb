@@ -1,8 +1,15 @@
-<div class="form-horizontal">
-    <%= content_tag :div, class: 'form-group row' do %>
-        <%= f.label :id, :user, class: 'form-label control-label col-md-2' %>
+<div class="container-fluid form-horizontal">
+    <%= content_tag :div, class: 'form-group' do %>
+        <%= f.label :id, I18n.t(:user).titleize, class: 'form-label control-label col-md-2' %>
         <div class="col-md-10 no-padding">
-            <%= f.collection_select :id, @users, :id, :name, include_blank: true, class: 'form-control no-border-radius' %>
+            <%= f.collection_select :id, @users, :id, :name, { include_blank: true }, { class: 'form-control no-border-radius' } %>
+        </div>
+    <% end %>
+
+    <%= content_tag :div, class: 'form-group' do %>
+        <%= f.label :role, class: 'form-label control-label col-md-2' %>
+        <div class="col-md-10">
+            <%= role_fields(f.object, @project) %>
         </div>
     <% end %>
 

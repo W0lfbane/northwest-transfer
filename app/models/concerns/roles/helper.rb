@@ -14,6 +14,8 @@ module Roles::Helper
                     @roles ||= object.roles.distinct.pluck(:name).uniq
                 elsif object.respond_to?(:find_roles)
                     @roles ||= object.find_roles.distinct.pluck(:name).uniq
+                elsif object::ROLES.present?
+                    @roles ||= object::ROLES
                 end
             end
         end

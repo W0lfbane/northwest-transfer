@@ -1,11 +1,11 @@
 <div class="container-fluid">
-    <div class="form-group">
+    <div class="form-group row">
         <%= f.label :text, class: "form-label control-label col-md-2" %>
         <%= f.text_area :text, class: "form-control no-border-radius" %>
     </div>
 
     <% if f.object.persisted? && controller_name != f.object.class.to_s.pluralize.downcase %>
-        <div class="form-group"> 
+        <div class="form-group row"> 
             <div class="col-sm-offset-2 col-sm-10">
                 <div class="checkbox">
                     <%= f.label :_destroy, I18n.t(:remove) do %>

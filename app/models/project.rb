@@ -18,14 +18,17 @@ class Project < ApplicationRecord
     def users_attributes=(users_attributes)
         users_attributes.each do |key, user_attributes|
             user_hash = users_attributes[key]
-
+            
             if user_hash[:id].present?
                 user = User.find(user_hash[:id])
+                user_roles = user_hash[:roles].map { |role_id| Role.find(role_id) } || []
                 if user_hash[:_destroy] == "1"
-                    users.delete(user)
+                    users.destroy(user)
+                    user_roles.map { |role| user.remove_role(role, self) }
                     next
                 else
                     users << user unless users.include? user
+                    user_roles.map { |role| user.add_role(role, self) }
                 end
             else
                 super

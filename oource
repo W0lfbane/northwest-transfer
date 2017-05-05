@@ -1,0 +1,17 @@
+
+[1mFrom:[0m /home/ubuntu/workspace/nw-transfer/app/helpers/modules/role_form_fields.rb @ line 3 Modules::RoleFormFields#role_fields:
+
+     [1;34m2[0m: [32mdef[0m [1;34mrole_fields[0m(resource, target_resource = [1;36mnil[0m)
+ =>  [1;34m3[0m:     require [31m[1;31m'[0m[31mpry[1;31m'[0m[31m[0m; binding.pry
+     [1;34m4[0m:     target_resource ||= resource.class.new
+     [1;34m5[0m: 
+     [1;34m6[0m:     collection_check_boxes(target_resource.class.name.downcase, 
+     [1;34m7[0m:                             [33m:role_ids[0m, 
+     [1;34m8[0m:                             resource.roles.where([35mresource_id[0m: target_resource.id, [35mresource_type[0m: target_resource.persisted? ? target_resource.class.name : [1;36mnil[0m), 
+     [1;34m9[0m:                             [33m:id[0m, 
+    [1;34m10[0m:                             [33m:name[0m) [32mdo[0m |field|
+    [1;34m11[0m:         content_tag [33m:div[0m, field.label { field.check_box + field.text }, [35mclass[0m: [31m[1;31m'[0m[31mcheckbox[1;31m'[0m[31m[0m
+    [1;34m12[0m:     [32mend[0m
+    [1;34m13[0m: 
+    [1;34m14[0m: [32mend[0m
+

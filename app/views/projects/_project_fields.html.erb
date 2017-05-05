@@ -1,68 +1,68 @@
-<div class: "container-fluid form-horizontal">
-    <%= content_tag :div, class: 'form-group row' do %>
+<div class="container-fluid form-horizontal">
+    <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :title, class: 'form-label control-label col-md-2' %>
         <div class="col-md-10 no-padding">
             <%= f.text_field :title, class: 'form-control no-border-radius' %>
         </div>
     <% end %>
     
-    <%= content_tag :div, class: 'form-group row' do %>
+    <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :description, class: 'form-label control-label col-md-2' %>
         <div class="col-md-10 no-padding">
             <%= f.text_area :description, class: 'form-control no-border-radius' %>
         </div>
     <% end %>
     
-    <%= content_tag :div, class: 'form-group row' do %>
+    <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :address, class: 'form-label control-label col-md-2' %>
         <div class="col-md-10 no-padding">
             <%= f.text_field :address, class: 'form-control no-border-radius' %>
         </div>
     <% end %>
     
-    <%= content_tag :div, class: 'form-group row' do %>
+    <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :city, class: 'form-label control-label col-md-2' %>
         <div class="col-md-10 no-padding">
             <%= f.text_field :city, class: 'form-control no-border-radius' %>
         </div>
     <% end %>
     
-    <%= content_tag :div, class: 'form-group row' do %>
+    <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :state, class: 'form-label control-label col-md-2' %>
         <div class="col-md-10 no-padding">
-            <%= f.select :state, options_for_select(Project::PROVINCES), { include_blank: true }, class: "form-control no-border-radius" %>
+            <%= f.select :state, Project::PROVINCES, { include_blank: true }, class: "form-control no-border-radius" %>
         </div>
     <% end %>
     
-    <%= content_tag :div, class: 'form-group row' do %>
+    <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :postal, I18n.t(:postal_code).titleize, class: 'form-label control-label col-md-2' %>
         <div class="col-md-10 no-padding">
             <%= f.text_field :postal, class: 'form-control no-border-radius' %>
         </div>
     <% end %>
     
-    <%= content_tag :div, class: 'form-group row' do %>
+    <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :country, class: 'form-label control-label col-md-2' %>
         <div class="col-md-10 no-padding">
-            <%= f.select :country, options_for_select(['United States']), { include_blank: true }, class: "form-control no-border-radius" %>
+            <%= f.select :country, ['United States'], { include_blank: true }, class: "form-control no-border-radius" %>
         </div>
     <% end %>
     
-    <%= content_tag :div, class: 'form-group row' do %>
+    <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :start_date, class: 'form-label control-label col-md-2' %>
         <div class="col-md-10 no-padding">
             <%= f.datetime_local_field :start_date, class: 'form-control no-border-radius' %>
         </div>
     <% end %>
     
-    <%= content_tag :div, class: 'form-group row' do %>
+    <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :estimated_completion_date, class: 'form-label control-label col-md-2' %>
         <div class="col-md-10 no-padding">
             <%= f.datetime_local_field :estimated_completion_date, class: 'form-control no-border-radius' %>
         </div>
     <% end %>
     
-    <%= content_tag :div, class: 'form-group row' do %>
+    <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :resource_state, I18n.t(:status).titleize, class: 'form-label control-label col-md-2' %>
         <div class="col-md-10 no-padding">
             <%= f.select :resource_state, resource_states(Project), { include_blank: true }, class: 'form-control no-border-radius' %>

@@ -18,7 +18,7 @@ module Resource::Role::ResourceRoleChange
 
       inverse_role_names = @resource.class::ROLES - roles
       inverse_role_list = inverse_role_names.map { |role_name| Role.find_by_name(role_name) }
-      @resource.roles = @resource.roles - inverse_role_list
+      @resource.roles -= inverse_role_list
     rescue => e
       logger.error(e.message)
       redirect_to @resource, flash: { error: "The role could not be updated!" }
