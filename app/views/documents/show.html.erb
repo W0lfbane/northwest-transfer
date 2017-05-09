@@ -14,5 +14,5 @@
   </p>
 </div>
 
-<%= link_to "Edit", @document.documentable_type == 'Document' ? edit_document_path(@document) : edit_nested_document_path(id: @document) %> |
+<%= link_to "Edit", flexible_resource_path(@document, :edit_document_path) %> |
 <%= link_to 'Back', @resource %>

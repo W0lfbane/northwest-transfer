@@ -5,19 +5,19 @@
   <td><%= document.resource_state %></td>
 
   <td>
-    <%= link_to (document.documentable_type == 'Document') ? document : nested_document_path(document.find_resource.class.name.downcase.pluralize, document.find_resource, id: document) do %>
+    <%= link_to flexible_resource_path(document, :document_path) do %>
       <%= fa_icon "info-circle", class: "btn btn-default" %>
     <% end %>
   </td>
 
   <td>
-    <%= link_to (document.documentable_type == 'Document') ? edit_document(document) : edit_nested_document_path(document.find_resource.class.name.downcase.pluralize, document.find_resource, id: document) do %>
+    <%= link_to flexible_resource_path(document, :edit_document_path) do %>
       <%= fa_icon "pencil", class:"btn btn-success" %>
     <% end %>
   </td>
 
   <td>
-    <%= link_to (document.documentable_type == 'Document') ? document : nested_document_path(document.find_resource.class.name.downcase.pluralize, document.find_resource, id: document), method: :delete, data: { confirm: 'Are you sure?' } do %>
+    <%= link_to flexible_resource_path(document, :document_path), method: :delete, data: { confirm: 'Are you sure?' } do %>
       <%= fa_icon "trash", class:"btn btn-danger" %>
     <% end %>
   </td>
