@@ -1,10 +1,18 @@
 <% title('Document titled ' + @document.title) %>
 <%= content_tag :h1, 'Document titled ' + @document.title %>
 
-<p>
-  <strong>Title:</strong>
-  <%= @document.title %>
-</p>
+<div class="container-fluid">
+  <p>
+    <strong>Title:</strong>
+    <%= @document.title %>
+  </p>
+  
+  <p>
+    <%= render "shared/resource_state_actions", 
+                object: @document, 
+                button_class: "btn btn-default col-md-offset-4 col-md-4 buffer-margin-10" %>
+  </p>
+</div>
 
-<%= link_to "Edit", edit_document_path(id: @document) %> |
+<%= link_to "Edit", @document.documentable_type == 'Document' ? edit_document_path(@document) : edit_nested_document_path(id: @document) %> |
 <%= link_to 'Back', @resource %>

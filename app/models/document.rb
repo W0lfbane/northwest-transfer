@@ -20,7 +20,7 @@ class Document < ApplicationRecord
             transitions to: :completed
         end
     
-        event :deactivate, guards: lambda { @user.admin? } do
+        event :deactivate, guards: :state_user_admin? do
             transitions to: :problem
         end
     end

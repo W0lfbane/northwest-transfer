@@ -8,7 +8,7 @@ class DocumentsController < ApplicationController
   before_action :authorize_document, except: [:index, :create]
 
   def index
-    @documents = policy_scope(@resource.documents)
+    @resource.class == Document ? @documents = policy_scope(Document) : @documents = policy_scope(@resource.documents)
   end
 
   # GET /documents/1
@@ -68,7 +68,11 @@ class DocumentsController < ApplicationController
   private
 
     def set_document
-      @document = params[:id] ? @resource.documents.find(params[:id]) : @resource.documents.build
+      if @resource.class == Document
+        @document = @resource
+      else
+        @document = params[:id] ? @resource.documents.find(params[:id]) : @resource.documents.build
+      end
     end
 
     def authorize_document

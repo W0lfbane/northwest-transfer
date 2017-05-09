@@ -69,7 +69,11 @@ class RolesController < ApplicationController
   private
 
     def set_role
-      @role = params[:id] ? @resource.roles.find(params[:id]) : @resource.roles.build
+      if @resource.class == Role
+        @role = @resource
+      else
+        @role = params[:id] ? @resource.roles.find(params[:id]) : @resource.roles.build
+      end
     end
 
     def authorize_role

@@ -7,7 +7,7 @@
     </div>
 
     <div class="col-md-2 text-center">
-      <%= link_to new_task_path(params[:resource_controller] || controller_name, params[:id] || params[:resource_id]) do %>
+      <%= link_to new_nested_task_path(params[:resource_controller] || controller_name, params[:id] || params[:resource_id]) do %>
         <%= fa_icon "plus", class: "btn btn-info" %>
       <% end %>
     </div>
