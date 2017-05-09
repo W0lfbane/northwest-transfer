@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   root to: "pages#show", page: "home"
 
   devise_for :users, skip: [:sessions], path_names: { cancel: 'deactive', sign_up: 'new' }, controllers: { registrations: "registrations", invitations: "invitations" }
-
   resources :users, only: [:index, :show]
 
   devise_scope :user do
