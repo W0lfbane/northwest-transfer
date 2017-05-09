@@ -88,7 +88,7 @@ class ProjectsController < ApplicationController
                                       notes_attributes: [:id, :text, :user_id, :_destroy],
                                       document_attributes: [:id, :title, :resource_state, :signature, :completion_date, :_destroy],
                                       tasks_attributes: [:id, :name, :description, :resource_state, :_destroy],
-                                      users_attributes: [:id, :roles, :_destroy])
+                                      users_attributes: [:id, {:role_ids => []}, :_destroy])
     end
 
 end

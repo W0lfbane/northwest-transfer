@@ -1,6 +1,6 @@
 <% object.aasm.events.map do |event| %>
     <%= button_to I18n.t(event.name).titleize, 
-        resource_state_change_path(object.class.name.downcase.pluralize, object), 
+        send("#{object.class.name.downcase}_resource_state_change_path", object), 
         method: :patch, params: { status_method: event.name.to_s }, 
         class: button_class unless event.instance_variable_get("@guards").include?(:state_user_admin?) && !current_user.admin? %>
 <% end %>

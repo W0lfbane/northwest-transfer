@@ -3,7 +3,8 @@ module Resource::Role::ResourceRoleChange
   # Takes a parameter, which is the name of the role method to be invoked. 
   def resource_role_change
     model = controller_name.singularize.capitalize.constantize
-    @resource ||= model.send(:find, params[:id])
+    id = params[:id] || params["#{controller_name.singularize}_id"]
+    @resource ||= model.send(:find, id)
     roles = params[:roles].nil? ? [] : params[:roles].map(&:to_sym)
 
     begin

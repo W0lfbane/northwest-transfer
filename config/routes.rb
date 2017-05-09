@@ -21,14 +21,14 @@ Rails.application.routes.draw do
       resources :notes
       resources :roles
       resources :documents
-
-      patch '/status', controller: :resource_controller, action: :resource_state_change, as: :resource_state_change
-      patch '/role', controller: :resource_controller, action: :resource_role_change, as: :resource_role_change
     end
   end
 
   get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, resources: { projects: 'Project' }
-  resources :groups, :projects
+  resources :groups, :users, :projects do
+    patch '/status', action: :resource_state_change, as: :resource_state_change
+    patch '/role', action: :resource_role_change, as: :resource_role_change
+  end
 
   as :project do
     get '/account/schedule', to: 'projects#schedule_index', as: :schedule

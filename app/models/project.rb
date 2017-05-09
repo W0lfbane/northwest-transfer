@@ -21,6 +21,7 @@ class Project < ApplicationRecord
             
             if user_hash[:id].present?
                 user = User.find(user_hash[:id])
+                require 'pry'; binding.pry
                 user_roles = user_hash[:roles].map { |role_id| Role.find(role_id) } || []
                 if user_hash[:_destroy] == "1"
                     users.destroy(user)
