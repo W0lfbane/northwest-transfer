@@ -5,19 +5,19 @@
   <td><%= document.resource_state %></td>
 
   <td>
-    <%= link_to flexible_resource_path(document, :document_path) do %>
+    <%= link_to flexible_resource_path(:document_path, document) do %>
       <%= fa_icon "info-circle", class: "btn btn-default" %>
     <% end %>
   </td>
 
   <td>
-    <%= link_to flexible_resource_path(document, :edit_document_path) do %>
+    <%= link_to flexible_resource_path(:edit_document_path, document) do %>
       <%= fa_icon "pencil", class:"btn btn-success" %>
     <% end %>
   </td>
 
   <td>
-    <%= link_to flexible_resource_path(document, :document_path), method: :delete, data: { confirm: 'Are you sure?' } do %>
+    <%= link_to flexible_resource_path(:document_path, document), method: :delete, data: { confirm: 'Are you sure?' } do %>
       <%= fa_icon "trash", class:"btn btn-danger" %>
     <% end %>
   </td>

@@ -32,8 +32,8 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       if @document.save
-        format.html { redirect_to helpers.flexible_resource_path(@document, :document_path), notice: 'Document was successfully created.' }
-        format.json { render :show, status: :created, location: helpers.flexible_resource_path(@document, :document_path) }
+        format.html { redirect_to helpers.flexible_resource_path(:document_path, @document), notice: 'Document was successfully created.' }
+        format.json { render :show, status: :created, location: helpers.flexible_resource_path(:document_path, @document) }
       else
         format.html { render :new }
         format.json { render json: @document.errors, status: :unprocessable_entity }
@@ -46,8 +46,8 @@ class DocumentsController < ApplicationController
   def update
     respond_to do |format|
       if @document.update(document_params)
-        format.html { redirect_to helpers.flexible_resource_path(@document, :document_path), notice: 'document was successfully updated.' }
-        format.json { render :show, status: :ok, location: helpers.flexible_resource_path(@document, :document_path) }
+        format.html { redirect_to helpers.flexible_resource_path(:document_path, @document), notice: 'document was successfully updated.' }
+        format.json { render :show, status: :ok, location: helpers.flexible_resource_path(:document_path, @document) }
       else
         format.html { render :edit }
         format.json { render json: @document.errors, status: :unprocessable_entity }
