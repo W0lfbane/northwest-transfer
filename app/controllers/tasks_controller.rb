@@ -12,7 +12,7 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = policy_scope(@resource.tasks)
+    @resource.class == Task ? @tasks = policy_scope(Task) : @tasks = policy_scope(@resource.tasks)
   end
 
   # GET /tasks/1
@@ -31,7 +31,7 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    @task = @resource.tasks.build(task_params)
+    @task = @resource.class == Task ? @resource : @resource.tasks.build(task_params)
     authorize_task
 
     respond_to do |format|
@@ -72,7 +72,11 @@ class TasksController < ApplicationController
   private
 
     def set_task
-      @task = params[:id] ? @resource.tasks.find(params[:id]) : @resource.tasks.build
+      if @resource.class == Task
+        @task = @resource
+      else
+        @task = params[:id] ? @resource.tasks.find(params[:id]) : @resource.tasks.build
+      end
     end
 
     def authorize_task

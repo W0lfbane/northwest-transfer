@@ -13,12 +13,14 @@
         </div>
     </div>
 
+    <% if current_user.admin? %>
     <div class="form-group">
         <%= f.label :resource_state, I18n.t(:status).titleize, class: 'form-label control-label col-md-2'%>
         <div class="col-md-10 no-padding">
             <%= f.select :resource_state, resource_states(Task), { include_blank: true }, class: "form-control no-border-radius" %>
         </div>
     </div>
+    <% end %>
 
     <% if f.object.persisted? && controller_name != f.object.class.to_s.pluralize.downcase %>
         <div class="form-group"> 

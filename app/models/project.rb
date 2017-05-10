@@ -21,15 +21,18 @@ class Project < ApplicationRecord
             
             if user_hash[:id].present?
                 user = User.find(user_hash[:id])
-                require 'pry'; binding.pry
-                user_roles = user_hash[:roles].map { |role_id| Role.find(role_id) } || []
+                roles = user_hash[:role_ids].map { |id| Role.find(id) if id.present? }.compact
+                user_roles = user.find_roles(self.class.name, self.id)
+
                 if user_hash[:_destroy] == "1"
                     users.destroy(user)
-                    user_roles.map { |role| user.remove_role(role, self) }
+                    user_roles.map { |role| user.remove_role(role.name, self) } 
                     next
                 else
                     users << user unless users.include? user
-                    user_roles.map { |role| user.add_role(role, self) }
+                    roles.map { |role| user_roles.include?(role) ? next : user.add_role(role.name, self) }
+                    inverse_roles = self.roles - roles
+                    inverse_roles.map { |role| user.remove_role(role.name, self) }
                 end
             else
                 super

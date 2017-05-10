@@ -3,7 +3,7 @@ class Task < ApplicationRecord
     include Concerns::Notes::Notable
     include Helpers::ResourceStateHelper
     
-    belongs_to :taskable, polymorphic: true
+    belongs_to :taskable, polymorphic: true, optional: true
 
     validates :name, presence: true
     validate :note_added, if: lambda { transitioning_to_state?(:problem) }

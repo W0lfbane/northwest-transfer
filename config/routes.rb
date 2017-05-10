@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, resources: { projects: 'Project' }
   resources :roles
-  resources :groups, :users, :projects, :documents do
+  resources :groups, :users, :projects, :documents, :tasks do
     patch '/status', action: :resource_state_change, as: :resource_state_change
     patch '/role', action: :resource_role_change, as: :resource_role_change
   end

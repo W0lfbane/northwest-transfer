@@ -3,5 +3,5 @@
 
 <%= render 'form', task: @task %>
 
-<%= link_to 'Show', nested_task_path(id: @task) %> |
+<%= link_to 'Show', flexible_resource_path(:task_path, @task) %> |
 <%= link_to 'Back', @resource %>

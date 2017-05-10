@@ -4,13 +4,16 @@
 <div class="container-fluid">
   <!-- //////////////////TOGGLE JOBS BAR/////////////////////////// -->
   <div class="row vertical-align-middle background-white buffer-padding-10 text-dark-grey text-bold">
-    <div class="col-md-6 text-left">
+    <div class="col-md-3 text-left">
       <%= link_to project_path(@project.previous_by_start_date(current_user)) do %>
         <%= fa_icon "angle-left", class: 'fa-3x text-darkest-grey' %>
         <span class="buffer-padding-10-horizontal">Previous Project</span>
       <% end unless @project.previous_by_start_date(current_user).nil? %>
     </div>
-    <div class="col-md-6 text-right">
+    <div class="col-md-6 text-center">
+      <%= link_to "Edit Project", edit_project_path(@project) if current_user.admin? %>
+    </div>
+    <div class="col-md-3 text-right">
       <%= link_to project_path(@project.next_by_start_date(current_user)) do %>
         <span class="buffer-padding-10-horizontal">Next Project</span>
         <%= fa_icon "angle-right", class: 'fa-3x text-darkest-grey' %>
@@ -25,7 +28,7 @@
       <div id="project_description" class="text-center container-fluid">
         <div class="col-md-10 col-md-offset-1 border-bottom-grey-3">
           <h4 class="text-bold">Job Description:</h4>
-          <p><%= @project.description %></p>
+          <div class="col-md-6 col-md-offset-3"><%= @project.description %></div>
         </div>
       </div>
 
