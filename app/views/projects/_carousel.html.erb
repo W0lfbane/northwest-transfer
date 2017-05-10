@@ -8,7 +8,7 @@
   <li data-target="carousel" data-slide-to="4"></li>
 </ol> -->
   <div id="carousel tabs">
-    <ul class="nav nav-pills nav-justified buffer-margin-10">
+    <ul class="nav nav-pills nav-justified buffer-padding-10 border-bottom-grey-3">
       <!-- Make data-slide-to="0" into this data-slide-to="contacts" -->
       <li data-target="#carousel" data-slide-to="0"><a href="#">Users</a></li>
       <li data-target="#carousel" data-slide-to="1"><a href="#">Notifications</a></li>
@@ -18,7 +18,7 @@
     </ul>
   </div>
   <!-- Wrapper for slides -->
-  <div class="carousel-inner" role="listbox">
+  <div class="carousel-inner buffer-margin-20" role="listbox">
     <!--Slide 0, Contacts  -->
     <div class="item" >
         <%= render template: "users/index", locals: { role_type: @project.class.name, 

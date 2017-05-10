@@ -37,6 +37,7 @@ $red: red;
 .background-radial-grey-darkergrey { @include background-image(radial-gradient($grey, $darker-grey)); }
 
 .background-white { background-color: white; }
+.background-white-important { background-color: white !important; }
 
 .background-grey { background-color: $grey; }
 
