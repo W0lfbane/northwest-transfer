@@ -1,0 +1,22 @@
+<h1>Project Created</h1>
+<p>
+  A new project titled "<%= @project.title %>" has been created. It's attributes are listed below.
+</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+    <% @project.attributes.map do |key, value| %>
+        <%= content_tag :th, key.to_s.titleize %>
+    <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+    <% @project.attributes.map do |key, value| %>
+        <%= content_tag :td, value %>
+    <% end %>
+    </tr>
+  </tbody>
+</table>

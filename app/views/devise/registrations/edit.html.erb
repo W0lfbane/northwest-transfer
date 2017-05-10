@@ -36,7 +36,7 @@
   </div>
 <% end %>
 
-<%= form_for(resource, as: resource_name, url: resource_role_change_path(resource.class.name.downcase.pluralize, resource.id), html: { method: :patch }) do |f| %>
+<%= form_for(resource, as: resource_name, url: user_resource_role_change_path(resource.class.name.downcase.pluralize, resource.id), html: { method: :patch }) do |f| %>
   <%= role_fields(f, resource.find_roles(nil, nil)) %>
   <%= submit_tag %>
 <% end if current_user.admin? %>

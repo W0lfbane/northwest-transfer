@@ -36,6 +36,8 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
     authorize_project
     if @project.save
+      User.with_role(:admin).map { |user| ProjectMailer.project_created(user, @project).deliver_later }
+
       redirect_to @project, flash: { success: "Project successfully created!" }
     else
       render :new

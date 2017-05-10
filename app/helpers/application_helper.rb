@@ -4,7 +4,8 @@ module ApplicationHelper
 
     # Usage: <% title(STRING or method that returns STRING) %>
     def title(page_title)
-        content_for :title, page_title.to_s
+        content_for :title, page_title.to_s unless @title_method_called
+        @title_method_called = true
     end
 
     # Usage: flexible_resource_path(OBJECT, SYMBOL OR STRING), returns the correct path name based on URL scheme

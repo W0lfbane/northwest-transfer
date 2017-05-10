@@ -1,4 +1,4 @@
-<% title('Project titled ' + @project.title) %>
+<% title('Projects - ' + @project.title) %>
 <% content_for :header_badge, render('customer') %>
 
 <div class="container-fluid">
@@ -28,7 +28,7 @@
       <div id="project_description" class="text-center container-fluid">
         <div class="col-md-10 col-md-offset-1 border-bottom-grey-3">
           <h4 class="text-bold">Job Description:</h4>
-          <div class="col-md-6 col-md-offset-3"><%= @project.description %></div>
+          <div class="col-md-6 col-md-offset-3 buffer-margin-10"><%= @project.description %></div>
         </div>
       </div>
 
