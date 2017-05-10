@@ -9,11 +9,10 @@ module ApplicationHelper
 
     # Usage: flexible_resource_path(OBJECT, SYMBOL OR STRING), returns the correct path name based on URL scheme
     def flexible_resource_path(route, resource = controller_name.singularize.titleize.constantize.new)
-        unless resource.new_record?
-            resource_klass = resource.class.name.downcase
-            nested_route = route.to_s.insert(route.to_s.index(resource_klass), "nested_")
-        end
-        (resource.send(resource.resourcable_type_name) == resource.class.name || resource.new_record?) ? self.send(route, resource) : self.send(nested_route, resource.find_resource.class.name.downcase.pluralize, resource.find_resource, id: resource.id)
+        resource_klass = resource.class.name.downcase
+        nested_route_klass_index = route.to_s.index(resource_klass)
+        nested_route = route.to_s.insert(nested_route_klass_index, "nested_") unless nested_route_klass_index.nil? || resource.new_record?
+        nested_route.nil? ? self.send(route, resource) : self.send(nested_route, resource.find_resource.class.name.downcase.pluralize, resource.find_resource, id: resource.id)
     end
     
     # Usage: <%= role_fields(form object, collection of ROLE objects) %>, returns buttons mapping to the correct URL to change the role of a resource

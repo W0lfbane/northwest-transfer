@@ -11,7 +11,7 @@ RSpec.describe "notes/edit", type: :view do
   it "renders the edit note form" do
     render
 
-    assert_select "form[action=?][method=?]", note_path(@note), "post" do
+    assert_select "form[action=?][method=?]", nested_note_path(@note), "post" do
 
       assert_select "textarea#note_text[name=?]", "note[text]"
 
