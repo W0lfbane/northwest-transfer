@@ -1,0 +1,11 @@
+<% if f.object.persisted? && controller_name != f.object.class.to_s.pluralize.downcase %>
+    <div class="form-group"> 
+        <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+                <%= f.label :_destroy, I18n.t(:remove) do %>
+                    <%= f.check_box :_destroy %> <%= I18n.t(:remove).titleize %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+<% end %>

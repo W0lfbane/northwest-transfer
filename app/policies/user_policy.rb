@@ -22,6 +22,10 @@ class UserPolicy < ApplicationPolicy
     def update?
         is_admin? or matching_user?
     end
+    
+    def destroy?
+        is_admin?
+    end
 
     # Policy Helpers
     

@@ -7,6 +7,8 @@ class Nested::UsersController < UsersController
   end
 
   def destroy
+    @resource.users.destroy(@user)
+    redirect_to @resource, flash: { success: "User successfully removed!" }
   end
 
   protected

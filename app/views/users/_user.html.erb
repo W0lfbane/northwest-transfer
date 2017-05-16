@@ -13,7 +13,9 @@
   </td>
 
   <td>
-    <%= link_to deactivate_user_path(user), method: :delete, data: { confirm: 'Are you sure?' } do %>
+    <%= link_to flexible_resource_path(:user_path, user), 
+                method: :delete, 
+                data: { confirm: 'Are you sure?' } do %>
       <%= fa_icon "trash", class:"btn btn-danger" %>
     <% end %>
   </td>

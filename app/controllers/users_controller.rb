@@ -34,10 +34,22 @@ class UsersController < Devise::RegistrationsController
       respond_with resource
     end
   end
+
+  def destroy
+    resource.destroy
+    warden.logout(resource)
+    warden.clear_strategies_cache!(scope: resource)
+    set_flash_message! :notice, :destroyed
+    yield resource if block_given?
+    respond_with_navigational(resource){ redirect_to users_path }
+  end
   
-  def cancel
-    require 'pry'; binding.pry
-    super
+  def deactivate
+    resource.deactivate!
+    Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+    set_flash_message! :notice, :deactivated
+    yield resource if block_given?
+    respond_with_navigational(resource){ redirect_to after_sign_out_path_for(resource_name) }
   end
 
   private
