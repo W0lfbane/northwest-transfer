@@ -1,4 +1,4 @@
-class Nested::Users::RegistrationsController < Users::RegistrationsController
+class Nested::UsersController < UsersController
   include Concerns::Resource::Nested::SetResource
 
   prepend_before_action :set_resource

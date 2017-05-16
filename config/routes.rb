@@ -5,13 +5,13 @@ Rails.application.routes.draw do
   devise_for :users, skip: [:sessions, :registrations], controllers: { invitations: "invitations" }
 
   devise_scope :user do
-    resources :users, controller: 'users/registrations'
+    resources :users
     
-    get 'users/:id/deactivate',  to: 'users/registrations#cancel', as: :deactivate_user
-    patch 'users/:id/status',  to: 'users/registrations#resource_state_change', as: :user_resource_state_change
-    patch 'users/:id/role',  to: 'users/registrations#resource_role_change', as: :user_resource_role_change
-    get 'account', to: 'users/registrations#show', as: :account
-    get 'account/edit', to: 'users/registrations#edit', as: :edit_account
+    delete 'users/:id/deactivate',  to: 'users#cancel', as: :deactivate_user
+    patch 'users/:id/status',  to: 'users#resource_state_change', as: :user_resource_state_change
+    patch 'users/:id/role',  to: 'users#resource_role_change', as: :user_resource_role_change
+    get 'account', to: 'users#show', as: :account
+    get 'account/edit', to: 'users#edit', as: :edit_account
     get 'login', to: 'devise/sessions#new', as: :new_user_session
     post 'login', to: 'devise/sessions#create', as: :user_session
     match 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session, via: Devise.mappings[:user].sign_out_via
@@ -42,7 +42,7 @@ Rails.application.routes.draw do
         resources :documents
 
         scope module: :nested do
-          resources :users, only: [:destroy, :edit], controller: 'users/registrations' do
+          resources :users, only: [:destroy, :edit] do
             patch 'role', action: :resource_role_change, as: :resource_role_change
           end
         end

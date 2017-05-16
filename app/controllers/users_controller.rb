@@ -1,4 +1,6 @@
-class Users::RegistrationsController < Devise::RegistrationsController
+class UsersController < Devise::RegistrationsController
+  include Concerns::Resource::Role::ResourceRoleChange
+  
   prepend_before_action :authenticate_scope!, except: [:new, :create, :cancel]
   before_action :set_user, except: [:index, :create]
   before_action :authorize_user, except: [:index, :create]

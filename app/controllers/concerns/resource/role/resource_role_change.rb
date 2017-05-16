@@ -10,14 +10,16 @@ module Concerns::Resource::Role::ResourceRoleChange
 
     begin
       roles.map { |role| resource_roles.include?(role) ? next : resource.add_role(role.name, role.find_resource) }
+      
+      # Allow the controller to optionally set the target resource with @resource
       target_resource = @resource || resource
       inverse_roles = target_resource.roles - roles
       inverse_roles.map { |role| resource.remove_role(role.name, role.find_resource) }
     rescue => e
       logger.error(e.message)
-      redirect_to @resource || resource, flash: { error: "The role could not be updated!" }
+      redirect_to target_resource, flash: { error: "The role could not be updated!" }
     else
-      redirect_to @resource || resource, flash: { success: "Role updated successfully!" }
+      redirect_to target_resource, flash: { success: "Role updated successfully!" }
     end
   end
 
