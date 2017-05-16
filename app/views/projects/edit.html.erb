@@ -1,5 +1,5 @@
 <% title('Editing Project titled ' + @project.title) %>
-<% content_for :header_badge, render('customer') %>
+<% content_for :header_badge, render('customer', project: @project) if @project.customers.present? %>
 <%= content_tag(:h1, 'Editing Project titled ' + @project.title) %>
 
 <%= render partial: "form" %>

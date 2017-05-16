@@ -2,8 +2,11 @@
 Rails.application.routes.draw do
   root to: "pages#show", page: "home"
 
-  devise_for :users, skip: [:sessions], path_names: { cancel: 'deactive', sign_up: 'new' }, controllers: { registrations: "registrations", invitations: "invitations" }
-  resources :users, only: [:index, :show]
+  devise_for :users, skip: [:sessions], path_names: { cancel: 'deactivate', sign_up: 'new' }, controllers: { registrations: "users/registrations", invitations: "invitations" }
+  resources :users, controller: 'users/registrations', only: [:index, :show] do
+    patch '/status', action: :resource_state_change, as: :resource_state_change
+    patch '/role', action: :resource_role_change, as: :resource_role_change
+  end
 
   devise_scope :user do
     get 'account', to: 'users#show', as: :account
@@ -15,9 +18,8 @@ Rails.application.routes.draw do
 
   get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, resources: { projects: 'Project' }
   resources :roles
-  resources :groups, :users, :projects, :documents, :tasks do
+  resources :groups, :projects, :documents, :tasks do
     patch '/status', action: :resource_state_change, as: :resource_state_change
-    patch '/role', action: :resource_role_change, as: :resource_role_change
   end
 
   as :project do
@@ -30,13 +32,20 @@ Rails.application.routes.draw do
   end
 
   # Nested routes with multiple or unknown parents
-  
-  scope '/:resource_controller' do
-    scope '/:resource_id', as: 'nested' do
-      resources :tasks
-      resources :notes
-      resources :roles
-      resources :documents
+  scope as: :nested do
+    scope '/:resource_controller' do
+      scope '/:resource_id'do
+        resources :tasks
+        resources :notes
+        resources :roles
+        resources :documents
+
+        scope module: :nested do
+          resources :users, only: [:destroy, :edit], controller: 'users/registrations' do
+            patch '/role', action: :resource_role_change, as: :resource_role_change
+          end
+        end
+      end
     end
   end
 end

@@ -10,7 +10,7 @@ module Concerns::Polymorphic::Helpers
     def find_resource(object = self)
         resource = object.send(resourcable_type_name)
         id = object.send(resourcable_id_name)
-        @resource ||= resource.singularize.classify.constantize.find(id)
+        @resource ||= resource.singularize.classify.constantize.find(id) if (id && resource).present?
     end
 
     def find_resources(object = self)

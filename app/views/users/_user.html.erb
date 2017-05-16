@@ -5,8 +5,9 @@
   <td><%= user.email %></td>
   <td><%= user.find_roles(role_type, role_id).map(&:name) %></td>
 
+  <% if current_user.admin? %>
   <td>
-    <%= link_to edit_account_path(user.id) do %>
+    <%= link_to flexible_resource_path(:edit_user_path, user) do %>
       <%= fa_icon "pencil", class:"btn btn-success" %>
     <% end %>
   </td>
@@ -16,4 +17,5 @@
       <%= fa_icon "trash", class:"btn btn-danger" %>
     <% end %>
   </td>
+  <% end %>
 </tr>

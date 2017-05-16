@@ -12,8 +12,12 @@ module ApplicationHelper
     def flexible_resource_path(route, resource = controller_name.singularize.titleize.constantize.new)
         resource_klass = resource.class.name.downcase
         nested_route_klass_index = route.to_s.index(resource_klass)
-        nested_route = route.to_s.insert(nested_route_klass_index, "nested_") unless nested_route_klass_index.nil? || resource.new_record?
-        nested_route.nil? ? self.send(route, resource) : self.send(nested_route, resource.find_resource.class.name.downcase.pluralize, resource.find_resource, id: resource.id)
+        nested_route = route.to_s.insert(nested_route_klass_index, "nested_") unless (nested_route_klass_index.nil? || resource.new_record? || resource_klass.pluralize == controller_name)
+        found_resource = resource.find_resource if nested_route.present?
+
+        nested_route.nil? ? self.send(route, resource) : self.send(nested_route, 
+                                                                    found_resource.present? ? found_resource.class.name.downcase.pluralize : controller_name,
+                                                                    found_resource || params[:id], id: resource.id)
     end
     
     # Usage: <%= role_fields(form object, collection of ROLE objects) %>, returns buttons mapping to the correct URL to change the role of a resource

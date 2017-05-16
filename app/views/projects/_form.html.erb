@@ -20,10 +20,10 @@
     
         <h3>Users</h3>
         <%= f.fields_for :users do |builder| %>
-            <%= render 'user_fields', f: builder %>
+            <%= render 'nested/users/user_fields', f: builder, users: @users, target_resource: @project %>
         <% end %>
     
-        <%= link_to_add_fields 'Add User', f, :users %>
+        <%= link_to_add_fields 'Add User', f, :users, { partial: 'nested/users/user_fields', locals: { users: @users, target_resource: @project } } %>
     
         <div class="actions">
           <%= f.submit %>

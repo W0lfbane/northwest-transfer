@@ -1,12 +1,10 @@
 <!-- this is formatted to be in the header section, this part does  not necessaarily need to live here -->
-<% if @project.customers.present? %>
-  <div id="client_box" class="buffer-margin-20">
-    <div class="col-md-2">
-      <%= fa_icon "user", class: "fa-3x" %>
-    </div>
-    <div class="cold-md-2">
-      <p class="text-bold"> <%= @project.customers.first.name %> </p>
-      <p> Starts at: <%= format_date_with_time(@project.start_date) %> </p>
-    </div>
+<div id="client_box" class="buffer-margin-20">
+  <div class="col-md-2">
+    <%= fa_icon "user", class: "fa-3x" %>
   </div>
-<% end %>
+  <div class="cold-md-2">
+    <p class="text-bold"> <%= project.customers.first.name %> </p>
+    <p> Starts at: <%= format_date_with_time(project.start_date) %> </p>
+  </div>
+</div>

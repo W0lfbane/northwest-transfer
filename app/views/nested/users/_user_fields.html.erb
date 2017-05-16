@@ -3,9 +3,9 @@
         <%= f.label :id, I18n.t(:user).titleize, class: 'form-label control-label col-md-2' %>
         <div class="col-md-10 no-padding">
             <% if f.object.persisted? %>
-                <%= f.collection_select :id, @users, :id, :name, { include_blank: true }, { class: 'form-control no-border-radius', disabled: true } %>
+                <%= f.collection_select :id, users, :id, :name, { include_blank: true }, { class: 'form-control no-border-radius', disabled: true } %>
             <% else %>
-                <%= f.collection_select :id, @users, :id, :name, { include_blank: true }, { class: 'form-control no-border-radius' } %>
+                <%= f.collection_select :id, users, :id, :name, { include_blank: true }, { class: 'form-control no-border-radius' } %>
             <% end %>
         </div>
     <% end %>
@@ -13,11 +13,11 @@
     <%= content_tag :div, class: 'form-group' do %>
         <%= f.label :roles, class: 'form-label control-label col-md-2' %>
         <div class="col-md-10">
-            <%= role_fields(f, @project.roles) %>
+            <%= role_fields(f, target_resource.roles) %>
         </div>
     <% end %>
 
-    <% if f.object.persisted? && controller_name != f.object.class.to_s.pluralize.downcase %>
+    <% if f.object.persisted? %>
         <div class="form-group"> 
             <div class="col-sm-offset-2 col-sm-10">
                 <div class="checkbox">

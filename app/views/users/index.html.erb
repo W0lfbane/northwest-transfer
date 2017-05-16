@@ -22,8 +22,10 @@
       <th>Status</th>
       <th>Email</th>
       <th>Role(s)</th>
+      <% if current_user.admin? %>
       <th>Edit</th>
       <th>Delete</th>
+      <% end %>
     </tr>
   </thead>
 

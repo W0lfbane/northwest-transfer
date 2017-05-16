@@ -29,6 +29,11 @@ class User < ApplicationRecord
     self.has_role?(:admin)
   end
 
+  # For nested user routes
+  def find_resource
+     nil
+  end
+  
   protected
 
     def assign_default_role
