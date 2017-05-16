@@ -13,7 +13,7 @@
   </td>
 
   <td>
-    <%= link_to cancel_user_registration_path(user.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
+    <%= link_to deactivate_user_path(user), method: :delete, data: { confirm: 'Are you sure?' } do %>
       <%= fa_icon "trash", class:"btn btn-danger" %>
     <% end %>
   </td>

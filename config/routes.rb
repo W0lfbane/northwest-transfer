@@ -2,33 +2,34 @@
 Rails.application.routes.draw do
   root to: "pages#show", page: "home"
 
-  devise_for :users, skip: [:sessions], path_names: { cancel: 'deactivate', sign_up: 'new' }, controllers: { registrations: "users/registrations", invitations: "invitations" }
-  resources :users, controller: 'users/registrations', only: [:index, :show] do
-    patch '/status', action: :resource_state_change, as: :resource_state_change
-    patch '/role', action: :resource_role_change, as: :resource_role_change
-  end
+  devise_for :users, skip: [:sessions, :registrations], controllers: { invitations: "invitations" }
 
   devise_scope :user do
-    get 'account', to: 'users#show', as: :account
-    get 'account/edit', to: 'registrations#edit', as: :edit_account
+    resources :users, controller: 'users/registrations'
+    
+    get 'users/:id/deactivate',  to: 'users/registrations#cancel', as: :deactivate_user
+    patch 'users/:id/status',  to: 'users/registrations#resource_state_change', as: :user_resource_state_change
+    patch 'users/:id/role',  to: 'users/registrations#resource_role_change', as: :user_resource_role_change
+    get 'account', to: 'users/registrations#show', as: :account
+    get 'account/edit', to: 'users/registrations#edit', as: :edit_account
     get 'login', to: 'devise/sessions#new', as: :new_user_session
     post 'login', to: 'devise/sessions#create', as: :user_session
     match 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session, via: Devise.mappings[:user].sign_out_via
   end
 
-  get '/projects/calendar', to: 'calendar#index', as: :projects_calendar, resources: { projects: 'Project' }
+  get 'projects/calendar', to: 'calendar#index', as: :projects_calendar, resources: { projects: 'Project' }
   resources :roles
   resources :groups, :projects, :documents, :tasks do
-    patch '/status', action: :resource_state_change, as: :resource_state_change
+    patch 'status', action: :resource_state_change, as: :resource_state_change
   end
 
   as :project do
-    get '/account/schedule', to: 'projects#schedule_index', as: :schedule
-    get '/account/projects', to: 'projects#user_projects_index', as: :user_projects
+    get 'account/schedule', to: 'projects#schedule_index', as: :schedule
+    get 'account/projects', to: 'projects#user_projects_index', as: :user_projects
   end
 
   as :group do
-    get '/account/groups', to: 'groups#user_groups_index', as: :user_groups
+    get 'account/groups', to: 'groups#user_groups_index', as: :user_groups
   end
 
   # Nested routes with multiple or unknown parents
@@ -42,7 +43,7 @@ Rails.application.routes.draw do
 
         scope module: :nested do
           resources :users, only: [:destroy, :edit], controller: 'users/registrations' do
-            patch '/role', action: :resource_role_change, as: :resource_role_change
+            patch 'role', action: :resource_role_change, as: :resource_role_change
           end
         end
       end

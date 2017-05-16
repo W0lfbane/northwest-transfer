@@ -15,7 +15,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
   
   def update
-    self.resource = @user
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
     resource_updated = update_resource(resource, account_update_params)
@@ -49,7 +48,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         @user = params[:id] ? User.find(params[:id]) : User.new
       end
     end
-  
+
     def authorize_user
       authorize @user
     end
@@ -57,7 +56,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
   
     def update_resource(resource, params)
-      (current_user.admin? && params[:current_password].nil?) ? resource.update(params) : super
+      compacted_params = params.delete_if { |k, v| v.empty? }
+      (current_user.admin? && params[:current_password].nil?) ? resource.update(compacted_params) : super
     end
   
     def after_update_path_for(resource)
