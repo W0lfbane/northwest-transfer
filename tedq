@@ -1,0 +1,17 @@
+=> [32m#<Project:0x00000006f94c68[0m
+ id: [1;34m1[0m,
+ title: [31m[1;31m"[0m[31mWilderman LLC[1;31m"[0m[31m[0m,
+ description:
+  [31m[1;31m"[0m[31mQuaerat quisquam amet. Sapiente voluptas velit sed reiciendis temporibus aspernatur dolorem. Commodi sed sint delectus iste.[1;31m"[0m[31m[0m,
+ address: [31m[1;31m"[0m[31m4878 Ebert Grove[1;31m"[0m[31m[0m,
+ city: [31m[1;31m"[0m[31mWest Dameon[1;31m"[0m[31m[0m,
+ state: [31m[1;31m"[0m[31mArkansas[1;31m"[0m[31m[0m,
+ postal: [31m[1;31m"[0m[31m17036-9014[1;31m"[0m[31m[0m,
+ country: [31m[1;31m"[0m[31mUnited States[1;31m"[0m[31m[0m,
+ start_date: [1;34;4mTue[0m, [1;34m02[0m [1;34;4mMay[0m [1;34m2017[0m [1;34m00[0m:[1;34m00[0m:[1;34m00[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+ completion_date: [1;36mnil[0m,
+ estimated_completion_date: [1;34;4mTue[0m, [1;34m02[0m [1;34;4mMay[0m [1;34m2017[0m [1;34m00[0m:[1;34m00[0m:[1;34m00[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+ created_at: [1;34;4mTue[0m, [1;34m02[0m [1;34;4mMay[0m [1;34m2017[0m [1;34m04[0m:[1;34m44[0m:[1;34m37[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+ updated_at: [1;34;4mWed[0m, [1;34m03[0m [1;34;4mMay[0m [1;34m2017[0m [1;34m18[0m:[1;34m41[0m:[1;34m09[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+ resource_state: [31m[1;31m"[0m[31mpending[1;31m"[0m[31m[0m,
+ previous_state: [1;36mnil[0m[32m>[0m

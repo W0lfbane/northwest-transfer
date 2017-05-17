@@ -42,7 +42,7 @@ Rails.application.routes.draw do
         resources :documents
 
         scope module: :nested do
-          resources :users, only: [:destroy, :edit] do
+          resources :users do
             patch 'role', action: :resource_role_change, as: :resource_role_change
           end
         end

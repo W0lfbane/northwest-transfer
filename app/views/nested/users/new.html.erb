@@ -1,0 +1,5 @@
+<% title('Projects - Add User') %>
+<% content_for :header_badge, render('projects/customer', project: @resource) if @resource.customers.present? %>
+<%= content_tag(:h1, 'Add User') %>
+
+<%= render 'form', route: nested_users_path %>

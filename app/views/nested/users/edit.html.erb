@@ -2,4 +2,4 @@
 <% content_for :header_badge, render('projects/customer', project: @resource) if @resource.customers.present? %>
 <%= content_tag(:h1, 'Editing User: ' + @user.name) %>
 
-<%= render partial: "form" %>
+<%= render 'form', route: nested_user_resource_role_change_path(@resource.class.name.downcase.pluralize, @resource.id, @user.id) %>

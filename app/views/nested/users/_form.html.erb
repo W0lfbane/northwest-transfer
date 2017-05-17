@@ -1,8 +1,8 @@
 <div class="well background-lighter-grey">
-    <%= form_for @user, url: nested_user_resource_role_change_path(@resource.class.name.downcase.pluralize, @resource.id, @user) do |f| %>
+    <%= form_for @user, url: route do |f| %>
         <%= render 'shared/error_messages', object: @user %>
 
-        <%= render 'user_fields', f: f, users: [@user], target_resource: @resource %>
+        <%= render 'user_fields', f: f, users: @users || [@user], target_resource: @resource %>
 
         <div class="actions">
           <%= f.submit %>

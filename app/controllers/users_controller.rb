@@ -56,11 +56,7 @@ class UsersController < Devise::RegistrationsController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      if current_user.present?
-        @user = params[:id] ? User.find(params[:id]) : current_user
-      else
-        @user = params[:id] ? User.find(params[:id]) : User.new
-      end
+      @user = params[:id] ? User.find(params[:id]) : current_user || User.new
     end
 
     def authorize_user
