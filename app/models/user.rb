@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include Concerns::Roles::RoleModification
   Roles::Helper.invoke(self)
 
   ROLES = [:customer, :employee, :admin]

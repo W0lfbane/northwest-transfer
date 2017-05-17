@@ -23,6 +23,8 @@ class Nested::UsersController < UsersController
           @user.errors.add(:user, 'must be present!')
         when @resource.users.include?(@user)
           @user.errors.add(:user, 'is already added!')
+        else
+          @user.errors.add(:user, 'could not be added due to an unknown problem.')
       end
 
       render :new
