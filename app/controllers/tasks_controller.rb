@@ -1,10 +1,10 @@
 class TasksController < ApplicationController
   include Concerns::Notes::Nested::SetAuthor
-  include Concerns::Resource::Nested::SetResource
+  include Concerns::Resource::Nested::SetParentResource
   include Concerns::Resource::State::ResourceStateChange
 
   before_action :authenticate_user!
-  before_action :set_resource
+  before_action :set_parent_resource
   before_action :set_task, except: [:index, :create]
   before_action :authorize_task, except: [:index, :create]
   before_action :set_author, only: [:create, :update]
@@ -12,7 +12,7 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @resource.class == Task ? @tasks = policy_scope(Task) : @tasks = policy_scope(@resource.tasks)
+    @parent_resource.class == Task ? @tasks = policy_scope(Task) : @tasks = policy_scope(@parent_resource.tasks)
   end
 
   # GET /tasks/1
@@ -31,7 +31,7 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    @task = @resource.class == Task ? @resource : @resource.tasks.build(task_params)
+    @task = @parent_resource.class == Task ? @parent_resource : @parent_resource.tasks.build(task_params)
     authorize_task
 
     respond_to do |format|
@@ -64,7 +64,7 @@ class TasksController < ApplicationController
   def destroy
     @task.destroy
     respond_to do |format|
-      format.html { redirect_to @resource, notice: 'Task was successfully destroyed.' }
+      format.html { redirect_to @parent_resource, notice: 'Task was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -72,10 +72,10 @@ class TasksController < ApplicationController
   private
 
     def set_task
-      if @resource.class == Task
-        @task = @resource
+      if @parent_resource.class == Task
+        @task = @parent_resource
       else
-        @task = params[:id] ? @resource.tasks.find(params[:id]) : @resource.tasks.build
+        @task = params[:id] ? @parent_resource.tasks.find(params[:id]) : @parent_resource.tasks.build
       end
     end
 

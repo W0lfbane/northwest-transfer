@@ -1,15 +1,15 @@
 class RolesController < ApplicationController
-  include Concerns::Resource::Nested::SetResource
+  include Concerns::Resource::Nested::SetParentResource
 
   before_action :authenticate_user!
-  before_action :set_resource
+  before_action :set_parent_resource
   before_action :set_role, except: [:index, :create]
   before_action :authorize_role, except: [:index, :create]
 
   # GET /roles
   # GET /roles.json
   def index
-    @roles = policy_scope(@resource.roles)
+    @roles = policy_scope(@parent_resource.roles)
   end
 
   # GET /roles/1
@@ -28,7 +28,7 @@ class RolesController < ApplicationController
   # POST /roles
   # POST /roles.json
   def create
-    @role = @resource.roles.build(role_params)
+    @role = @parent_resource.roles.build(role_params)
     authorize_role
     respond_with @role
   end
@@ -60,10 +60,10 @@ class RolesController < ApplicationController
   private
 
     def set_role
-      if @resource.class == Role
-        @role = @resource
+      if @parent_resource.class == Role
+        @role = @parent_resource
       else
-        @role = params[:id] ? @resource.roles.find(params[:id]) : @resource.roles.build
+        @role = params[:id] ? @parent_resource.roles.find(params[:id]) : @parent_resource.roles.build
       end
     end
 

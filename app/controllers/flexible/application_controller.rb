@@ -1,13 +1,14 @@
 class Flexible::ApplicationController < ApplicationController
-  include Concerns::Resource::Nested::SetResource
+  include Concerns::Resource::Nested::SetParentResource
 
-  before_action :authenticate_user!
-  before_action :set_resource
-  before_action :set_document, except: [:index, :create]
-  before_action :authorize_document, except: [:index, :create]
+  before_action :set_parent_resource
+  before_action :set_resource, except: [:index, :create]
+  before_action :authorize_resource, except: [:index, :create]
 
   def index
-    @resource.class == Document ? @documents = policy_scope(Document) : @documents = policy_scope(@resource.documents)
+    set_resource_variable(@parent_resource.class == resource_class ? 
+                                        policy_scope(resource_class) : 
+                                        policy_scope(@parent_resource.send(resource_name.pluralize)))
   end
 
   def show
@@ -20,72 +21,79 @@ class Flexible::ApplicationController < ApplicationController
   end
 
   def create
-    @document = @resource.class == Document ? @resource : @resource.documents.build(document_params)
-    authorize_document
+    set_resource_variable(@parent_resource.class == resource_class ? 
+                                                  @parent_resource : 
+                                                  @parent_resource.send(resource_name.pluralize).build(resource_params))
+
+    authorize_resource
 
     respond_to do |format|
-      if @document.save
-        format.html { redirect_to helpers.flexible_resource_path(:document_path, @document), notice: 'Document was successfully created.' }
-        format.json { render :show, status: :created, location: helpers.flexible_resource_path(:document_path, @document) }
+      if resource.save
+        format.html { redirect_to helpers.flexible_resource_path(resource_path, resource), notice: "#{resource_class.name} was successfully created." }
+        format.json { render :show, status: :created, location: helpers.flexible_resource_path(resource_path, resource) }
       else
         format.html { render :new }
-        format.json { render json: { errors: @document.errors }, status: :unprocessable_entity }
+        format.json { render json: { errors: resource.errors }, status: :unprocessable_entity }
       end
     end
   end
 
   def update
     respond_to do |format|
-      if @document.update(document_params)
-        format.html { redirect_to helpers.flexible_resource_path(:document_path, @document), notice: 'document was successfully updated.' }
-        format.json { render :show, status: :ok, location: helpers.flexible_resource_path(:document_path, @document) }
+      if resource.update(resource_params)
+        format.html { redirect_to helpers.flexible_resource_path(resource_path, resource), notice: "#{resource_class.name} was successfully updated." }
+        format.json { render :show, status: :ok, location: helpers.flexible_resource_path(resource_path, resource) }
       else
         format.html { render :edit }
-        format.json { render json: { errors: @document.errors }, status: :unprocessable_entity }
+        format.json { render json: { errors: resource.errors }, status: :unprocessable_entity }
       end
     end
   end
 
   def destroy
-    @document.destroy
+    resource.destroy
     respond_to do |format|
-      format.html { redirect_to @resource, notice: 'Document was successfully destroyed.' }
+      format.html { redirect_to @parent_resource, notice: "#{resource_class.name} was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
+    
+    def resource_name
+      controller_name.singularize
+    end
 
-    def set_document
-      if @resource.class == Document
-        @document = @resource
+    def resource_class
+      resource_name.titleize.constantize
+    end
+    
+    def resource_path
+      "#{resource_name}_path".to_sym
+    end
+    
+    def resource_params
+      self.send("#{resource_name}_params")
+    end
+    
+    def set_resource_variable(value)
+      instance_variable_set("@#{resource_name}", value)
+    end
+
+    def set_resource
+      if @parent_resource.class == resource_class
+        set_resource_variable(@parent_resource)
       else
-        @document = params[:id] ? @resource.documents.find(params[:id]) : @resource.documents.build
+        set_resource_variable(params[:id] ? @parent_resource.send(resource_name.pluralize).find(params[:id]) : @parent_resource.send(resource_name.pluralize).build)
       end
     end
-
-    def authorize_document
-      authorize @document
+    
+    def resource
+      instance_variable_get("@#{resource_name}")
     end
 
-    def document_params
-      params.require(:document).permit(:title,
-                                        :signature, 
-                                        :resource_state, 
-                                        :completion_date, 
-                                        :customer_firstname, 
-                                        :customer_lastname, 
-                                        :ems_order_no, 
-                                        :technician, 
-                                        :shipper, 
-                                        :make, 
-                                        :brand, 
-                                        :itm_model, 
-                                        :age, 
-                                        :itm_length, 
-                                        :itm_width, 
-                                        :itm_height, 
-                                        :itm_name, 
-                                        :itm_condition)
+    def authorize_resource
+      authorize resource
     end
+
 end

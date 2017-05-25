@@ -1,4 +1,4 @@
-module Concerns::Resource::Nested::SetResource
+module Concerns::Resource::Nested::SetParentResource
 
     private
 
@@ -8,6 +8,6 @@ module Concerns::Resource::Nested::SetResource
             resource_route = route_array[1]
             klass = resource_route.singularize.capitalize.constantize
             object_id = route_array[2]
-            @parent_resource = (object_id.present? && object_id.is_a?(Fixnum)) ? klass.find(object_id) : klass.new
+            @parent_resource = (object_id.present? && object_id.to_i > 0) ? klass.find(object_id) : klass.new
         end
 end

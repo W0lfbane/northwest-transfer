@@ -1,9 +1,9 @@
 class NotesController < ApplicationController
   include Concerns::Notes::Nested::SetAuthor
-  include Concerns::Resource::Nested::SetResource
+  include Concerns::Resource::Nested::SetParentResource
 
   before_action :authenticate_user!
-  before_action :set_resource
+  before_action :set_parent_resource
   before_action :set_author, only: [:create, :update]
   before_action :set_note, except: [:index, :create]
   before_action :authorize_note, except: [:index, :create]
@@ -11,7 +11,7 @@ class NotesController < ApplicationController
   # GET /notes
   # GET /notes.json
   def index
-    @notes = policy_scope(@resource.notes)
+    @notes = policy_scope(@parent_resource.notes)
   end
 
   # GET /notes/1
@@ -30,7 +30,7 @@ class NotesController < ApplicationController
   # POST /notes
   # POST /notes.json
   def create
-    @note = @resource.notes.build(note_params)
+    @note = @parent_resource.notes.build(note_params)
     authorize_note
 
     respond_to do |format|
@@ -63,7 +63,7 @@ class NotesController < ApplicationController
   def destroy
     @note.destroy
     respond_to do |format|
-      format.html { redirect_to @resource, notice: 'Note was successfully destroyed.' }
+      format.html { redirect_to @parent_resource, notice: 'Note was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -71,7 +71,7 @@ class NotesController < ApplicationController
   private
 
     def set_note
-      @note = params[:id] ? @resource.notes.find(params[:id]) : @resource.notes.build
+      @note = params[:id] ? @parent_resource.notes.find(params[:id]) : @parent_resource.notes.build
     end
 
     def authorize_note

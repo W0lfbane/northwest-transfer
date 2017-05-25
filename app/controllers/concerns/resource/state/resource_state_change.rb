@@ -4,15 +4,15 @@ module Concerns::Resource::State::ResourceStateChange
   def resource_state_change
     model = controller_name.singularize.capitalize.constantize
     id = params[:id] || params["#{controller_name.singularize}_id"]
-    @resource = model.send(:find, id)
+    resource = model.send(:find, id)
 
     begin
-      @resource.send(params[:status_method] + '!')
+      resource.send(params[:status_method] + '!')
     rescue => e
       logger.error(e.message)
-      redirect_to @resource, flash: { error: "The status could not be updated!" }
+      redirect_to resource, flash: { error: "The status could not be updated!" }
     else
-      redirect_to @resource, flash: { success: "Status updated successfully!" }
+      redirect_to resource, flash: { success: "Status updated successfully!" }
     end
   end
 

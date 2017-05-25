@@ -6,8 +6,8 @@ module Concerns::Resource::Role::ResourceRoleChange
     id = params[:id] || params["#{controller_name.singularize}_id"]
     resource = model.send(:find, id)
 
-    # Allow the controller to optionally set the target resource with @resource
-    target_resource = @resource || resource
+    # Allow the controller to optionally set the target resource with @parent_resource
+    target_resource = @parent_resource || resource
 
     roles = (params[:roles] || params[controller_name.singularize][:role_ids]).map { |role_id| Role.find(role_id) if role_id.present? }.compact
 
