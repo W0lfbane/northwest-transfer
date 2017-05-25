@@ -17,7 +17,6 @@ class InvitationsController < Devise::InvitationsController
     end
   end
 
-
   protected
 
   def update_sanitized_params

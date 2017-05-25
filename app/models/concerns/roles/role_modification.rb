@@ -9,14 +9,14 @@ module Concerns::Roles::RoleModification
   end
   
   def add_roles(roles, resource = self)
-    roles.map { |role| resource.roles.include?(role) ? next : resource.add_role(role.name, role.find_resource) }
+    roles.map { |role| resource.roles.include?(role) ? next : resource.add_role(role.name, role.polymorphic_resource) }
 
     rescue => e
       logger.error(e.message)
   end
   
   def remove_roles(roles, resource = self)
-    roles.map { |role| resource.remove_role(role.name, role.find_resource) }
+    roles.map { |role| resource.remove_role(role.name, role.polymorphic_resource) }
 
     rescue => e
       logger.error(e.message)

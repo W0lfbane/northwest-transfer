@@ -39,7 +39,7 @@ class NotesController < ApplicationController
         format.json { render :show, status: :created, location: nested_note_path(id: @note) }
       else
         format.html { render :new }
-        format.json { render json: @note.errors, status: :unprocessable_entity }
+        format.json { render json: { errors: @note.errors }, status: :unprocessable_entity }
       end
     end
   end
@@ -53,7 +53,7 @@ class NotesController < ApplicationController
         format.json { render :show, status: :ok, location: nested_note_path(id: @note) }
       else
         format.html { render :edit }
-        format.json { render json: @note.errors, status: :unprocessable_entity }
+        format.json { render json: { errors: @note.errors }, status: :unprocessable_entity }
       end
     end
   end

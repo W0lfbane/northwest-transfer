@@ -4,19 +4,19 @@
   <td><%= task.aasm.current_state %></td>
 
   <td>
-    <%= link_to nested_task_path(task.find_resource.class.name.downcase.pluralize, task.find_resource, task.id) do %>
+    <%= link_to nested_task_path(task.polymorphic_resource.class.name.downcase.pluralize, task.polymorphic_resource, task.id) do %>
       <%= fa_icon "info-circle", class: "btn btn-default" %>
     <% end %>
   </td>
 
   <td>
-    <%= link_to edit_nested_task_path(task.find_resource.class.name.downcase.pluralize, task.find_resource, task.id) do %>
+    <%= link_to edit_nested_task_path(task.polymorphic_resource.class.name.downcase.pluralize, task.polymorphic_resource, task.id) do %>
       <%= fa_icon "pencil", class:"btn btn-success" %>
     <% end %>
   </td>
 
   <td>
-    <%= link_to nested_task_path(task.find_resource.class.name.downcase.pluralize, task.find_resource, task.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
+    <%= link_to nested_task_path(task.polymorphic_resource.class.name.downcase.pluralize, task.polymorphic_resource, task.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
       <%= fa_icon "trash", class:"btn btn-danger" %>
     <% end %>
   </td>

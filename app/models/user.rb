@@ -31,7 +31,7 @@ class User < ApplicationRecord
   end
 
   # For nested user routes
-  def find_resource
+  def polymorphic_resource
      nil
   end
   

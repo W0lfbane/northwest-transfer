@@ -7,21 +7,21 @@ module Concerns::Polymorphic::Helpers
         resourcable_type_name.sub('_type', '_id')
     end
 
-    def find_resource(object = self)
+    def polymorphic_resource(object = self)
         resource = object.send(resourcable_type_name)
         id = object.send(resourcable_id_name)
         @resource ||= resource.singularize.classify.constantize.find(id) if (id && resource).present?
     end
 
-    def find_resources(object = self)
+    def polymorphic_resources(object = self)
         @resources = Array.new
 
         if object.respond_to? :each
             object.each do |item|
-                @resources << find_resource(item)
+                @resources << polymorphic_resource(item)
             end
         else
-            @resources << find_resource
+            @resources << polymorphic_resource
         end
     end
 

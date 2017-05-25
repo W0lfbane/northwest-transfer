@@ -30,16 +30,7 @@ class RolesController < ApplicationController
   def create
     @role = @resource.roles.build(role_params)
     authorize_role
-
-    respond_to do |format|
-      if @role.save
-        format.html { redirect_to role_path(id: @role), notice: 'Role was successfully created.' }
-        format.json { render :show, status: :created, location: role_path(id: @role) }
-      else
-        format.html { render :new }
-        format.json { render json: @role.errors, status: :unprocessable_entity }
-      end
-    end
+    respond_with @role
   end
 
   # PATCH/PUT /roles/1
@@ -51,7 +42,7 @@ class RolesController < ApplicationController
         format.json { render :show, status: :ok, location: role_path(id: @role) }
       else
         format.html { render :edit }
-        format.json { render json: @role.errors, status: :unprocessable_entity }
+        format.json { render json: { errors: @role.errors }, status: :unprocessable_entity }
       end
     end
   end

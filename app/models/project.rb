@@ -54,7 +54,7 @@ class Project < ApplicationRecord
         require_state_methods!
         require_state_events!
 
-        STATES.each do |status|
+        STATES.map do |status|
             state(status, initial: STATES[0] == status, before_enter: :set_previous_state!)
         end
 

@@ -1,5 +1,4 @@
-class DocumentsController < ApplicationController
-  include Concerns::Resource::State::ResourceStateChange
+class Flexible::ApplicationController < ApplicationController
   include Concerns::Resource::Nested::SetResource
 
   before_action :authenticate_user!
