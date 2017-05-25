@@ -1,12 +1,14 @@
 class Flexible::ApplicationController < ApplicationController
   include Concerns::Resource::Nested::SetParentResource
+  respond_to :html, :json
 
   before_action :set_parent_resource
   before_action :set_resource, except: [:index, :create]
   before_action :authorize_resource, except: [:index, :create]
 
   def index
-    set_resource_variable(@parent_resource.class == resource_class ? 
+    set_resource_variable("@#{resource_name.pluralize}", 
+                            @parent_resource.class == resource_class ? 
                                         policy_scope(resource_class) : 
                                         policy_scope(@parent_resource.send(resource_name.pluralize)))
   end
@@ -23,31 +25,15 @@ class Flexible::ApplicationController < ApplicationController
   def create
     set_resource_variable(@parent_resource.class == resource_class ? 
                                                   @parent_resource : 
-                                                  @parent_resource.send(resource_name.pluralize).build(resource_params))
+                                                  @parent_resource.send(resource_name.pluralize).create(resource_params))
 
     authorize_resource
-
-    respond_to do |format|
-      if resource.save
-        format.html { redirect_to helpers.flexible_resource_path(resource_path, resource), notice: "#{resource_class.name} was successfully created." }
-        format.json { render :show, status: :created, location: helpers.flexible_resource_path(resource_path, resource) }
-      else
-        format.html { render :new }
-        format.json { render json: { errors: resource.errors }, status: :unprocessable_entity }
-      end
-    end
+    respond_with resource, location: helpers.flexible_resource_path(resource_path, resource)
   end
 
   def update
-    respond_to do |format|
-      if resource.update(resource_params)
-        format.html { redirect_to helpers.flexible_resource_path(resource_path, resource), notice: "#{resource_class.name} was successfully updated." }
-        format.json { render :show, status: :ok, location: helpers.flexible_resource_path(resource_path, resource) }
-      else
-        format.html { render :edit }
-        format.json { render json: { errors: resource.errors }, status: :unprocessable_entity }
-      end
-    end
+    resource.update(resource_params)
+    respond_with resource, location: helpers.flexible_resource_path(resource_path, resource)
   end
 
   def destroy
@@ -76,8 +62,8 @@ class Flexible::ApplicationController < ApplicationController
       self.send("#{resource_name}_params")
     end
     
-    def set_resource_variable(value)
-      instance_variable_set("@#{resource_name}", value)
+    def set_resource_variable(name = "@#{resource_name}", value)
+      instance_variable_set(name, value)
     end
 
     def set_resource
