@@ -1,4 +1,4 @@
-class NotesController < Flexible::ApplicationController
+class NotesController < Flexible::ResourceController
   include Concerns::Notes::Nested::SetAuthor
 
   before_action :authenticate_user!

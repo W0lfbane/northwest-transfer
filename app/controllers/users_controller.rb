@@ -1,18 +1,16 @@
 class UsersController < Devise::RegistrationsController
   include Concerns::Resource::Role::ResourceRoleChange
+  respond_to :html, :json
   
   prepend_before_action :authenticate_scope!, except: [:new, :create, :cancel]
+  prepend_before_action :configure_permitted_parameters
   before_action :set_user, except: [:index, :create]
   before_action :authorize_user, except: [:index, :create]
 
-  # GET /users
-  # GET /users.json
   def index
     @users = policy_scope(User)
   end
 
-  # GET /users/1
-  # GET /users/1.json
   def show
   end
   
@@ -27,6 +25,7 @@ class UsersController < Devise::RegistrationsController
           :update_needs_confirmation : :updated
         set_flash_message :notice, flash_key
       end
+
       respond_with resource, location: after_update_path_for(resource)
     else
       clean_up_passwords resource
@@ -54,7 +53,6 @@ class UsersController < Devise::RegistrationsController
 
   private
 
-    # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = params[:id] ? User.find(params[:id]) : current_user || User.new
     end
@@ -64,10 +62,19 @@ class UsersController < Devise::RegistrationsController
     end
 
   protected
-  
+
+    def configure_permitted_parameters
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :phone])
+      devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :phone])
+    end
+
     def update_resource(resource, params)
-      compacted_params = params.delete_if { |k, v| v.empty? }
-      (current_user.admin? && params[:current_password].nil?) ? resource.update(compacted_params) : super
+      if resource != current_user && current_user.admin? && params[:current_password].nil?
+        compacted_params = params.delete_if { |k, v| v.empty? }
+        resource.update(compacted_params)
+      else
+        super
+      end
     end
   
     def after_update_path_for(resource)
@@ -77,10 +84,6 @@ class UsersController < Devise::RegistrationsController
     def devise_mapping
       request.env["devise.mapping"] = Devise.mappings[:user]
       @devise_mapping ||= request.env["devise.mapping"]
-    end
-
-    def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :phone)
     end
 
 end

@@ -1,4 +1,4 @@
-class TasksController < Flexible::ApplicationController
+class TasksController < Flexible::ResourceController
   include Concerns::Notes::Nested::SetAuthor
   include Concerns::Resource::State::ResourceStateChange
 

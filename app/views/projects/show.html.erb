@@ -1,5 +1,5 @@
 <% title('Projects - ' + @project.title) %>
-<% content_for :header_badge, render('customer', project: @project) if @project.customers.present? %>
+<% content_for :header_badge, render('customer', project: @project) if @project.respond_to?(:customers) %>
 
 <div class="container-fluid">
   <!-- //////////////////TOGGLE JOBS BAR/////////////////////////// -->

@@ -1,4 +1,4 @@
-class DocumentsController < Flexible::ApplicationController
+class DocumentsController < Flexible::ResourceController
   include Concerns::Resource::State::ResourceStateChange
 
   before_action :authenticate_user!

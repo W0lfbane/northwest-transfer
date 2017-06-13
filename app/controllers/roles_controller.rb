@@ -1,4 +1,4 @@
-class RolesController < Flexible::ApplicationController
+class RolesController < Flexible::ResourceController
 
   before_action :authenticate_user!
 
