@@ -20,7 +20,7 @@ module Concerns::Notes::Notable
             end
             
             # Validation method
-            def note_added
+            def note_was_added
                 errors.add(:notes, "must be added") unless note_added?
             end
         end

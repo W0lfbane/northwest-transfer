@@ -15,7 +15,7 @@ module ApplicationHelper
         nested_route = route.to_s.insert(nested_route_klass_index, "nested_") unless (nested_route_klass_index.nil? || Rails.application.routes.recognize_path(request.fullpath)[:controller] == resource_klass.pluralize)
         # Allow controllers to optionally set @resource
         found_resource = @resource || resource.polymorphic_resource if nested_route.present?
-
+        
         nested_route.nil? ? self.send(route, resource) : self.send(nested_route, 
                                                                     found_resource.present? ? found_resource.class.name.downcase.pluralize : controller_name,
                                                                     found_resource || params[:id], id: resource.id)

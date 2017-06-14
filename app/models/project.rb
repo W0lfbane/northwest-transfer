@@ -41,7 +41,7 @@ class Project < ApplicationRecord
     end
 
     validates_associated :tasks, :documents, :users
-    validate :note_added, if: lambda { transitioning_to_state?(:problem) }
+    validate :note_was_added, if: lambda { transitioning_to_state?(:problem) }
 
     resourcify
 

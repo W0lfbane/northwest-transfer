@@ -11,7 +11,7 @@ class TasksController < Flexible::ResourceController
       params.require(:task).permit(:name,
                                     :description,
                                     :resource_state,
-                                    notes_attributes: [:text, :user_id, :_destroy])
+                                    notes_attributes: [:id, :text, :user_id, :_destroy])
     end
 
 end

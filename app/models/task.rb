@@ -6,7 +6,7 @@ class Task < ApplicationRecord
     belongs_to :taskable, polymorphic: true, optional: true
 
     validates :name, presence: true
-    validate :note_added, if: lambda { transitioning_to_state?(:problem) }
+    validate :note_was_added, if: lambda { transitioning_to_state?(:problem) }
 
     include AASM
     STATES = [:pending, :completed, :problem]
