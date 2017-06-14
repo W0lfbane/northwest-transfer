@@ -38,4 +38,4 @@ s3_keys
 /public/system
 .env
 /public/assets
-/vendor/assets/bower_components
+# /vendor/assets/bower_components
